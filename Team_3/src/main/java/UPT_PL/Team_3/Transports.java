@@ -19,6 +19,4 @@ public class Transports {
 		return "Transports [transports=" + transports + "]";
 	}
 
-	
-
 }

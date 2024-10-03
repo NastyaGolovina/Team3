@@ -9,6 +9,7 @@ public class Countries {
 		countries = new ArrayList<Country>();
 	}
 
+	
 	// method to add a country
 	public void addCountry(int id, String name, int population) {
 		Country newCountry = new Country(id, name, population);

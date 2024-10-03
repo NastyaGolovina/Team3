@@ -40,4 +40,6 @@ public class Transport {
 		return "Transport [id=" + id + ", name=" + name + ", pricePerTon=" + pricePerTon + "]";
 	}
 
+	
+	
 }
