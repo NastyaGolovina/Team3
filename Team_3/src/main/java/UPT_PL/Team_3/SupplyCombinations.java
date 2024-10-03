@@ -15,10 +15,9 @@ public class SupplyCombinations {
 	 * @param supplyCombinations
 	 */
 	public SupplyCombinations(Country country, Product product) {
-		super();
 		this.country = country;
 		this.product = product;
-		this.supplyCombinations = new ArrayList<SupplyCombination>();
+		supplyCombinations = new ArrayList<SupplyCombination>();
 	}
 
 	/**
