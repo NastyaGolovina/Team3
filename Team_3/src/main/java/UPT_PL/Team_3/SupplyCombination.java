@@ -76,7 +76,7 @@ public class SupplyCombination {
 //	}
 //	/**
 //	 * addSupplyReceiveByCountry
-//	 * @param supplyList
+//	 * @param newSupplyReceiveByCountry
 //	 */
 //	public void addSupplyReceiveByCountry(SupplyReceiveByCountry newSupplyReceiveByCountry) {
 //		supplyList.add(newSupplyReceiveByCountry);
