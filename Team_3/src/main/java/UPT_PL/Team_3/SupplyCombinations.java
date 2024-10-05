@@ -4,21 +4,47 @@ import java.util.ArrayList;
 
 public class SupplyCombinations {
 	//	Instance variable
+	private String supplyCombinationsID;
 	private Country country;
 	private Product product;
 	private ArrayList<SupplyCombination> supplyCombinations;
 	
+	
+	
 	/**
-	 * Constructor
+	 * @param supplyCombinationsID
 	 * @param country
 	 * @param product
 	 * @param supplyCombinations
 	 */
-	public SupplyCombinations(Country country, Product product) {
+	public SupplyCombinations(String supplyCombinationsID, Country country, Product product,
+			ArrayList<SupplyCombination> supplyCombinations) {
+		super();
+		this.supplyCombinationsID = supplyCombinationsID;
 		this.country = country;
 		this.product = product;
-		supplyCombinations = new ArrayList<SupplyCombination>();
+		this.supplyCombinations = supplyCombinations;
 	}
+
+
+
+	/**
+	 * @return the supplyCombinationsID
+	 */
+	public String getSupplyCombinationsID() {
+		return supplyCombinationsID;
+	}
+
+
+
+	/**
+	 * @param supplyCombinationsID the supplyCombinationsID to set
+	 */
+	public void setSupplyCombinationsID(String supplyCombinationsID) {
+		this.supplyCombinationsID = supplyCombinationsID;
+	}
+
+
 
 	/**
 	 * @return the country
@@ -27,12 +53,16 @@ public class SupplyCombinations {
 		return country;
 	}
 
+
+
 	/**
 	 * @param country the country to set
 	 */
 	public void setCountry(Country country) {
 		this.country = country;
 	}
+
+
 
 	/**
 	 * @return the product
@@ -41,12 +71,16 @@ public class SupplyCombinations {
 		return product;
 	}
 
+
+
 	/**
 	 * @param product the product to set
 	 */
 	public void setProduct(Product product) {
 		this.product = product;
 	}
+
+
 
 	/**
 	 * @return the supplyCombinations
@@ -55,6 +89,8 @@ public class SupplyCombinations {
 		return supplyCombinations;
 	}
 
+
+
 	/**
 	 * @param supplyCombinations the supplyCombinations to set
 	 */
@@ -62,12 +98,16 @@ public class SupplyCombinations {
 		this.supplyCombinations = supplyCombinations;
 	}
 
+
+
 	@Override
 	public String toString() {
-		return "SupplyCombinations [country=" + country + ", product=" + product + ", supplyCombinations="
-				+ supplyCombinations + "]";
-	} 
-	
+		return "SupplyCombinations [supplyCombinationsID=" + supplyCombinationsID + ", country=" + country
+				+ ", product=" + product + ", supplyCombinations=" + supplyCombinations + "]";
+	}
+
+
+
 	public void addSupplyCombination(SupplyCombination newSupplyCombination) {
 		supplyCombinations.add(newSupplyCombination);
 	}

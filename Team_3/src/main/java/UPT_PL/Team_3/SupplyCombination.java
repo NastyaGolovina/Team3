@@ -4,7 +4,9 @@ package UPT_PL.Team_3;
 
 public class SupplyCombination {
 //	//	Instance variable
+//	private String SupplyCombinationID;
 //	private ArrayList<SupplyReceiveByCountry> supplyList;
+//
 //
 //	/**
 //	 * Constructor

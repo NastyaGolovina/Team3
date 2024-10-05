@@ -3,7 +3,8 @@ package UPT_PL.Team_3;
 
 
 public class RouteLine {
-	//	Instance variable	
+	//	Instance variable
+	private String routeLineID;
 	private Country countrySender;
 	private LogisticsSite logisticsSiteSender;
 	private Country countryReceiver;
@@ -14,12 +15,27 @@ public class RouteLine {
 	private double amountProduct;
 	private double amountTransport;
 	private double totalAmount;
+	private double durationInDays;
 	
-	// Constructor
-	public RouteLine(Country countrySender, LogisticsSite logisticsSiteSender, Country countryReceiver,
-			LogisticsSite logisticsSiteReceiver, Product product, Transport transport, double quantity,
-			double amountProduct, double amountTransport, double totalAmount) {
-		super();
+	/**
+	 * Constructor
+	 * @param routeLineID
+	 * @param countrySender
+	 * @param logisticsSiteSender
+	 * @param countryReceiver
+	 * @param logisticsSiteReceiver
+	 * @param product
+	 * @param transport
+	 * @param quantity
+	 * @param amountProduct
+	 * @param amountTransport
+	 * @param totalAmount
+	 * @param durationInDays
+	 */
+	public RouteLine(String routeLineID, Country countrySender, LogisticsSite logisticsSiteSender,
+			Country countryReceiver, LogisticsSite logisticsSiteReceiver, Product product, Transport transport,
+			double quantity, double amountProduct, double amountTransport, double totalAmount, double durationInDays) {
+		this.routeLineID = routeLineID;
 		this.countrySender = countrySender;
 		this.logisticsSiteSender = logisticsSiteSender;
 		this.countryReceiver = countryReceiver;
@@ -30,6 +46,21 @@ public class RouteLine {
 		this.amountProduct = amountProduct;
 		this.amountTransport = amountTransport;
 		this.totalAmount = totalAmount;
+		this.durationInDays = durationInDays;
+	}
+
+	/**
+	 * @return the routeLineID
+	 */
+	public String getRouteLineID() {
+		return routeLineID;
+	}
+
+	/**
+	 * @param routeLineID the routeLineID to set
+	 */
+	public void setRouteLineID(String routeLineID) {
+		this.routeLineID = routeLineID;
 	}
 
 	/**
@@ -172,11 +203,30 @@ public class RouteLine {
 		this.totalAmount = totalAmount;
 	}
 
+	/**
+	 * @return the durationInDays
+	 */
+	public double getDurationInDays() {
+		return durationInDays;
+	}
+
+	/**
+	 * @param durationInDays the durationInDays to set
+	 */
+	public void setDurationInDays(double durationInDays) {
+		this.durationInDays = durationInDays;
+	}
+
 	@Override
 	public String toString() {
-		return "RouteLine [countrySender=" + countrySender + ", logisticsSiteSender=" + logisticsSiteSender
-				+ ", countryReceiver=" + countryReceiver + ", logisticsSiteReceiver=" + logisticsSiteReceiver
-				+ ", product=" + product + ", transport=" + transport + ", quantity=" + quantity + ", amountProduct="
-				+ amountProduct + ", amountTransport=" + amountTransport + ", totalAmount=" + totalAmount + "]";
+		return "RouteLine [routeLineID=" + routeLineID + ", countrySender=" + countrySender + ", logisticsSiteSender="
+				+ logisticsSiteSender + ", countryReceiver=" + countryReceiver + ", logisticsSiteReceiver="
+				+ logisticsSiteReceiver + ", product=" + product + ", transport=" + transport + ", quantity=" + quantity
+				+ ", amountProduct=" + amountProduct + ", amountTransport=" + amountTransport + ", totalAmount="
+				+ totalAmount + ", durationInDays=" + durationInDays + "]";
 	}
+	
+	
+	
+	
 }
