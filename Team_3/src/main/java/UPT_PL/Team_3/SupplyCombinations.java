@@ -17,13 +17,11 @@ public class SupplyCombinations {
 	 * @param product
 	 * @param supplyCombinations
 	 */
-	public SupplyCombinations(String supplyCombinationsID, Country country, Product product,
-			ArrayList<SupplyCombination> supplyCombinations) {
-		super();
+	public SupplyCombinations(String supplyCombinationsID, Country country, Product product) {
 		this.supplyCombinationsID = supplyCombinationsID;
 		this.country = country;
 		this.product = product;
-		this.supplyCombinations = supplyCombinations;
+		supplyCombinations = new ArrayList<SupplyCombination>();
 	}
 
 
@@ -107,7 +105,10 @@ public class SupplyCombinations {
 	}
 
 
-
+	/**
+	 * addSupplyCombination
+	 * @param newSupplyCombination
+	 */
 	public void addSupplyCombination(SupplyCombination newSupplyCombination) {
 		supplyCombinations.add(newSupplyCombination);
 	}

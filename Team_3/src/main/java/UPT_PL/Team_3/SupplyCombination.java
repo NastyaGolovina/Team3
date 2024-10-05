@@ -4,17 +4,39 @@ package UPT_PL.Team_3;
 
 public class SupplyCombination {
 //	//	Instance variable
-//	private String SupplyCombinationID;
+//	private String supplyCombinationID;
 //	private ArrayList<SupplyReceiveByCountry> supplyList;
+//	private boolean covered;
+//	
+//	
+//	/**
+//	 *  Constructor
+//	 * @param supplyCombinationID
+//	 * @param supplyList
+//	 * @param covered
+//	 */
+//	public SupplyCombination(String supplyCombinationID) {
+//		this.supplyCombinationID = supplyCombinationID;
+//		this.covered = false;
+//		supplyList = new ArrayList<SupplyReceiveByCountry>();
+//	}
 //
 //
 //	/**
-//	 * Constructor
-//	 * @param supplyList
+//	 * @return the supplyCombinationID
 //	 */
-//	public SupplyCombination() {
-//		supplyList = new ArrayList<SupplyReceiveByCountry>();
+//	public String getSupplyCombinationID() {
+//		return supplyCombinationID;
 //	}
+//
+//
+//	/**
+//	 * @param supplyCombinationID the supplyCombinationID to set
+//	 */
+//	public void setSupplyCombinationID(String supplyCombinationID) {
+//		this.supplyCombinationID = supplyCombinationID;
+//	}
+//
 //
 //	/**
 //	 * @return the supplyList
@@ -23,6 +45,7 @@ public class SupplyCombination {
 //		return supplyList;
 //	}
 //
+//
 //	/**
 //	 * @param supplyList the supplyList to set
 //	 */
@@ -30,15 +53,35 @@ public class SupplyCombination {
 //		this.supplyList = supplyList;
 //	}
 //
+//
+//	/**
+//	 * @return the covered
+//	 */
+//	public boolean isCovered() {
+//		return covered;
+//	}
+//
+//
+//	/**
+//	 * @param covered the covered to set
+//	 */
+//	public void setCovered(boolean covered) {
+//		this.covered = covered;
+//	}
+//
+//
 //	@Override
 //	public String toString() {
-//		return "SupplyCombination [getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
-//				+ super.toString() + "]";
+//		return "SupplyCombination [supplyCombinationID=" + supplyCombinationID + ", covered=" + covered + "]";
 //	}
-//	
-//	public void addSuppybyContry(SupplyReceiveByCountry newSupplyReceiveByCountry) {
-//		supplyList.add(newSupplyReceiveByCountry);
+//	/**
+//	 * addSupplyReceiveByCountry
+//	 * @param supplyList
+//	 */
+//	public void addSupplyReceiveByCountry(SupplyReceiveByCountry supplyList) {
+//		supplyList.add(supplyList);
 //	}
-//	
+
+	
 
 }
