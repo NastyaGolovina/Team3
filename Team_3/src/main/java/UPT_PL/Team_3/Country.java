@@ -3,26 +3,26 @@ package UPT_PL.Team_3;
 import java.util.ArrayList;
 
 /**
- * The Country class represents a country with an ID, name, population, products, and logistics sites.
+ * The Country class represents a country with an countryId, name, population, products, and logistics sites.
  * It provides methods to manage products and logistics sites within the country.
  */
 public class Country {
-    private int id;
+    private String countryId;
     private String name;
     private int population;
     private ArrayList<ProductsByCountry> products;
     private ArrayList<LogisticsSite> sites;
 
     /**
-     * Constructor to initialize a Country object with the provided ID, name, and population.
+     * Constructor to initialize a Country object with the provided countryId, name, and population.
      * Initializes empty lists for products and logistics sites.
      * 
-     * @param id The unique ID of the country.
+     * @param countryId The unique countryId of the country.
      * @param name The name of the country.
      * @param population The population of the country.
      */
-    public Country(int id, String name, int population) {
-        this.id = id;
+    public Country(String countryId, String name, int population) {
+        this.countryId = countryId;
         this.name = name;
         this.population = population;
         this.products = new ArrayList<>();  // Initialize products list
@@ -31,12 +31,12 @@ public class Country {
   
     // Getters
     /**
-     * Gets the ID of the country.
+     * Gets the countryId of the country.
      * 
-     * @return The country's ID.
+     * @return The country's countryId.
      */
-    public int getId() {
-        return id;
+    public String getCountryId() {
+        return countryId;
     }
 
     /**
@@ -81,8 +81,8 @@ public class Country {
      * 
      * @param id The new ID to set for the country.
      */
-    public void setId(int id) {
-        this.id = id;
+    public void setCountryId(String countryId) {
+        this.countryId = countryId;
     }
 
     /**
@@ -145,9 +145,9 @@ public class Country {
     /**
      * Adds a new logistics site to the country.
      */
-    public void addLogisticSite(String name, String country) {
+    public void addLogisticSite(String siteId, String name, String country) {
         ArrayList<Transport> emptyTransports = new ArrayList<>();
-        LogisticsSite logisticsite = new LogisticsSite(name, country, emptyTransports);
+        LogisticsSite logisticsite = new LogisticsSite(siteId, name, country, emptyTransports);
         sites.add(logisticsite);
     }
 

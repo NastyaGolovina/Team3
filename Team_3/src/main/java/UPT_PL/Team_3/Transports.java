@@ -21,13 +21,13 @@ public class Transports {
 	/**
 	 * Method to add a new Transport object to the list of transports.
 	 * 
-	 * @param id          The unique ID of the transport.
+	 * @param transportId          The unique ID of the transport.
 	 * @param name        The name of the transport service or vehicle.
 	 * @param pricePerTon The price per ton for the transport service.
 	 */
-	public void addTransport(int id, String name, double pricePerTon) {
+	public void addTransport(int transportId, String name, double pricePerTon) {
 		// Create a new Transport object and add it to the list
-		Transport transport = new Transport(id, name, pricePerTon);
+		Transport transport = new Transport(transportId, name, pricePerTon);
 		transports.add(transport);
 	}
 

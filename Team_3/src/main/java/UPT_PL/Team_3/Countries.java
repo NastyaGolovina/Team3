@@ -28,8 +28,8 @@ public class Countries {
 	 * @param population The population of the country.
 	 */
 
-	public void addCountry(int id, String name, int population) {
-		Country newCountry = new Country(id, name, population);
+	public void addCountry(String countryId, String name, int population) {
+		Country newCountry = new Country(countryId, name, population);
 		countries.add(newCountry);
 	}
 

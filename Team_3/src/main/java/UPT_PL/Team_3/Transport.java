@@ -2,22 +2,22 @@ package UPT_PL.Team_3;
 
 /**
  * The Transport class represents a transport service.
- * Each transport has an ID, name, and price per ton for its service.
+ * Each transport has an transportId, name, and price per ton for its service.
  */
 public class Transport {
-    private int id;
+    private int transportId;
     private String name;
     private double pricePerTon;
 
     /**
      * Constructor to initialize the Transport object with the provided parameters.
      * 
-     * @param id The unique ID of the transport.
+     * @param transportId The unique ID of the transport.
      * @param name The name of the transport service or vehicle.
      * @param pricePerTon The price per ton for using this transport.
      */
-    public Transport(int id, String name, double pricePerTon) {
-        this.id = id;
+    public Transport(int transportId, String name, double pricePerTon) {
+        this.transportId = transportId;
         this.name = name;
         this.pricePerTon = pricePerTon;
     }
@@ -27,8 +27,8 @@ public class Transport {
      * 
      * @return The transport ID.
      */
-    public int getId() {
-        return id;
+    public int getTransportId() {
+        return transportId;
     }
 
     /**
@@ -52,10 +52,10 @@ public class Transport {
     /**
      * Sets the unique ID of the transport.
      * 
-     * @param id The new ID to be assigned to the transport.
+     * @param transportId The new transportId to be assigned to the transport.
      */
-    public void setId(int id) {
-        this.id = id;
+    public void setTransportId(int transportId) {
+        this.transportId = transportId;
     }
 
     /**
@@ -78,6 +78,6 @@ public class Transport {
     
     @Override
     public String toString() {
-        return "Transport [id=" + id + ", name=" + name + ", pricePerTon=" + pricePerTon + "]";
+        return "Transport [TransportId=" + transportId + ", name=" + name + ", pricePerTon=" + pricePerTon + "]";
     }
 }

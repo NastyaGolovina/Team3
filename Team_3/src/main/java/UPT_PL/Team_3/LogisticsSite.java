@@ -8,6 +8,7 @@ import java.util.ArrayList;
  */
 
 public class LogisticsSite {
+	private String siteId;
 	private String name;
 	private String country;
 //List of transport types supplied by the logistics site
@@ -17,17 +18,31 @@ public class LogisticsSite {
 	 * Constructor to initialize the LogisticsSite object with the provided
 	 * parameters.
 	 * 
+	 * @param siteId             The ID of the logistic site.
 	 * @param name               The name of the logistics site.
 	 * @param country            The country where the logistics site is located.
 	 * @param suppliedTransports The list of transports supplied by the logistics
 	 *                           site.
 	 */
 
-	public LogisticsSite(String name, String country, ArrayList<Transport> suppliedTransports) {
+	public LogisticsSite(String siteId, String name, String country, ArrayList<Transport> suppliedTransports) {
+		this.siteId = siteId;
 		this.name = name;
 		this.country = country;
 		this.suppliedTransports = suppliedTransports;
 	}
+	
+
+	/**
+	 * Gets the siteId of the logistics site.
+	 * 
+	 * @return The siteId of the logistics site.
+	 */
+
+	public String getSiteId() {
+		return siteId;
+	}
+
 
 	/**
 	 * Gets the name of the logistics site.
@@ -56,6 +71,17 @@ public class LogisticsSite {
 
 	public ArrayList<Transport> getSuppliedTransports() {
 		return suppliedTransports;
+	}
+	
+
+	/**
+	 * Sets the siteId of the logistics site.
+	 * 
+	 * @param siteId The new siteId for the logistics site.
+	 */
+
+	public void setSiteId(String siteId) {
+		this.siteId = siteId;
 	}
 
 	/**
@@ -92,7 +118,7 @@ public class LogisticsSite {
 	 * Adds a new transport to the list of supplied transports for the logistics
 	 * site.
 	 * 
-	 * @param id          The unique ID of the transport.
+	 * @param transportId          The unique ID of the transport.
 	 * @param name        The name of the transport.
 	 * @param pricePerTon The price per ton of the transport service.
 	 */
@@ -101,10 +127,13 @@ public class LogisticsSite {
 		suppliedTransports.add(transport);
 	}
 
+
 	@Override
 	public String toString() {
-		return "LogisticsSite [name=" + name + ", country=" + country + ", suppliedTransports=" + suppliedTransports
-				+ "]";
+		return "LogisticsSite [siteId=" + siteId + ", name=" + name + ", country=" + country + ", suppliedTransports="
+				+ suppliedTransports + "]";
 	}
+
+
 
 }
