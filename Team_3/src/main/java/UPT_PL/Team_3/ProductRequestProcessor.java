@@ -33,7 +33,7 @@ public class ProductRequestProcessor {
         // Example logic for updating curCalculationId with a basic increment
         this.curCalculationId++;
         
-        //Ask Anastasia!!!!!
+        // TODO: Implement the logic for calculating supply requests.
     }
 
     /**
@@ -41,6 +41,7 @@ public class ProductRequestProcessor {
      * 
      * @param productData The SupplyReceiveProductByCountry object representing product data.
      * @param country The Country object to associate with the product data.
+     * @throws IllegalArgumentException if productData or country is null.
      */
     public void addCountryByProduct(SupplyReceiveProductByCountry productData, Country country) {
         if (productData == null || country == null) {
@@ -55,6 +56,7 @@ public class ProductRequestProcessor {
      * 
      * @param countryData The SupplyReceiveByCountry object representing country data.
      * @param product The Product object to associate with the country data.
+     * @throws IllegalArgumentException if countryData or product is null.
      */
     public void addProductByCountry(SupplyReceiveByCountry countryData, Product product) {
         if (countryData == null || product == null) {
@@ -65,26 +67,57 @@ public class ProductRequestProcessor {
     }
 
     // Getters and setters for the fields if needed (optional)
+
+    /**
+     * Gets the list of product requests by country.
+     * 
+     * @return An ArrayList of SupplyReceiveProductByCountry objects representing product requests.
+     */
     public ArrayList<SupplyReceiveProductByCountry> getProductRequestByCountry() {
         return productRequestByCountry;
     }
 
+    /**
+     * Sets the list of product requests by country.
+     * 
+     * @param productRequestByCountry The list of SupplyReceiveProductByCountry objects to set.
+     */
     public void setProductRequestByCountry(ArrayList<SupplyReceiveProductByCountry> productRequestByCountry) {
         this.productRequestByCountry = productRequestByCountry;
     }
 
+    /**
+     * Gets the list of country requests by products.
+     * 
+     * @return An ArrayList of SupplyReceiveByCountry objects representing country requests.
+     */
     public ArrayList<SupplyReceiveByCountry> getCountryRequestByProducts() {
         return countryRequestByProducts;
     }
 
+    /**
+     * Sets the list of country requests by products.
+     * 
+     * @param countryRequestByProducts The list of SupplyReceiveByCountry objects to set.
+     */
     public void setCountryRequestByProducts(ArrayList<SupplyReceiveByCountry> countryRequestByProducts) {
         this.countryRequestByProducts = countryRequestByProducts;
     }
 
+    /**
+     * Gets the current calculation ID.
+     * 
+     * @return The current calculation ID as an Integer.
+     */
     public Integer getCurCalculationId() {
         return curCalculationId;
     }
 
+    /**
+     * Sets the current calculation ID.
+     * 
+     * @param curCalculationId The current calculation ID to set.
+     */
     public void setCurCalculationId(Integer curCalculationId) {
         this.curCalculationId = curCalculationId;
     }
