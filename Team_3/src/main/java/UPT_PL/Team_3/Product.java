@@ -1,23 +1,28 @@
 package UPT_PL.Team_3;
 
 public class Product {
-private String idProduct;
+private String productId;
 private String name;
 private Integer experiationIndays;
-private double healthyRate;
+private double recommenedRate; 
 
-public Product(String idProduct, String name, Integer experiationIndays, double healthyRate) {
-	
-	this.idProduct = idProduct;
+/**
+ * @param productId
+ * @param name
+ * @param experiationIndays
+ * @param recommenedRate
+ */
+public Product(String productId, String name, Integer experiationIndays, double recommenedRate) {
+	this.productId = productId;
 	this.name = name;
 	this.experiationIndays = experiationIndays;
-	this.healthyRate = healthyRate;
+	this.recommenedRate = recommenedRate;
 }
-public String getidProduct() {
-	return idProduct;
+public String getProductID() {
+	return productId;
 }
-public void setIDProduct(String idProduct) {
-	this.idProduct = idProduct;
+public void setProductID(String productId) {
+	this.productId = productId;
 }
 public String getName() {
 	return name;
@@ -31,16 +36,16 @@ public Integer getExperiationIndays() {
 public void setExperiationIndays(Integer experiationIndays) {
 	this.experiationIndays = experiationIndays;
 }
-public double getHealthyRate() {
-	return healthyRate;
+public double getrecommenedRate() {
+	return recommenedRate;
 }
-public void setHealthyRate(double healthyRate) {
-	this.healthyRate = healthyRate;
+public void setrecommenedRate(double recommenedRate) {
+	this.recommenedRate = recommenedRate;
 }
 @Override
 public String toString() {
-	return "Product [IDProduct=" + idProduct + ", Name=" + name + ", ExperiationIndays=" + experiationIndays
-			+ ", HealthyRate=" + healthyRate + "]";
+	return "Product [ProductID=" + productId + ", Name=" + name + ", ExperiationIndays=" + experiationIndays
+			+ ", Recommened Rate=" + recommenedRate + "]";
 }
 
 	
