@@ -17,6 +17,7 @@ public class LogisticsSupplyChains {
     // Change addSupplyChain method 
     // TEST
     //test
+    //New Test
         /**
      * Adds a LogisticsSupplyChain to the list.
      * Throws an IllegalArgumentException if the provided object is null.
