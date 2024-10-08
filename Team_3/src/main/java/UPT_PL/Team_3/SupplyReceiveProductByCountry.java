@@ -3,51 +3,49 @@ package UPT_PL.Team_3;
 import java.util.ArrayList;
 
 /**
- * The SupplyReceiveProductByCountry class represents a product and its associated data 
- * on supply and receive records across different countries. It manages a product along 
- * with lists of supply and receive records for each country.
+ * The SupplyReceiveProductByCountry class manages supply and receive records of a product
+ * across different countries. It keeps track of which countries are suppliers and which
+ * are receivers based on the product's recommended rate and the amount supplied or received.
  */
 public class SupplyReceiveProductByCountry {
-    private Product product;  // Reference to a Product object
+    private Product product;  // The product associated with supply and receive records
     private ArrayList<SupplyReceiveByCountry> supplyByCountry;  // List of supply records by country
     private ArrayList<SupplyReceiveByCountry> receiveByCountry;  // List of receive records by country
 
     /**
-     * Default constructor that initializes the product with default values and creates
+     * Default constructor that initializes the supply and receive lists as empty.
      */
     public SupplyReceiveProductByCountry() {
-       
+        this.supplyByCountry = new ArrayList<>();
+        this.receiveByCountry = new ArrayList<>();
     }
 
     /**
-     * Constructor that initializes the product and lists of supply and receive records
-     * with the provided values.
+     * Constructor that initializes the product and its supply and receive records.
      * 
-     * @param product The Product object associated with the supply and receive records.
-     * @param supplyByCountry The list of supply records by country.
-     * @param receiveByCountry The list of receive records by country.
+     * @param product The product associated with supply and receive records.
+     * @param supplyByCountry List of supply records by country.
+     * @param receiveByCountry List of receive records by country.
      */
     public SupplyReceiveProductByCountry(Product product, ArrayList<SupplyReceiveByCountry> supplyByCountry, ArrayList<SupplyReceiveByCountry> receiveByCountry) {
         this.product = product;
-        this.supplyByCountry = supplyByCountry;
-        this.receiveByCountry = receiveByCountry;
+        this.supplyByCountry = supplyByCountry != null ? supplyByCountry : new ArrayList<>();
+        this.receiveByCountry = receiveByCountry != null ? receiveByCountry : new ArrayList<>();
     }
 
-    // Getters and setters
-
     /**
-     * Returns the associated product.
+     * Returns the product associated with this instance.
      * 
-     * @return The Product object.
+     * @return The product.
      */
     public Product getProduct() {
         return product;
     }
 
     /**
-     * Sets the associated product.
+     * Sets the product for this instance.
      * 
-     * @param product The Product object to set.
+     * @param product The product to associate.
      */
     public void setProduct(Product product) {
         this.product = product;
@@ -56,7 +54,7 @@ public class SupplyReceiveProductByCountry {
     /**
      * Returns the list of supply records by country.
      * 
-     * @return An ArrayList of SupplyReceiveByCountry objects representing supply records.
+     * @return A list of SupplyReceiveByCountry representing supply records.
      */
     public ArrayList<SupplyReceiveByCountry> getSupplyByCountry() {
         return supplyByCountry;
@@ -74,7 +72,7 @@ public class SupplyReceiveProductByCountry {
     /**
      * Returns the list of receive records by country.
      * 
-     * @return An ArrayList of SupplyReceiveByCountry objects representing receive records.
+     * @return A list of SupplyReceiveByCountry representing receive records.
      */
     public ArrayList<SupplyReceiveByCountry> getReceiveByCountry() {
         return receiveByCountry;
@@ -89,25 +87,23 @@ public class SupplyReceiveProductByCountry {
         this.receiveByCountry = receiveByCountry;
     }
 
-    // Methods
-
     /**
      * Adds a supply record for a specific country to the supply list.
      * 
-     * @param element The SupplyReceiveByCountry object representing the supply record.
+     * @param element The supply record to add.
      * @throws IllegalArgumentException if the element is null.
      */
     public void addToSupply(SupplyReceiveByCountry element) {
         if (element == null) {
             throw new IllegalArgumentException("Supply record cannot be null.");
         }
-        supplyByCountry.add(element); 
+        supplyByCountry.add(element);
     }
 
     /**
      * Adds a receive record for a specific country to the receive list.
      * 
-     * @param element The SupplyReceiveByCountry object representing the receive record.
+     * @param element The receive record to add.
      * @throws IllegalArgumentException if the element is null.
      */
     public void addToReceive(SupplyReceiveByCountry element) {
@@ -120,15 +116,46 @@ public class SupplyReceiveProductByCountry {
     /**
      * Searches for a supply record by country.
      * 
-     * @param country The Country object representing the country to search for.
-     * @return The SupplyReceiveByCountry object if found, or null if no record matches.
+     * @param country The country to search for.
+     * @return The supply record for the specified country, or null if not found.
      */
     public SupplyReceiveByCountry searchByCountry(Country country) {
         for (SupplyReceiveByCountry supply : supplyByCountry) {
             if (supply.getCountry().equals(country)) {
-                return supply;  
+                return supply;
             }
         }
-        return null;  
+        return null;
+    }
+
+    /**
+     * Determines whether a country is a supplier or receiver of the product based on
+     * the recommended rate per person and the quantity available in that country.
+     * <p>
+     * The method compares the product quantity per person in the country to the 
+     * recommended rate. If the quantity per person is greater than the recommended rate, 
+     * the country is considered a supplier and is added to the supply list. Otherwise, 
+     * it is considered a receiver and is added to the receive list.
+     */
+    public void determineSupplierOrReceiver() {
+        for (SupplyReceiveByCountry supply : supplyByCountry) {
+            Country country = supply.getCountry();
+            double population = country.getPopulation();
+            double quantity = supply.getQuantity();
+            double recommendedRate = product.getRecommenedRate();
+
+            double quantityPerPerson = quantity / population;
+
+            // Avoid adding the same country multiple times
+            if (receiveByCountry.contains(supply) || supplyByCountry.contains(supply)) {
+                continue;
+            }
+
+            if (quantityPerPerson > recommendedRate) {
+                addToSupply(supply);
+            } else {
+                addToReceive(supply);
+            }
+        }
     }
 }
