@@ -22,19 +22,84 @@ public class ProductRequestProcessor {
     }
 
     /**
-     * Calculates the supply request based on the provided countries and products.
+     * Calculates the supply and demand of products for each country based on the population
+     * and production capacity of each country, as well as the recommended consumption rate 
+     * per person for each product.
+     * <p>
+     * This method iterates through all countries and their respective products. For each 
+     * product, it calculates the production per person by dividing the total production by 
+     * the population of the country. If the production per person exceeds the recommended 
+     * consumption rate, the country is classified as a supplier for that product. Otherwise, 
+     * the country is classified as a receiver.
+     * </p>
      * 
-     * @param countries The list of countries involved in the supply request.
-     * @param products The list of products involved in the supply request.
+     * @param countries The list of countries to evaluate for supply and demand.
+     * @param products The list of products being produced and distributed.
      * 
-     * Note: The implementation details of this method will depend on the logic for calculation.
+     * @throws IllegalArgumentException if any of the country or product data is null.
+     */
+    /**
+     * Calculates the supply request based on the production capabilities of each country
+     * and their recommended consumption rates for each product. This method iterates over 
+     * all provided countries and products to determine whether a country is a supplier 
+     * (able to export excess production) or a receiver (in need of additional product).
+     * 
+     * For each country, it computes the production per person and compares it with the 
+     * recommended consumption rate. If the production exceeds the recommendation, the 
+     * country is marked as a supplier and the surplus is recorded. If the production is 
+     * below the recommended level, the country is marked as a receiver and the deficit 
+     * is calculated.
+     *
+     * @param countries A list of countries to be analyzed for their production and 
+     *                  consumption rates.
+     * @param products A list of products to be considered for supply and demand analysis.
      */
     public void calcSupplyRequest(ArrayList<Country> countries, ArrayList<Product> products) {
-        // Example logic for updating curCalculationId with a basic increment
         this.curCalculationId++;
-        
-        // TODO: Implement the logic for calculating supply requests.
+
+        // Iterate through all countries
+        for (Country country : countries) {
+            for (ProductsByCountry productByCountry : country.getProducts()) {
+                Product product = productByCountry.getProduct(); // Get the associated product
+                double production = productByCountry.getProduction(); // Total production by country
+                double population = country.getPopulation(); // Population of the country
+                double recommendedRate = product.getRecommenedRate(); // Recommended consumption rate per person
+
+                // Calculate production per person
+                double productionPerPerson = production / population;
+
+                // Calculate the total required product for the country
+                double totalRequiredProduct = recommendedRate * population;
+
+                // Create a SupplyReceiveByCountry object for the current country
+                SupplyReceiveByCountry supplyReceive = new SupplyReceiveByCountry(country, production);
+
+                // Create an object to hold supply/receive information
+                SupplyReceiveProductByCountry supplyReceiveProduct = new SupplyReceiveProductByCountry(product, new ArrayList<>(), new ArrayList<>());
+
+                // If production per person exceeds the recommended rate
+                if (productionPerPerson > recommendedRate) {
+                    // The country is a supplier
+                    double surplus = production - totalRequiredProduct; // Surplus that can be exported
+
+                    // Set the surplus quantity
+                    supplyReceive.setQuantity(surplus); 
+                    supplyReceiveProduct.addToSupply(supplyReceive); // Add as a supplier
+                } else {
+                    // The country is a receiver
+                    double deficit = totalRequiredProduct - production; // Deficit that the country needs to receive
+
+                    // Set the deficit quantity
+                    supplyReceive.setQuantity(deficit);
+                    supplyReceiveProduct.addToReceive(supplyReceive); // Add as a receiver
+                }
+
+                // Add the information about the country and product
+                addCountryByProduct(supplyReceiveProduct, country);
+            }
+        }
     }
+
 
     /**
      * Adds a country request by product to the productRequestByCountry list.
