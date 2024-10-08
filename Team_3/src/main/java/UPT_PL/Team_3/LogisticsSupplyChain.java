@@ -144,6 +144,7 @@ public class LogisticsSupplyChain {
      *
      * @return true if both logistics sites (sender and receiver) exist, false otherwise
      */
+    
     public boolean isLogisticsSitesValid() {
         return sender != null && receiver != null;
     }
