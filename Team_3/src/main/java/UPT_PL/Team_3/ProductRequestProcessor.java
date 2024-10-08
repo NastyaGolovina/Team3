@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class ProductRequestProcessor {
     private ArrayList<SupplyReceiveProductByCountry> productRequestByCountry;  // List of product requests by country
     private ArrayList<SupplyReceiveCountryByProduct> countryRequestByProducts;  // List of country requests by product
-    private Integer curCalculationId;  // ID for the current calculation
+    private Integer curCalculationId;  // ID for the current calculations
 
     /**
      * Default constructor to initialize the lists and set a default calculation ID.
