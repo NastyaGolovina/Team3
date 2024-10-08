@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class LogisticsSite {
 	private String siteId;
 	private String name;
-	private String country;
+	private Country country;
 //List of transport types supplied by the logistics site
 	private ArrayList<Transport> suppliedTransports;
 
@@ -25,7 +25,7 @@ public class LogisticsSite {
 	 *                           site.
 	 */
 
-	public LogisticsSite(String siteId, String name, String country, ArrayList<Transport> suppliedTransports) {
+	public LogisticsSite(String siteId, String name, Country country, ArrayList<Transport> suppliedTransports) {
 		this.siteId = siteId;
 		this.name = name;
 		this.country = country;
@@ -59,7 +59,7 @@ public class LogisticsSite {
 	 * 
 	 * @return The country of the logistics site.
 	 */
-	public String getCountry() {
+	public Country getCountry() {
 		return country;
 	}
 
@@ -100,7 +100,7 @@ public class LogisticsSite {
 	 * @param country The new country for the logistics site.
 	 */
 
-	public void setCountry(String country) {
+	public void setCountry(Country country) {
 		this.country = country;
 	}
 
