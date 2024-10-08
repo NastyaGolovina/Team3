@@ -39,4 +39,30 @@ public class LogisticsSupplyChains {
     public ArrayList<LogisticsSupplyChain> getSupplyChains() {
         return supplyChains;
     }
+    
+    /**
+     * Searches for a logistics supply chain by its chainId.
+     * If found, prints the full details of the logistics supply chain.
+     *
+     * @param searchId the chainId to search for
+     */
+    public void searchSupplyChainById(String searchId) {
+        boolean found = false;
+        for (LogisticsSupplyChain chain : supplyChains) {
+            if (chain.getChainId().equals(searchId)) {
+                System.out.println("Chain ID: " + chain.getChainId());
+                System.out.println("Sender: " + (chain.getSender() != null ? chain.getSender().getName() : "Unknown"));
+                System.out.println("Receiver: " + (chain.getReceiver() != null ? chain.getReceiver().getName() : "Unknown"));
+                System.out.println("Transport: " + (chain.getTransport() != null ? chain.getTransport().getName() : "Unknown"));
+                System.out.println("Cost per Ton: " + chain.getCostPerTon());
+                System.out.println("Duration in Days: " + chain.getDurationInDays());
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            System.out.println("No logistics supply chain found with ID: " + searchId);
+        }
+    }
+
 }
