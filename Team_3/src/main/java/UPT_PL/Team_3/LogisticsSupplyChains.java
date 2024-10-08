@@ -14,8 +14,11 @@ public class LogisticsSupplyChains {
     public LogisticsSupplyChains() {
         this.supplyChains = new ArrayList<>();
     }
-
-    /**
+    // Change addSupplyChain method 
+    // TEST
+    //test
+    //New Test
+        /**
      * Adds a LogisticsSupplyChain to the list.
      * Throws an IllegalArgumentException if the provided object is null.
      *
