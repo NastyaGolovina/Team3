@@ -1,46 +1,84 @@
 package UPT_PL.Team_3;
 
 public class Product {
-private String idProduct;
+private String productId;
 private String name;
 private Integer experiationIndays;
-private double healthyRate;
+private double recommenedRate; 
 
-public Product(String idProduct, String name, Integer experiationIndays, double healthyRate) {
-	
-	this.idProduct = idProduct;
+/**
+ * @param productId
+ * @param name
+ * @param experiationIndays
+ * @param recommenedRate
+ */
+public Product(String productId, String name, Integer experiationIndays, double recommenedRate) {
+	this.productId = productId;
 	this.name = name;
 	this.experiationIndays = experiationIndays;
-	this.healthyRate = healthyRate;
+	this.recommenedRate = recommenedRate;
 }
-public String getidProduct() {
-	return idProduct;
+
+/**
+ * @return the productId
+ */
+public String getProductId() {
+	return productId;
 }
-public void setIDProduct(String idProduct) {
-	this.idProduct = idProduct;
+
+/**
+ * @param productId the productId to set
+ */
+public void setProductId(String productId) {
+	this.productId = productId;
 }
+
+/**
+ * @return the name
+ */
 public String getName() {
 	return name;
 }
+
+/**
+ * @param name the name to set
+ */
 public void setName(String name) {
 	this.name = name;
 }
+
+/**
+ * @return the experiationIndays
+ */
 public Integer getExperiationIndays() {
 	return experiationIndays;
 }
+
+/**
+ * @param experiationIndays the experiationIndays to set
+ */
 public void setExperiationIndays(Integer experiationIndays) {
 	this.experiationIndays = experiationIndays;
 }
-public double getHealthyRate() {
-	return healthyRate;
+
+/**
+ * @return the recommenedRate
+ */
+public double getRecommenedRate() {
+	return recommenedRate;
 }
-public void setHealthyRate(double healthyRate) {
-	this.healthyRate = healthyRate;
+
+/**
+ * @param recommenedRate the recommenedRate to set
+ */
+public void setRecommenedRate(double recommenedRate) {
+	this.recommenedRate = recommenedRate;
 }
+
 @Override
 public String toString() {
-	return "Product [IDProduct=" + idProduct + ", Name=" + name + ", ExperiationIndays=" + experiationIndays
-			+ ", HealthyRate=" + healthyRate + "]";
+	return "Product [ProductID=" + productId + ", Name=" + name + ", ExperiationIndays=" + experiationIndays
+			+ ", Recommened Rate=" + recommenedRate + "]";
 }
 
 	

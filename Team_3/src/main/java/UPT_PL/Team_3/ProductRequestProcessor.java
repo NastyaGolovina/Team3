@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public class ProductRequestProcessor {
     private ArrayList<SupplyReceiveProductByCountry> productRequestByCountry;  // List of product requests by country
-    private ArrayList<SupplyReceiveByCountry> countryRequestByProducts;  // List of country requests by product
+    private ArrayList<SupplyReceiveCountryByProduct> countryRequestByProducts;  // List of country requests by product
     private Integer curCalculationId;  // ID for the current calculation
 
     /**
@@ -24,20 +24,70 @@ public class ProductRequestProcessor {
     /**
      * Calculates the supply request based on the provided countries and products.
      * 
+     * This method analyzes the production capabilities of countries and compares 
+     * them with the recommended consumption rates of products. It categorizes 
+     * countries into suppliers (exporters) and receivers (importers) based on 
+     * their production versus their consumption needs. Finally, it distributes 
+     * excess production from suppliers to receivers.
+     * 
      * @param countries The list of countries involved in the supply request.
      * @param products The list of products involved in the supply request.
-     * 
-     * Note: The implementation details of this method will depend on the logic for calculation.
      */
     public void calcSupplyRequest(ArrayList<Country> countries, ArrayList<Product> products) {
-        // Example logic for updating curCalculationId with a basic increment
         this.curCalculationId++;
-        
-        // TODO: Implement the logic for calculating supply requests.
+
+        // Lists to hold suppliers and receivers
+        ArrayList<SupplyReceiveByCountry> suppliers = new ArrayList<>();
+        ArrayList<SupplyReceiveByCountry> receivers = new ArrayList<>();
+
+        // Iterate through all countries
+        for (Country country : countries) {
+            for (ProductsByCountry productByCountry : country.getProducts()) {
+                Product product = productByCountry.getProduct(); // Get the associated product
+                double production = productByCountry.getProduction(); // Total production by country
+                double population = country.getPopulation(); // Population of the country
+                double recommendedRate = product.getRecommenedRate(); // Recommended consumption rate per person
+
+                // Calculate the total required product for the country
+                double totalRequiredProduct = recommendedRate * population;
+
+                // Create a SupplyReceiveByCountry object for the current country
+                SupplyReceiveByCountry supplyReceive = new SupplyReceiveByCountry(country, production);
+
+                // If the country is a supplier
+                if (production > totalRequiredProduct) {
+                    double surplus = production - totalRequiredProduct; // Surplus that can be exported
+                    supplyReceive.setQuantity(surplus);
+                    suppliers.add(supplyReceive); // Add to the suppliers list
+                } else {
+                    double deficit = totalRequiredProduct - production; // Deficit that the country needs to receive
+                    supplyReceive.setQuantity(deficit);
+                    receivers.add(supplyReceive); // Add to the receivers list
+                }
+            }
+        }
+
+        // Now distribute the results between suppliers and receivers
+        for (SupplyReceiveByCountry supplier : suppliers) {
+            // Logic for distributing surpluses among receivers
+            double surplus = supplier.getQuantity();
+            
+            for (SupplyReceiveByCountry receiver : receivers) {
+                double deficit = receiver.getQuantity();
+                if (surplus > 0 && deficit > 0) {
+                    // Minimum between surplus and deficit
+                    double quantityToTransfer = Math.min(surplus, deficit);
+                    // Update the quantities
+                    supplier.setQuantity(supplier.getQuantity() - quantityToTransfer);
+                    receiver.setQuantity(receiver.getQuantity() - quantityToTransfer);
+                    
+                }
+            }
+        }
     }
 
     /**
-     * Adds a country request by product to the productRequestByCountry list.
+     * Adds a product request by country to the productRequestByCountry list.
      * 
      * @param productData The SupplyReceiveProductByCountry object representing product data.
      * @param country The Country object to associate with the product data.
@@ -52,13 +102,13 @@ public class ProductRequestProcessor {
     }
 
     /**
-     * Adds a product request by country to the countryRequestByProducts list.
+     * Adds a country request by product to the countryRequestByProducts list.
      * 
-     * @param countryData The SupplyReceiveByCountry object representing country data.
+     * @param countryData The SupplyReceiveCountryByProduct object representing country data.
      * @param product The Product object to associate with the country data.
      * @throws IllegalArgumentException if countryData or product is null.
      */
-    public void addProductByCountry(SupplyReceiveByCountry countryData, Product product) {
+    public void addProductByCountry(SupplyReceiveCountryByProduct countryData, Product product) {
         if (countryData == null || product == null) {
             throw new IllegalArgumentException("Country data and product cannot be null.");
         }
@@ -66,7 +116,7 @@ public class ProductRequestProcessor {
         countryRequestByProducts.add(countryData);  // Adds the country data to the list
     }
 
-    // Getters and setters for the fields if needed (optional)
+    // Getters and setters...
 
     /**
      * Gets the list of product requests by country.
@@ -89,18 +139,18 @@ public class ProductRequestProcessor {
     /**
      * Gets the list of country requests by products.
      * 
-     * @return An ArrayList of SupplyReceiveByCountry objects representing country requests.
+     * @return An ArrayList of SupplyReceiveCountryByProduct objects representing country requests.
      */
-    public ArrayList<SupplyReceiveByCountry> getCountryRequestByProducts() {
+    public ArrayList<SupplyReceiveCountryByProduct> getCountryRequestByProducts() {
         return countryRequestByProducts;
     }
 
     /**
      * Sets the list of country requests by products.
      * 
-     * @param countryRequestByProducts The list of SupplyReceiveByCountry objects to set.
+     * @param countryRequestByProducts The list of SupplyReceiveCountryByProduct objects to set.
      */
-    public void setCountryRequestByProducts(ArrayList<SupplyReceiveByCountry> countryRequestByProducts) {
+    public void setCountryRequestByProducts(ArrayList<SupplyReceiveCountryByProduct> countryRequestByProducts) {
         this.countryRequestByProducts = countryRequestByProducts;
     }
 

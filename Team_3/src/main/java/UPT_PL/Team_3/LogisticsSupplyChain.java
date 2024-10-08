@@ -137,4 +137,34 @@ public class LogisticsSupplyChain {
     public void setDurationInDays(double durationInDays) {
         this.durationInDays = durationInDays;
     }
+    
+    /**
+     * Checks if both the sender and receiver logistics sites exist.
+     * This method ensures that both the sender and receiver are not null.
+     *
+     * @return true if both logistics sites (sender and receiver) exist, false otherwise
+     */
+    
+    public boolean isLogisticsSitesValid() {
+        return sender != null && receiver != null;
+    }
+    
+    /**
+     * Searches for a logistics supply chain by its chainId.
+     * If found, prints the full details of the logistics supply chain.
+     *
+     * @param searchId the chainId to search for
+     */
+    public void search(String searchId) {
+        if (this.chainId != null && this.chainId.equals(searchId)) {
+            System.out.println("Chain ID: " + this.chainId);
+            System.out.println("Sender: " + (this.sender != null ? this.sender.getName() : "Unknown"));
+            System.out.println("Receiver: " + (this.receiver != null ? this.receiver.getName() : "Unknown"));
+            //System.out.println("Transport: " + (this.transport != null ? this.transport.getType() : "Unknown"));
+            System.out.println("Cost per Ton: " + this.costPerTon);
+            System.out.println("Duration in Days: " + this.durationInDays);
+        } else {
+            System.out.println("No logistics supply chain found with ID: " + searchId);
+        }
+    }
 }
