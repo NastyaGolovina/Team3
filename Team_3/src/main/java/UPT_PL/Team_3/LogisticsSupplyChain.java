@@ -137,4 +137,14 @@ public class LogisticsSupplyChain {
     public void setDurationInDays(double durationInDays) {
         this.durationInDays = durationInDays;
     }
+    
+    /**
+     * Checks if both the sender and receiver logistics sites exist.
+     * This method ensures that both the sender and receiver are not null.
+     *
+     * @return true if both logistics sites (sender and receiver) exist, false otherwise
+     */
+    public boolean isLogisticsSitesValid() {
+        return sender != null && receiver != null;
+    }
 }
