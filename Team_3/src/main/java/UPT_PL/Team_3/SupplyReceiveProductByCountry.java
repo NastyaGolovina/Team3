@@ -14,12 +14,9 @@ public class SupplyReceiveProductByCountry {
 
     /**
      * Default constructor that initializes the product with default values and creates
-     * empty lists for supply and receive records by country.
      */
     public SupplyReceiveProductByCountry() {
-        this.product = new Product("PROD001", "Default Product", 30, 5.0);  // Default product
-        this.supplyByCountry = new ArrayList<>();  // Empty supply list by default
-        this.receiveByCountry = new ArrayList<>();  // Empty receive list by default
+       
     }
 
     /**
