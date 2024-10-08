@@ -12,12 +12,9 @@ public class SupplyReceiveByCountry {
 
     /*
      * Default constructor that initializes with default values.
-     * The default country has an ID "DEF001", name "Default Country", and population of 1,000,000.
-     * The default quantity is set to 1.0.
      */
     public SupplyReceiveByCountry() {
-        this.country = new Country("DEF001", "Default Country", 1000000);  // Default country
-        this.quantity = 1.0;  // Default quantity
+      
     }
 
     /*
