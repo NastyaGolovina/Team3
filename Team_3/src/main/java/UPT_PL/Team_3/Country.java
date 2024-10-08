@@ -145,7 +145,7 @@ public class Country {
     /**
      * Adds a new logistics site to the country.
      */
-    public void addLogisticSite(String siteId, String name, String country) {
+    public void addLogisticSite(String siteId, String name, Country country) {
         ArrayList<Transport> emptyTransports = new ArrayList<>();
         LogisticsSite logisticsite = new LogisticsSite(siteId, name, country, emptyTransports);
         sites.add(logisticsite);
