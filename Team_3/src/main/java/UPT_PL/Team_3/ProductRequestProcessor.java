@@ -102,8 +102,10 @@ public class ProductRequestProcessor {
 
 
     /**
-     * Adds a country request by product to the productRequestByCountry list.
-     * 
+     * Adds a product request for a specific country to the productRequestByCountry list.
+     * This method checks if the product request for the country already exists; if so, it adds
+     * the supply request to the existing entry.
+     *
      * @param productData The SupplyReceiveProductByCountry object representing product data.
      * @param country The Country object to associate with the product data.
      * @throws IllegalArgumentException if productData or country is null.
@@ -112,13 +114,24 @@ public class ProductRequestProcessor {
         if (productData == null || country == null) {
             throw new IllegalArgumentException("Product data and country cannot be null.");
         }
-       
-        productRequestByCountry.add(productData);  // Adds the product data to the list
+
+        // Check if the product data already exists for the country
+        for (SupplyReceiveProductByCountry existingProduct : productRequestByCountry) {
+            if (existingProduct.getProduct().equals(productData.getProduct())) {
+                existingProduct.addToSupply(productData.getSupply()); // Add the supply data
+                return;
+            }
+        }
+
+        // If not found, add new product data
+        productRequestByCountry.add(productData);
     }
 
     /**
-     * Adds a product request by country to the countryRequestByProducts list.
-     * 
+     * Adds a country request by product to the countryRequestByProducts list.
+     * This method checks if the country request for the product already exists; if so, it adds
+     * the receive request to the existing entry.
+     *
      * @param countryData The SupplyReceiveByCountry object representing country data.
      * @param product The Product object to associate with the country data.
      * @throws IllegalArgumentException if countryData or product is null.
@@ -127,8 +140,17 @@ public class ProductRequestProcessor {
         if (countryData == null || product == null) {
             throw new IllegalArgumentException("Country data and product cannot be null.");
         }
-       
-        countryRequestByProducts.add(countryData);  // Adds the country data to the list
+
+        // Check if the country data already exists for the product
+        for (SupplyReceiveByCountry existingCountry : countryRequestByProducts) {
+            if (existingCountry.getCountry().equals(countryData.getCountry())) {
+                existingCountry.addToReceive(countryData.getReceive()); // Add the receive data
+                return;
+            }
+        }
+
+        // If not found, add new country data
+        countryRequestByProducts.add(countryData);
     }
 
     // Getters and setters for the fields if needed (optional)
