@@ -8,7 +8,7 @@ package UPT_PL.Team_3;
 public class SupplyReceiveByCountry {
     private Country country;  // Reference to a Country object
     private double quantity;  // Quantity of the received supply
-    //TestCommint using console 
+   
 
     /*
      * Default constructor that initializes with default values.
