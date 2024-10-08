@@ -69,7 +69,7 @@ public class RouteLine {
 	public Country getCountrySender() {
 		return countrySender;
 	}
-
+	
 	/**
 	 * @param countrySender the countrySender to set
 	 */
