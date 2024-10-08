@@ -26,9 +26,30 @@ public class Transports {
 	 * @param pricePerTon The price per ton for the transport service.
 	 */
 	public void addTransport(int transportId, String name, double pricePerTon) {
-		// Create a new Transport object and add it to the list
+		 
+		if (transportId <= 0) {
+			System.out.println("The ID cannot be 0 or negative.");
+			return;
+		}
+			if (String.valueOf(transportId).length() > 6) {
+				System.out.println("The Id cannot exceed more than 6 digits");
+				return;
+			}
+			for (Transport transport : transports) {
+				if (transport.getTransportId() == (transportId)) {
+					System.out.println("The Id already exists.");
+					return;
+				}
+			}
+			
+			if (pricePerTon <= 0) {
+		        System.out.println("The price per ton must be a positive value.");
+		        return;
+		    }
+			
 		Transport transport = new Transport(transportId, name, pricePerTon);
 		transports.add(transport);
+		System.out.println("TransportId: " + transportId  + ", Name:" + name + ", PricePerTon" + pricePerTon + " are added to the List Succesfully.");
 	}
 
 	@Override

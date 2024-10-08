@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * It provides methods to manage products and logistics sites within the country.
  */
 public class Country {
-    private String countryId;
+    private int countryId;
     private String name;
     private int population;
     private ArrayList<ProductsByCountry> products;
@@ -21,7 +21,7 @@ public class Country {
      * @param name The name of the country.
      * @param population The population of the country.
      */
-    public Country(String countryId, String name, int population) {
+    public Country(int countryId, String name, int population) {
         this.countryId = countryId;
         this.name = name;
         this.population = population;
@@ -35,7 +35,7 @@ public class Country {
      * 
      * @return The country's countryId.
      */
-    public String getCountryId() {
+    public int getCountryId() {
         return countryId;
     }
 
@@ -81,7 +81,7 @@ public class Country {
      * 
      * @param id The new ID to set for the country.
      */
-    public void setCountryId(String countryId) {
+    public void setCountryId(int countryId) {
         this.countryId = countryId;
     }
 
@@ -133,7 +133,7 @@ public class Country {
         for (int i = 0; i < products.size(); i++) {
             Product product = products.get(i).getProduct();
             
-            if (product.getidProduct().equalsIgnoreCase(idProduct)) {
+            if (product.getProductId().equalsIgnoreCase(productId)) {
                 return i;  // Return the index if a match is found
             }
         }
@@ -146,6 +146,7 @@ public class Country {
      * Adds a new logistics site to the country.
      */
     public void addLogisticSite(String siteId, String name, Country country) {
+    	
         ArrayList<Transport> emptyTransports = new ArrayList<>();
         LogisticsSite logisticsite = new LogisticsSite(siteId, name, country, emptyTransports);
         sites.add(logisticsite);
