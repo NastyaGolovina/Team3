@@ -20,86 +20,65 @@ public class ProductRequestProcessor {
         this.countryRequestByProducts = new ArrayList<>();  // Initialize country requests by product
         this.curCalculationId = 0;  // Initialize current calculation ID to 0
     }
-
+    
     /**
-     * Calculates the supply request based on the provided countries and products.
-     * 
-     * This method analyzes the production capabilities of countries and compares 
-     * them with the recommended consumption rates of products. It categorizes 
-     * countries into suppliers (exporters) and receivers (importers) based on 
-     * their production versus their consumption needs. Finally, it distributes 
-     * excess production from suppliers to receivers.
-     * 
-     * @param countries The list of countries involved in the supply request.
-     * @param products The list of products involved in the supply request.
+     * Calculates the product needs and supply for each country based on the 
+     * recommended rate and population. It classifies countries into those that 
+     * need the product and those that can supply it.
      */
-    public void calcSupplyRequest(ArrayList<Country> countries, ArrayList<Product> products) {
-        this.curCalculationId++;
+    public void calculateProductNeedsAndSupply() {
+        for (SupplyReceiveProductByCountry supplyReceive : productRequestByCountry) {
+            Product product = supplyReceive.getProduct();  // Retrieve the product
+            double recommendedRate = product.getRecommenedRate();  // Get the recommended rate
 
-        // Lists to hold suppliers and receivers
-        ArrayList<SupplyReceiveByCountry> suppliers = new ArrayList<>();
-        ArrayList<SupplyReceiveByCountry> receivers = new ArrayList<>();
+            ArrayList<SupplyReceiveByCountry> needProductCountries = new ArrayList<>();  // List of countries that need the product
+            ArrayList<SupplyReceiveByCountry> canSupplyCountries = new ArrayList<>();  // List of countries that can supply the product
 
-        // Iterate through all countries
-        for (Country country : countries) {
-            for (ProductsByCountry productByCountry : country.getProducts()) {
-                Product product = productByCountry.getProduct(); // Get the associated product
-                double production = productByCountry.getProduction(); // Total production by country
-                double population = country.getPopulation(); // Population of the country
-                double recommendedRate = product.getRecommenedRate(); // Recommended consumption rate per person
+            for (SupplyReceiveByCountry supply : supplyReceive.getSupplyByCountry()) {
+                Country country = supply.getCountry();  // Retrieve the country
+                int population = country.getPopulation();  // Get the population of the country
+                double currentProduction = supply.getQuantity();  // Get the current product quantity
 
                 // Calculate the total required product for the country
                 double totalRequiredProduct = recommendedRate * population;
 
-                // Create a SupplyReceiveByCountry object for the current country
-                SupplyReceiveByCountry supplyReceive = new SupplyReceiveByCountry(country, production);
-
-                // If the country is a supplier
-                if (production > totalRequiredProduct) {
-                    double surplus = production - totalRequiredProduct; // Surplus that can be exported
-                    supplyReceive.setQuantity(surplus);
-                    suppliers.add(supplyReceive); // Add to the suppliers list
+                if (currentProduction < totalRequiredProduct) {
+                    // If the current product quantity is less than required — the country needs the product
+                    needProductCountries.add(supply);  // Add to the list of countries needing the product
                 } else {
-                    double deficit = totalRequiredProduct - production; // Deficit that the country needs to receive
-                    supplyReceive.setQuantity(deficit);
-                    receivers.add(supplyReceive); // Add to the receivers list
+                    // If the current product quantity is greater than or equal to required — the country can supply the product
+                    canSupplyCountries.add(supply);  // Add to the list of countries that can supply the product
                 }
             }
-        }   
-    }
 
-    /**
-     * Adds a product request by country to the productRequestByCountry list.
-     * 
-     * @param productData The SupplyReceiveProductByCountry object representing product data.
-     * @param country The Country object to associate with the product data.
-     * @throws IllegalArgumentException if productData or country is null.
-     */
-    public void addCountryByProduct(SupplyReceiveProductByCountry productData, Country country) {
-        if (productData == null || country == null) {
-            throw new IllegalArgumentException("Product data and country cannot be null.");
+            // Store the data in the corresponding arrays in the supplyReceive object
+            supplyReceive.setReceiveByCountry(needProductCountries);  // Countries that need the product
+            supplyReceive.setSupplyByCountry(canSupplyCountries);  // Countries that can supply the product
         }
-       
-        productRequestByCountry.add(productData);  // Adds the product data to the list
     }
-
+    
     /**
-     * Adds a country request by product to the countryRequestByProducts list.
-     * 
-     * @param countryData The SupplyReceiveCountryByProduct object representing country data.
-     * @param product The Product object to associate with the country data.
-     * @throws IllegalArgumentException if countryData or product is null.
+     * Searches for a product by its ID in the list of product requests by country.
+     *
+     * @param productId The ID of the product to search for.
+     * @return The index of the SupplyReceiveProductByCountry in the list if found; -1 otherwise.
      */
-    public void addProductByCountry(SupplyReceiveCountryByProduct countryData, Product product) {
-        if (countryData == null || product == null) {
-            throw new IllegalArgumentException("Country data and product cannot be null.");
+    public int searchProductById(String productId) {
+        for (int i = 0; i < productRequestByCountry.size(); i++) {
+            SupplyReceiveProductByCountry supplyReceive = productRequestByCountry.get(i);
+            Product product = supplyReceive.getProduct();  // Get the product from the current supplyReceive
+            
+            if (product.getProductId().equalsIgnoreCase(productId)) {
+                return i;  // Return the index if a match is found
+            }
         }
-       
-        countryRequestByProducts.add(countryData);  // Adds the country data to the list
+        return -1;  // Return -1 if the product is not found
     }
+    
+    
 
     // Getters and setters...
-
+    
     /**
      * Gets the list of product requests by country.
      * 
