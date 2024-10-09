@@ -65,25 +65,7 @@ public class ProductRequestProcessor {
                     receivers.add(supplyReceive); // Add to the receivers list
                 }
             }
-        }
-
-        // Now distribute the results between suppliers and receivers
-        for (SupplyReceiveByCountry supplier : suppliers) {
-            // Logic for distributing surpluses among receivers
-            double surplus = supplier.getQuantity();
-            
-            for (SupplyReceiveByCountry receiver : receivers) {
-                double deficit = receiver.getQuantity();
-                if (surplus > 0 && deficit > 0) {
-                    // Minimum between surplus and deficit
-                    double quantityToTransfer = Math.min(surplus, deficit);
-                    // Update the quantities
-                    supplier.setQuantity(supplier.getQuantity() - quantityToTransfer);
-                    receiver.setQuantity(receiver.getQuantity() - quantityToTransfer);
-                    
-                }
-            }
-        }
+        }   
     }
 
     /**
