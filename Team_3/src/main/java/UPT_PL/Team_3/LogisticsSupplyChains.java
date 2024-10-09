@@ -89,6 +89,35 @@ public class LogisticsSupplyChains {
             System.out.println("Invalid transport ID. Please choose a valid transport.");
         }
     }
+    
+    /**
+     * Allows the user to manually set the duration in days for the provided LogisticsSupplyChain.
+     * The method prompts the user for input and updates the duration accordingly.
+     *
+     * @param supplyChain The LogisticsSupplyChain object for which the duration will be set.
+     */
+    public void setDurationInDays(LogisticsSupplyChain supplyChain) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.print("Enter the duration in days for the supply chain: ");
+        
+        // Validate input to ensure it's a positive integer
+        while (true) {
+            if (scanner.hasNextInt()) {
+                int duration = scanner.nextInt();
+                if (duration > 0) {
+                    supplyChain.setDurationInDays(duration); // Assuming a setter method exists
+                    System.out.println("Duration set successfully to " + duration + " days.");
+                    break;
+                } else {
+                    System.out.println("Duration must be a positive value. Please enter again:");
+                }
+            } else {
+                System.out.println("Invalid input. Please enter a valid number:");
+                scanner.next(); // Clear the invalid input
+            }
+        }
+    }
 
 
     /**
