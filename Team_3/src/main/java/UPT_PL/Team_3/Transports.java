@@ -17,39 +17,52 @@ public class Transports {
 	public Transports() {
 		this.transports = new ArrayList<>();
 	}
+       // search method for transport
+	private int searchTransport(int transportId) {
+		for (int i = 0; i < transports.size(); i++) {
+			if (transports.get(i).getTransportId() == (transportId)) {
+				return i;
+
+			}
+		}
+		return -1;
+	}
 
 	/**
 	 * Method to add a new Transport object to the list of transports.
 	 * 
-	 * @param transportId          The unique ID of the transport.
-	 * @param name        The name of the transport service or vehicle.
-	 * @param pricePerTon The price per ton for the transport service.
+	 * @param transportId
+	 * @param name
+	 * @param pricePerTon
 	 */
-	public void addTransport(int transportId, String name, double pricePerTon) {
-		 
-		if (transportId <= 0) {
-			System.out.println("The ID cannot be 0 or negative.");
+
+	public void addTransport() {
+		int transportId = ProjectHelper.inputInt("Input Transport ID:");
+
+		if (transportId < 0) {
+			System.out.println("The ID cannot be negative.");
+			return;
+		} else if (transportId > 999999) {
+			System.out.println("The ID cannot exceed more than 6 digits (999999).");
 			return;
 		}
-			if (String.valueOf(transportId).length() > 6) {
-				System.out.println("The Id cannot exceed more than 6 digits");
-				return;
-			}
-			for (Transport transport : transports) {
-				if (transport.getTransportId() == (transportId)) {
-					System.out.println("The Id already exists.");
-					return;
-				}
-			}
-			
+		int transportPos = searchTransport(transportId);
+
+		if (transportPos != -1) {
+			System.out.println("Country already exists with ID: " + transportId);
+		} else {
+			String name = ProjectHelper.inputStr("Input Trnasport Name: ");
+			int pricePerTon = ProjectHelper.inputInt("Input pricePerTon (must be greater than 0): ");
 			if (pricePerTon <= 0) {
-		        System.out.println("The price per ton must be a positive value.");
-		        return;
-		    }
-			
-		Transport transport = new Transport(transportId, name, pricePerTon);
-		transports.add(transport);
-		System.out.println("TransportId: " + transportId  + ", Name:" + name + ", PricePerTon" + pricePerTon + " are added to the List Succesfully.");
+				System.out.println("Price cannot be 0 or negative.");
+
+			} else {
+				Transport transport = new Transport(transportId, name, pricePerTon);
+				transports.add(transport);
+				System.out.println("TransportId: " + transportId + ", Name:" + name + ", PricePerTon" + pricePerTon
+						+ " are added to the List Succesfully.");
+			}
+		}
 	}
 
 	@Override

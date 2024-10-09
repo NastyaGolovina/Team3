@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * It provides methods to manage products and logistics sites within the country.
  */
 public class Country {
-    private int countryId;
+    private String countryId;
     private String name;
     private int population;
     private ArrayList<ProductsByCountry> products;
@@ -21,7 +21,7 @@ public class Country {
      * @param name The name of the country.
      * @param population The population of the country.
      */
-    public Country(int countryId, String name, int population) {
+    public Country(String countryId, String name, int population) {
         this.countryId = countryId;
         this.name = name;
         this.population = population;
@@ -35,7 +35,7 @@ public class Country {
      * 
      * @return The country's countryId.
      */
-    public int getCountryId() {
+    public String getCountryId() {
         return countryId;
     }
 
@@ -81,7 +81,7 @@ public class Country {
      * 
      * @param id The new ID to set for the country.
      */
-    public void setCountryId(int countryId) {
+    public void setCountryId(String countryId) {
         this.countryId = countryId;
     }
 
