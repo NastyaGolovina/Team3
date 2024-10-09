@@ -127,35 +127,4 @@ public class SupplyReceiveProductByCountry {
         }
         return null;
     }
-
-    /**
-     * Determines whether a country is a supplier or receiver of the product based on
-     * the recommended rate per person and the quantity available in that country.
-     * <p>
-     * The method compares the product quantity per person in the country to the 
-     * recommended rate. If the quantity per person is greater than the recommended rate, 
-     * the country is considered a supplier and is added to the supply list. Otherwise, 
-     * it is considered a receiver and is added to the receive list.
-     */
-    public void determineSupplierOrReceiver() {
-        for (SupplyReceiveByCountry supply : supplyByCountry) {
-            Country country = supply.getCountry();
-            double population = country.getPopulation();
-            double quantity = supply.getQuantity();
-            double recommendedRate = product.getRecommenedRate();
-
-            double quantityPerPerson = quantity / population;
-
-            // Avoid adding the same country multiple times
-            if (receiveByCountry.contains(supply) || supplyByCountry.contains(supply)) {
-                continue;
-            }
-
-            if (quantityPerPerson > recommendedRate) {
-                addToSupply(supply);
-            } else {
-                addToReceive(supply);
-            }
-        }
-    }
 }
