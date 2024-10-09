@@ -128,7 +128,7 @@ public class Country {
      * @param idProduct The ID of the product to search for.
      * @return The index of the product in the products list, or -1 if not found.
      */
-    public int searchProductByID(String idProduct) {
+    public int searchProductByID(String productId) {
     	
         for (int i = 0; i < products.size(); i++) {
             Product product = products.get(i).getProduct();
