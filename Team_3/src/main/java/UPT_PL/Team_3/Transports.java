@@ -69,4 +69,8 @@ public class Transports {
 	public String toString() {
 		return "Transports [transports=" + transports + "]"; // Return a readable string of the transport list
 	}
+	
+	public ArrayList<Transport> getTransports() {
+	    return transports;
+	}
 }
