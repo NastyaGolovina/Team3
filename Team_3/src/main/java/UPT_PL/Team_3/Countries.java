@@ -30,8 +30,24 @@ public class Countries {
         }
         return -1; 
     }
-
+    
     /**
+	 * @return the countries
+	 */
+	public ArrayList<Country> getCountries() {
+		return countries;
+	}
+
+
+	/**
+	 * @param countries the countries to set
+	 */
+	public void setCountries(ArrayList<Country> countries) {
+		this.countries = countries;
+	}
+
+
+	/**
 	 * Method to add a new country to the list of countries.
 	 * 
 	 * @param id         
