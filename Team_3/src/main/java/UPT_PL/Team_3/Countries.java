@@ -45,8 +45,8 @@ public class Countries {
         if (countryId.isEmpty()) {
             System.out.println("The ID cannot be empty.");
             return;  
-        } else if (countryId.length() > 6) {
-            System.out.println("The ID cannot exceed more than 6 characters.");
+        } else if (countryId.length() > 20) {
+            System.out.println("The ID cannot exceed more than 20 characters.");
             return; 
         }
 

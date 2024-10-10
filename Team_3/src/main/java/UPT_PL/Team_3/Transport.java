@@ -5,7 +5,7 @@ package UPT_PL.Team_3;
  * Each transport has an transportId, name, and price per ton for its service.
  */
 public class Transport {
-    private int transportId;
+    private String transportId;
     private String name;
     private double pricePerTon;
 
@@ -16,7 +16,7 @@ public class Transport {
      * @param name The name of the transport service or vehicle.
      * @param pricePerTon The price per ton for using this transport.
      */
-    public Transport(int transportId, String name, double pricePerTon) {
+    public Transport(String transportId, String name, double pricePerTon) {
         this.transportId = transportId;
         this.name = name;
         this.pricePerTon = pricePerTon;
@@ -27,7 +27,7 @@ public class Transport {
      * 
      * @return The transport ID.
      */
-    public int getTransportId() {
+    public String getTransportId() {
         return transportId;
     }
 
@@ -54,7 +54,7 @@ public class Transport {
      * 
      * @param transportId The new transportId to be assigned to the transport.
      */
-    public void setTransportId(int transportId) {
+    public void setTransportId(String transportId) {
         this.transportId = transportId;
     }
 

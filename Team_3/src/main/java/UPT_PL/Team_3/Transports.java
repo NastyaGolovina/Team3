@@ -18,9 +18,10 @@ public class Transports {
 		this.transports = new ArrayList<>();
 	}
        // search method for transport
-	private int searchTransport(int transportId) {
+	private int searchTransport(String transportId) {
 		for (int i = 0; i < transports.size(); i++) {
-			if (transports.get(i).getTransportId() == (transportId)) {
+			
+			if(transports.get(i).getTransportId().equalsIgnoreCase(transportId)) {
 				return i;
 
 			}
@@ -37,22 +38,23 @@ public class Transports {
 	 */
 
 	public void addTransport() {
-		int transportId = ProjectHelper.inputInt("Input Transport ID:");
+		String transportId = ProjectHelper.inputStr("Input Transport ID:");
 
-		if (transportId < 0) {
+		if (transportId.isEmpty()) {
 			System.out.println("The ID cannot be negative.");
 			return;
-		} else if (transportId > 999999) {
-			System.out.println("The ID cannot exceed more than 6 digits (999999).");
+		} else if (transportId.length() > 20) {
+			System.out.println("The ID cannot exceed more than 20 characters.");
 			return;
 		}
-		int transportPos = searchTransport(transportId);
+	   int transportPos = searchTransport(transportId);
 
 		if (transportPos != -1) {
 			System.out.println("Country already exists with ID: " + transportId);
 		} else {
 			String name = ProjectHelper.inputStr("Input Trnasport Name: ");
 			int pricePerTon = ProjectHelper.inputInt("Input pricePerTon (must be greater than 0): ");
+			
 			if (pricePerTon <= 0) {
 				System.out.println("Price cannot be 0 or negative.");
 
@@ -67,7 +69,7 @@ public class Transports {
 
 	@Override
 	public String toString() {
-		return "Transports [transports=" + transports + "]"; // Return a readable string of the transport list
+		return "Transports [transports=" + transports + "]"; 
 	}
 	
 	public ArrayList<Transport> getTransports() {
