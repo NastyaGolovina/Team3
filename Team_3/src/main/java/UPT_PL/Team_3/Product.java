@@ -3,7 +3,7 @@ package UPT_PL.Team_3;
 public class Product {
 private String productId;
 private String name;
-private Integer experiationIndays;
+private Integer expirationInDays;
 private double recommenedRate; 
 
 /**
@@ -12,24 +12,24 @@ private double recommenedRate;
  * @param experiationIndays
  * @param recommenedRate
  */
-public Product(String productId, String name, Integer experiationIndays, double recommenedRate) {
+public Product(String productId, String name, Integer expirationInDays, double recommenedRate) {
 	this.productId = productId;
 	this.name = name;
-	this.experiationIndays = experiationIndays;
+	this.expirationInDays = expirationInDays;
 	this.recommenedRate = recommenedRate;
 }
 
 /**
  * @return the productId
  */
-public String getProductId() {
+public String getProductID() {
 	return productId;
 }
 
 /**
  * @param productId the productId to set
  */
-public void setProductId(String productId) {
+public void setProductID(String productId) {
 	this.productId = productId;
 }
 
@@ -48,17 +48,17 @@ public void setName(String name) {
 }
 
 /**
- * @return the experiationIndays
+ * @return the expirationInDays
  */
-public Integer getExperiationIndays() {
-	return experiationIndays;
+public Integer getExpirationInDays() {
+	return expirationInDays;
 }
 
 /**
- * @param experiationIndays the experiationIndays to set
+ * @param expirationInDays the expirationInDays to set
  */
-public void setExperiationIndays(Integer experiationIndays) {
-	this.experiationIndays = experiationIndays;
+public void setExpirationInDays(Integer expirationInDays) {
+	this.expirationInDays = expirationInDays;
 }
 
 /**
@@ -77,9 +77,9 @@ public void setRecommenedRate(double recommenedRate) {
 
 @Override
 public String toString() {
-	return "Product [ProductID=" + productId + ", Name=" + name + ", ExperiationIndays=" + experiationIndays
-			+ ", Recommened Rate=" + recommenedRate + "]";
+	return "Product [productId=" + productId + ", name=" + name + ", expirationInDays=" + expirationInDays
+			+ ", recommenedRate=" + recommenedRate + "]";
 }
 
-	
+
 }

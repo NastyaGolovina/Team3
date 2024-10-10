@@ -4,9 +4,12 @@ import java.util.ArrayList;
 public class Products {
 private ArrayList<Product> ProductList;
 
+
+// constructor
 	public Products () {
 		ProductList = new ArrayList<Product>();
 		}
+// get
 	
 	/**
 	 * @return the productList
@@ -14,6 +17,8 @@ private ArrayList<Product> ProductList;
 	public ArrayList<Product> getProductList() {
 		return ProductList;
 	}
+
+	// set
 	/**
 	 * @param productList the productList to set
 	 */
@@ -21,6 +26,7 @@ private ArrayList<Product> ProductList;
 		this.ProductList = ProductList;
 		
 	}
+	
 	
 	// search for product existence 
 	// this method search through the list of products to find a specific product by the unique productId
@@ -33,9 +39,9 @@ private ArrayList<Product> ProductList;
 			i++; // increment i to move to the next element of the list to keep searching 
 			}
 		if (i != ProductList.size()) {
-			return i;
+			return i; 
 		}
-		return -1;
+		return -1; // return -1 if it is not found
 	}
 	
 	/**
@@ -45,24 +51,50 @@ private ArrayList<Product> ProductList;
 	 * @param healthyRate
 	 * addProduct
 	 */
-	
-	public void addProduct(String productId, String name,Integer experiationIndays,double healthyRate) {
-		ProductList.add(new Product(productId,name,experiationIndays,healthyRate));
-	}
+
 	
 	// more specific add product method 
+	
 	public void addProduct() {
 		String productId = ProjectHelper.inputStr("Input product ID : ");
-		int productPos = searchProduct(productId);
-		if (productPos == -1) {
-			 productId = ProjectHelper.inputStr("Input product ID: ");
-			 String name = ProjectHelper.inputStr("Input product name: ");
-			 Integer experiationIndays = ProjectHelper.inputInt("Input the number days before expiration date: ");;
-			 double recommenedRate = ProjectHelper.inputDouble("Input the recommended rate per year of that product : "); 
-         }
-		else {
+		
+		 if (productId.isEmpty()){
+			 System.out.println("The product ID can not be empty! ");
+			 return; // stop execution if ID is empty
+		 }
+		 
+		int productPos = searchProduct(productId); // Product position in the array list
+		// searchProduct by the product Id
+		if (productPos != -1) { //in case the product is not found in the list by checking its ID then print existed
+            //then move to the add product starting by name
+		                    
 			System.out.println("Product already existed");
 		}
+		
+		
+			else { // starting to add new product follow by those variables
+			 String name = ProjectHelper.inputStr("Input product name: "); 
+			   if (name.isEmpty()) {
+				   System.out.println("The product name can not be empty, please insert the name! ");
+					 return;
+			   }
+			 Integer expirationInDays = ProjectHelper.inputInt("Input the number of days before expiration date (positive number): ");
+			 if (expirationInDays <= 0) {
+				 System.out.println("The number of days before expiration date can't be negative, please insert a valid number!  ");
+				 return;
+			 }
+			 double recommenedRate = ProjectHelper.inputDouble("Input the recommended rate per year of that product : "); 
+			 if (recommenedRate <= 0) {
+				 System.out.println("The recommended rate can't be negative, please insert a valid number!  ");
+				 return;
+			 } else {
+				// after validation, then add the new product to the list,// create object and put to array list
+					Product product = new Product(productId, name, expirationInDays, recommenedRate);
+				    ProductList.add(product);
+			        System.out.println("ProductID: " + productId + ",Name:" + name +",Expiration date" + expirationInDays + "is successfully added!"  );	
+			 }
+         }
+	
 	}
 	
 	
@@ -79,44 +111,3 @@ private ArrayList<Product> ProductList;
     }
 }
 
-/* addRoad
-public void addRoad() {
-	String roadID = Main.inputStr("Input road ID : ");
-	int roadPos = municipality.searchRoad(roadID);
-	if(roadPos == -1) {
-		municipality.addRoad(new Road(roadID, Main.inputStr("Input road name : "), municipality ,
-				Main.inputDouble("Input road width (m): "), Main.inputStr("Input road type : ")));
-	} else {
-		System.out.println("Road already exist");
-	}
-}
-/**
- * add vehicle
- */
-/*public void addVehicle() {
-	String driverID = Main.inputStr("Input driver ID : ");
-	int drivePos = municipality.searchDriver(driverID);
-	Driver newDriver ;
-	if(drivePos == -1) {
-		String driverName =  Main.inputStr("Input driver name : ");
-		String driverLicense = Main.inputStr("Input driver license : ");
-		String driverEmail = Main.inputStr("Input driver email : ");
-		String driverPhone = Main.inputStr("Input driver phone : ");
-		newDriver = new Driver(driverID,driverName,driverLicense,driverEmail,driverPhone);
-	} else {
-		newDriver = municipality.getVehicleList().get(drivePos).getDriver();
-	}
-	String licensePlate = Main.inputStr("Input license plate : ");
-	int vehiclePos = municipality.searchVehicle(licensePlate);
-	if(vehiclePos == -1) {
-		String carModel = Main.inputStr("Input car model : ");
-		double length = Main.inputDouble("Input car length (m) : ");
-		double width = Main.inputDouble("Input car width (m) : ");
-		double zeroTo100 = Main.inputDouble("Input car 0 to 100 rate (s) : ");
-		Vehicle newVehicle = new Vehicle(licensePlate, carModel, length, width, zeroTo100, newDriver);
-		municipality.addVehicle(newVehicle);
-		drivePos = municipality.searchDriver(driverID);
-		municipality.getVehicleList().get(drivePos).getDriver().addVihicleInDriver(newVehicle);
-	} else {
-		System.out.println("Vehicle already exist");
-	}*/
