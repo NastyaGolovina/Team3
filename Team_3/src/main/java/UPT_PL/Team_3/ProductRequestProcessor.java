@@ -13,66 +13,87 @@ public class ProductRequestProcessor {
     private Integer curCalculationId;  // ID for the current calculation
 
     /**
-     * Default constructor to initialize the lists and set a default calculation ID.
+     * 
      */
     public ProductRequestProcessor() {
         this.productRequestByCountry = new ArrayList<>();  // Initialize product requests by country
         this.countryRequestByProducts = new ArrayList<>();  // Initialize country requests by product
         this.curCalculationId = 0;  // Initialize current calculation ID to 0
     }
-    
+  /**
+   * SupplyReceive
+   */
+    enum SupplyReceive {
+    	Supply,Receive;
+	}
+	
     /**
-     * Calculates the product needs and supply for each country based on the 
-     * recommended rate and population. It classifies countries into those that 
-     * need the product and those that can supply it.
+     * calcSuppyRequest
+     * @param products
+     * @param countries
      */
-    public void calculateProductNeedsAndSupply() {
-        for (SupplyReceiveProductByCountry supplyReceive : productRequestByCountry) {
-            Product product = supplyReceive.getProduct();  // Retrieve the product
-            double recommendedRate = product.getRecommenedRate();  // Get the recommended rate
-
-            ArrayList<SupplyReceiveByCountry> needProductCountries = new ArrayList<>();  // List of countries that need the product
-            ArrayList<SupplyReceiveByCountry> canSupplyCountries = new ArrayList<>();  // List of countries that can supply the product
-
-            for (SupplyReceiveByCountry supply : supplyReceive.getSupplyByCountry()) {
-                Country country = supply.getCountry();  // Retrieve the country
-                int population = country.getPopulation();  // Get the population of the country
-                double currentProduction = supply.getQuantity();  // Get the current product quantity
-
-                // Calculate the total required product for the country
-                double totalRequiredProduct = recommendedRate * population;
-
-                if (currentProduction < totalRequiredProduct) {
-                    // If the current product quantity is less than required — the country needs the product
-                    needProductCountries.add(supply);  // Add to the list of countries needing the product
-                } else {
-                    // If the current product quantity is greater than or equal to required — the country can supply the product
-                    canSupplyCountries.add(supply);  // Add to the list of countries that can supply the product
-                }
-            }
-
-            // Store the data in the corresponding arrays in the supplyReceive object
-            supplyReceive.setReceiveByCountry(needProductCountries);  // Countries that need the product
-            supplyReceive.setSupplyByCountry(canSupplyCountries);  // Countries that can supply the product
-        }
+    public void calcSuppyRequest(Products products,Countries countries) {
+    	for (Country country : countries.getCountries()) {
+    		SupplyReceiveCountryByProduct supplyReceiveCountryByProduct = new SupplyReceiveCountryByProduct(country);
+    		for(ProductsByCountry productByCountry : country.getProducts()) {
+    			int population = country.getPopulation();
+    			double production = productsByCountry.getProduction();
+    			double recommenedRate = productsByCountry.getProduct().getRecommenedRate(); 
+    			double totalRecommenedRate = recommenedRate * population;
+    			double Qty = 0;
+    			if((production/population) > recommenedRate ) {
+    				Qty = production - totalRecommenedRate; 
+    				supplyReceiveCountryByProduct.addToSupply(new SupplyReceiveByProduct(productsByCountry.getProduct(),Qty));
+    				addProductByCountry(country,productsByCountry.getProduct(),Qty,SupplyReceive.Supply);
+    			} else if((production/population) < recommenedRate ) {
+    				Qty = totalRecommenedRate - production; 
+    				supplyReceiveCountryByProduct.addToReceive(new SupplyReceiveByProduct(productsByCountry.getProduct(),Qty));
+    				addProductByCountry(country,productsByCountry.getProduct(),Qty,SupplyReceive.Receive);
+    			}
+    		}
+    		countryRequestByProducts.add(supplyReceiveCountryByProduct);
+    	}
     }
-    
     /**
-     * Searches for a product by its ID in the list of product requests by country.
+     * addProductByCountry
+     * @param country
+     * @param product
+     * @param Qty
+     * @param supplyReceive
+     */
+    public void addProductByCountry(Country country, Product product,double Qty, SupplyReceive supplyReceive) {
+    	int productRequestByCountryPos = searchProductById(product.getProductID());
+    	SupplyReceiveByCountry supplyReceiveByCountry = new SupplyReceiveByCountry(country,Qty);
+    	if (productRequestByCountryPos == -1) {
+    		productRequestByCountry.add(new SupplyReceiveProductByCountry(product));
+    	} 
+    	SupplyReceiveProductByCountry supplyReceiveProductByCountry = productRequestByCountry.get(searchProductById(product.getProductID()));
+    	
+    	switch(supplyReceive) {
+			case Supply :
+				supplyReceiveProductByCountry.addToSupply(supplyReceiveByCountry);
+				break;
+			case Receive :
+				supplyReceiveProductByCountry.addToReceive(supplyReceiveByCountry);
+				break;
+    	}
+    }
+ 
+    /**
+     * searchProductById
      *
      * @param productId The ID of the product to search for.
      * @return The index of the SupplyReceiveProductByCountry in the list if found; -1 otherwise.
      */
     public int searchProductById(String productId) {
-        for (int i = 0; i < productRequestByCountry.size(); i++) {
-            SupplyReceiveProductByCountry supplyReceive = productRequestByCountry.get(i);
-            Product product = supplyReceive.getProduct();  // Get the product from the current supplyReceive
-            
-            if (product.getProductId().equalsIgnoreCase(productId)) {
-                return i;  // Return the index if a match is found
-            }
-        }
-        return -1;  // Return -1 if the product is not found
+    	int i = 0;
+		 while (i < productRequestByCountry.size() && !productRequestByCountry.get(i).getProduct().getProductID().equalsIgnoreCase(productId)){
+			 i++;
+		 }
+		 if ( i != productRequestByCountry.size()) {
+			 return i;
+		 }
+		 return -1;
     }
     
     

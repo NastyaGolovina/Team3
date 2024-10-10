@@ -15,25 +15,25 @@ public class SupplyReceiveProductByCountry {
     /**
      * Default constructor that initializes the supply and receive lists as empty.
      */
-    public SupplyReceiveProductByCountry() {
-        this.supplyByCountry = new ArrayList<>();
-        this.receiveByCountry = new ArrayList<>();
-    }
+//    public SupplyReceiveProductByCountry() {
+//        this.supplyByCountry = new ArrayList<>();
+//        this.receiveByCountry = new ArrayList<>();
+//    }
+
+   
 
     /**
-     * Constructor that initializes the product and its supply and receive records.
-     * 
-     * @param product The product associated with supply and receive records.
-     * @param supplyByCountry List of supply records by country.
-     * @param receiveByCountry List of receive records by country.
-     */
-    public SupplyReceiveProductByCountry(Product product, ArrayList<SupplyReceiveByCountry> supplyByCountry, ArrayList<SupplyReceiveByCountry> receiveByCountry) {
-        this.product = product;
-        this.supplyByCountry = supplyByCountry != null ? supplyByCountry : new ArrayList<>();
-        this.receiveByCountry = receiveByCountry != null ? receiveByCountry : new ArrayList<>();
-    }
+	 * @param product
+	 */
+	public SupplyReceiveProductByCountry(Product product) {
+		this.product = product;
+		this.supplyByCountry = new ArrayList<SupplyReceiveByCountry>();
+        this.receiveByCountry = new ArrayList<SupplyReceiveByCountry>();
+	}
 
-    /**
+
+
+	/**
      * Returns the product associated with this instance.
      * 
      * @return The product.
