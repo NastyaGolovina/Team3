@@ -91,7 +91,7 @@ private ArrayList<Product> ProductList;
 				// after validation, then add the new product to the list,// create object and put to array list
 					Product product = new Product(productId, name, expirationInDays, recommenedRate);
 				    ProductList.add(product);
-			        System.out.println("ProductID: " + productId + ",Name:" + name +",Expiration date" + expirationInDays + "is successfully added!"  );	
+			        System.out.println("ProductID: " + productId + ",Name:" + name +",Expiration date" + expirationInDays +"Recommened rate " + recommenedRate +" is successfully added!"  );	
 			 }
          }
 	
