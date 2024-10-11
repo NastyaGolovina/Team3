@@ -1,6 +1,7 @@
 package UPT_PL.Team_3;
 
-public class SupplyReceiveByProduct {
+public class SupplyReceiveByProduct { // is likely another class that holds information about how products are supplied, 
+	//such as the product name, quantity, and date of supply.
 	private Product product;
 	private double quantity;
 	
