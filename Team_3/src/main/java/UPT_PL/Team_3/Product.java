@@ -95,6 +95,5 @@ public String toString() {
 			+ ", Recommended Rate=" + recommendedRate + "]";
 }
 
-
 }
 
