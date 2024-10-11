@@ -37,18 +37,18 @@ public class ProductRequestProcessor {
     		SupplyReceiveCountryByProduct supplyReceiveCountryByProduct = new SupplyReceiveCountryByProduct(country);
     		for(ProductsByCountry productByCountry : country.getProducts()) {
     			int population = country.getPopulation();
-    			double production = productsByCountry.getProduction();
-    			double recommenedRate = productsByCountry.getProduct().getRecommenedRate(); 
+    			double production = productByCountry.getProduction();
+    			double recommenedRate = productByCountry.getProduct().getRecommenedRate(); 
     			double totalRecommenedRate = recommenedRate * population;
     			double Qty = 0;
     			if((production/population) > recommenedRate ) {
     				Qty = production - totalRecommenedRate; 
-    				supplyReceiveCountryByProduct.addToSupply(new SupplyReceiveByProduct(productsByCountry.getProduct(),Qty));
-    				addProductByCountry(country,productsByCountry.getProduct(),Qty,SupplyReceive.Supply);
+    				supplyReceiveCountryByProduct.addToSupply(new SupplyReceiveByProduct(productByCountry.getProduct(),Qty));
+    				addProductByCountry(country,productByCountry.getProduct(),Qty,SupplyReceive.Supply);
     			} else if((production/population) < recommenedRate ) {
     				Qty = totalRecommenedRate - production; 
-    				supplyReceiveCountryByProduct.addToReceive(new SupplyReceiveByProduct(productsByCountry.getProduct(),Qty));
-    				addProductByCountry(country,productsByCountry.getProduct(),Qty,SupplyReceive.Receive);
+    				supplyReceiveCountryByProduct.addToReceive(new SupplyReceiveByProduct(productByCountry.getProduct(),Qty));
+    				addProductByCountry(country,productByCountry.getProduct(),Qty,SupplyReceive.Receive);
     			}
     		}
     		countryRequestByProducts.add(supplyReceiveCountryByProduct);
