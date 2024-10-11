@@ -1,85 +1,100 @@
 package UPT_PL.Team_3;
-
+/**
+ * The Product class represents products
+ * Each product contains information such as 
+ * unique productID,name, expirationInDays and recommenedRate
+ */
 public class Product {
-private String productId;
+private String productID;
 private String name;
 private Integer expirationInDays;
-private double recommenedRate; 
+private double recommendedRate; 
 
 /**
- * @param productId
- * @param name
- * @param experiationIndays
- * @param recommenedRate
+ * Constructor to initialize the Product object with the provided variables
+ * @param productID            The unique ID of the product
+ * @param name                 The name of the product
+ * @param expiriationIndays    The number of days before the product expires
+ * @param recommendedRate      The recommended rate of the product per year
  */
-public Product(String productId, String name, Integer expirationInDays, double recommenedRate) {
-	this.productId = productId;
+
+public Product(String productID, String name, Integer expirationInDays, double recommendedRate) {
+	this.productID = productID;
 	this.name = name;
 	this.expirationInDays = expirationInDays;
-	this.recommenedRate = recommenedRate;
+	this.recommendedRate = recommendedRate;
 }
 
-/**
- * @return the productId
+/** Get the unique ID of the product
+ * 
+ * @return the productID
  */
 public String getProductID() {
-	return productId;
+	return productID;
 }
 
-/**
- * @param productId the productId to set
+/** Set the unique ID of the product
+ * 
+ * @param productID the new productID to set
  */
-public void setProductID(String productId) {
-	this.productId = productId;
+public void setProductID(String productID) {
+	this.productID = productID;
 }
 
-/**
+/** Get the name of the product
+ * 
  * @return the name
  */
 public String getName() {
 	return name;
 }
 
-/**
- * @param name the name to set
+/** Set the name of the product 
+ * 
+ * @param name the new name to set
  */
 public void setName(String name) {
 	this.name = name;
 }
 
-/**
+/** Get the amount of days before the product gets expired
+ * 
  * @return the expirationInDays
  */
 public Integer getExpirationInDays() {
 	return expirationInDays;
 }
 
-/**
- * @param expirationInDays the expirationInDays to set
+/** Set the amount of days before the product gets expired
+ * 
+ * @param expirationInDays the new expirationInDays to set
  */
 public void setExpirationInDays(Integer expirationInDays) {
 	this.expirationInDays = expirationInDays;
 }
 
-/**
+/** Get the Recommend rate of that product per year 
+ * 
  * @return the recommenedRate
  */
 public double getRecommenedRate() {
-	return recommenedRate;
+	return recommendedRate;
 }
 
-/**
- * @param recommenedRate the recommenedRate to set
+/** Set the Recommend rate of that product per year 
+ * 
+ * @param recommendedRate the new recommenedRate to set
  */
-public void setRecommenedRate(double recommenedRate) {
-	this.recommenedRate = recommenedRate;
+public void setRecommendedRate(double recommendedRate) {
+	this.recommendedRate = recommendedRate;
 }
 
 @Override
 public String toString() {
-	return "Product [productId=" + productId + ", name=" + name + ", expirationInDays=" + expirationInDays
-			+ ", recommenedRate=" + recommenedRate + "]";
+	return "Product [ProductID=" + productID + ", Name=" + name + ", Expiration In Days=" + expirationInDays
+			+ ", Recommended Rate=" + recommendedRate + "]";
 }
 
 
 }
+
