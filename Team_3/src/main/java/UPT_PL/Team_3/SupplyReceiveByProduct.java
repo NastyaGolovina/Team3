@@ -1,4 +1,5 @@
 package UPT_PL.Team_3;
+
 /** This SupplyReceiveByProduct class represents supply or receive record for a specific product
  *  It contains information about the product and the quantity of that product
  */
@@ -56,6 +57,5 @@ public class SupplyReceiveByProduct {
 		return "SupplyReceiveByProduct [product=" + product + ", quantity=" + quantity + "]";
 	}
 	
-
 }
 
