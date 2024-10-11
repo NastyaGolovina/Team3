@@ -8,6 +8,7 @@ import java.util.ArrayList;
  * It also calculates supply requests based on given countries and products.
  */
 public class ProductRequestProcessor {
+	//	Instance variable
     private ArrayList<SupplyReceiveProductByCountry> productRequestByCountry;  // List of product requests by country
     private ArrayList<SupplyReceiveCountryByProduct> countryRequestByProducts;  // List of country requests by product
     private Integer curCalculationId;  // ID for the current calculation

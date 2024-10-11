@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class LogisticsProcessor {
+	//	Instance variable
 	private ArrayList<RouteLine> logisticsRoutes;
 	
 	public LogisticsProcessor() {
