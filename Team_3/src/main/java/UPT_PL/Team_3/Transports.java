@@ -28,6 +28,15 @@ public class Transports {
 		}
 		return -1; // return -1 if not found
 	}
+	
+	/** Set the list of transports
+	 * 
+	 * @param TransportList the new transport to set
+	 */
+		public void setTransportsList(ArrayList<Transport> TransportList) {
+			this.transports = TransportList;
+			
+		}
 
 	/**
 	 * Method to add a new Transport object to the list of transports.

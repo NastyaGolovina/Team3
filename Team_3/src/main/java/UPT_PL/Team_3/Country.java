@@ -133,7 +133,7 @@ public class Country {
         for (int i = 0; i < products.size(); i++) {
             Product product = products.get(i).getProduct();
             
-            if (product.getProductId().equalsIgnoreCase(productId)) {
+            if (product.getProductID().equalsIgnoreCase(productId)) {
                 return i;  // Return the index if a match is found
             }
         }
