@@ -14,7 +14,17 @@ public class LogisticsSupplyChains {
     public LogisticsSupplyChains() {
         this.supplyChains = new ArrayList<>(); // Create a new empty list for supply chains
     }
-
+    /**
+     * addNewSupplyChain overloading
+     * @param logisticsSupplyChain
+     */
+    public void addNewSupplyChain(LogisticsSupplyChain logisticsSupplyChain) {
+    	supplyChains.add(logisticsSupplyChain);
+    }
+    /**
+     * addNewSupplyChain overloading
+     * @param countries
+     */
     public void addNewSupplyChain(Countries countries) {
         // 1. Enter the ID for the new Supply Chain
         // Using String type because we compare it with getChainId, which returns a String
