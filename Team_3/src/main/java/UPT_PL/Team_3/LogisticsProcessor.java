@@ -38,11 +38,23 @@ public class LogisticsProcessor {
 	public String toString() {
 		return "LogisticsProcessor [logisticsRoutes=" + logisticsRoutes + "]";
 	}
-	
-	public void printLogisticsProcessor() {
+	/**
+	 * printLogisticsProcessorCSV
+	 * print in CSV format
+	 */
+	public void printLogisticsProcessorCSV() {
 		System.out.println(RouteLine.CSVHeder());
 		for(RouteLine routeLine : logisticsRoutes) {
 			System.out.println(routeLine.toCSV());
+		}
+	}
+	
+	/**
+	 * printLogisticsProcessor
+	 */
+	public void printLogisticsProcessor() {
+		for(RouteLine routeLine : logisticsRoutes) {
+			System.out.println(routeLine);
 		}
 	}
 	
