@@ -1,23 +1,26 @@
 package UPT_PL.Team_3;
+import java.io.Serializable;
+import java.util.UUID;
 
-public class ProductsByCountry {
-private String productByCountryId;
+public class ProductsByCountry implements Serializable {
+private UUID productByCountryId;
 private Product product; //Associated with Product Class
 private double production;
 private double price;
 
-	public ProductsByCountry(String productByCountryId, Product product, double production, double price) {
-	this.productByCountryId = productByCountryId;
+
+	public ProductsByCountry(Product product, double production, double price) {
+	this.productByCountryId = UUID.randomUUID();
 	this.product = product;
 	this.production = production;
 	this.price = price;
 }
 
-	public String getProductByCountryId() {
+	public UUID getProductByCountryId() {
 		return productByCountryId;
 	}
 
-	public void setProductByCountryId(String productByCountryId) {
+	public void setProductByCountryId(UUID productByCountryId) {
 		this.productByCountryId = productByCountryId;
 	}
 

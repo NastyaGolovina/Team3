@@ -39,7 +39,12 @@ public class LogisticsProcessor {
 		return "LogisticsProcessor [logisticsRoutes=" + logisticsRoutes + "]";
 	}
 	
-	//print
+	public void printLogisticsProcessor() {
+		System.out.println(RouteLine.CSVHeder());
+		for(RouteLine routeLine : logisticsRoutes) {
+			System.out.println(routeLine.toCSV());
+		}
+	}
 	
 	public void addRouteLine(RouteLine newRouteLine) {
 		logisticsRoutes.add(newRouteLine);
@@ -69,80 +74,12 @@ public class LogisticsProcessor {
 									.getProductRequestByCountry()
 									.get(productPos)
 									.getSupplyByCountry();
-							int g = 0;
-							for(int a = 0; a < SupplyByCountryArrayList.size(); a++) {
-								ArrayList<SupplyReceiveByCountry> SupplyByCountryCopy = (ArrayList<SupplyReceiveByCountry>) SupplyByCountryArrayList.clone();
-
-								List<List<SupplyReceiveByCountry>> combinations = createCombination(SupplyByCountryCopy,
-										new ArrayList<SupplyReceiveByCountry>() ,
-										a+1);
-								ArrayList<ArrayList<SupplyReceiveByCountry>> allCombinations = new ArrayList<>();
-
-								for (List<SupplyReceiveByCountry> combination : combinations) {
-						            ArrayList<SupplyReceiveByCountry> comboList = new ArrayList<>(combination);
-						            allCombinations.add(comboList); 
-						        }
-
-								
-						        for (ArrayList<SupplyReceiveByCountry> combo : allCombinations) {
-						        	SupplyCombination supplyCombination = new SupplyCombination(String.valueOf(g));
-						        	double request = supplyReceiveByProduct.getQuantity();
-						        	QtyComparator sortQty = new QtyComparator();
-									Collections.sort(combo,sortQty);
-									
-									for(SupplyReceiveByCountry el : combo) {
-										SupplyReceiveByCountry supplier;
-										if(el.getQuantity() < request) {
-											supplier = new SupplyReceiveByCountry(el.getCountry(),el.getQuantity());
-											request -= el.getQuantity();
-										} else {
-											supplier = new SupplyReceiveByCountry(el.getCountry(),request);
-											request = 0;
-										}
-										supplyCombination.addSupplyReceiveByCountry(supplier);		
-									}
-									if(request == 0) {
-										supplyCombination.setCovered(true);
-									}
-									supplyCombinations.addSupplyCombination(supplyCombination);
-									g++;
-						        }
-							}	
 							
-							for(SupplyCombination receiver : supplyCombinations.getSupplyCombinations()) {
-								for(SupplyReceiveByCountry variant : receiver.getSupplyList()) {
-									for(LogisticsSupplyChain way : logisticsSupplyChains.getSupplyChains()) {
-										RouteLine newRouteLine;
-										if(way.getReceiver().getCountry().getName().equals(supplyCombinations.getCountry().getName())) {
-											if(way.getSender().getCountry().getName().equals(variant.getCountry().getName())) {
-												String routeLineID = supplyCombinations.getSupplyCombinationsID() 
-																		+ '.' + receiver.getSupplyCombinationID() 
-																		+ '.' + way.getChainId();
-												int pos = supplyCombinations.getCountry().searchProductByID(supplyCombinations.getProduct().getProductID());
-												if(pos != -1) {
-													double amountProduct = supplyCombinations.getCountry().getProducts().get(productPos).getPrice() * variant.getQuantity();
-													double amountTransport = way.getCostPerTon() * variant.getQuantity();
-													double totalAmount = amountProduct + amountTransport;
-													newRouteLine = new RouteLine(routeLineID, 
-															way.getSender().getCountry(), 
-															way.getSender(),
-															way.getReceiver().getCountry(),
-															way.getReceiver(), supplyCombinations.getProduct(),
-															way.getTransport(),
-															variant.getQuantity(), 
-															amountProduct, 
-															amountTransport, 
-															totalAmount,way.getDurationInDays() ,
-															receiver.isCovered());
-													logisticsRoutes.add(newRouteLine);
-												}
-												
-		 									}
-										}
-									}
-								}
-							}
+							VarianceCalculator(SupplyByCountryArrayList,supplyReceiveByProduct,supplyCombinations);
+							
+							WayCalculator(supplyCombinations, logisticsSupplyChains, productPos,supplyReceiveByProduct.getQuantity());
 						}
+						k++;
 					}
 				}
 			}
@@ -180,9 +117,125 @@ public class LogisticsProcessor {
 			return true;
 		}
 	}
-	
-	
 	/**
+	 * VarianceCalculator
+	 * @param SupplyByCountryArrayList
+	 * @param supplyReceiveByProduct
+	 * @param supplyCombinations
+	 */
+	private void VarianceCalculator(ArrayList<SupplyReceiveByCountry> SupplyByCountryArrayList ,SupplyReceiveByProduct supplyReceiveByProduct, SupplyCombinations supplyCombinations) {
+		int g = 0;
+		for(int a = 0; a < SupplyByCountryArrayList.size(); a++) {
+			ArrayList<SupplyReceiveByCountry> SupplyByCountryCopy = (ArrayList<SupplyReceiveByCountry>) SupplyByCountryArrayList.clone();
+
+			List<List<SupplyReceiveByCountry>> combinations = createCombination(SupplyByCountryCopy,
+					new ArrayList<SupplyReceiveByCountry>() ,
+					a+1);
+			ArrayList<ArrayList<SupplyReceiveByCountry>> allCombinations = new ArrayList<>();
+
+			for (List<SupplyReceiveByCountry> combination : combinations) {
+	            ArrayList<SupplyReceiveByCountry> comboList = new ArrayList<>(combination);
+	            allCombinations.add(comboList); 
+	        }
+
+			
+	        for (ArrayList<SupplyReceiveByCountry> combo : allCombinations) {
+	        	SupplyCombination supplyCombination = new SupplyCombination(String.valueOf(g));
+	        	double request = supplyReceiveByProduct.getQuantity();
+	        	QtyComparator sortQty = new QtyComparator();
+				Collections.sort(combo,sortQty);
+				
+				for(SupplyReceiveByCountry el : combo) {
+					SupplyReceiveByCountry supplier;
+					if(el.getQuantity() < request) {
+						supplier = new SupplyReceiveByCountry(el.getCountry(),el.getQuantity());
+						request -= el.getQuantity();
+					} else {
+						supplier = new SupplyReceiveByCountry(el.getCountry(),request);
+						request = 0;
+					}
+					supplyCombination.addSupplyReceiveByCountry(supplier);		
+				}
+				if(request == 0) {
+					supplyCombination.setCovered(true);
+				}
+				supplyCombinations.addSupplyCombination(supplyCombination);
+				g++;
+	        }
+		}	
+	}
+	/**
+	 * WayCalculator
+	 * @param supplyCombinations
+	 * @param logisticsSupplyChains
+	 * @param productPos
+	 */
+	public void WayCalculator(SupplyCombinations supplyCombinations,LogisticsSupplyChains logisticsSupplyChains, int productPos, double request ) {
+		for(SupplyCombination receiver : supplyCombinations.getSupplyCombinations()) {
+			for(SupplyReceiveByCountry variant : receiver.getSupplyList()) {
+				double MinTotalAmount = 0;
+				String MinVersion = "";
+				for(LogisticsSupplyChain way : logisticsSupplyChains.getSupplyChains()) {
+					RouteLine newRouteLine;
+					if(way.getReceiver().getCountry().getName().equals(supplyCombinations.getCountry().getName())) {
+						if(way.getSender().getCountry().getName().equals(variant.getCountry().getName())) {
+							
+							String version = supplyCombinations.getSupplyCombinationsID() 
+													+ '.' + receiver.getSupplyCombinationID() 
+													+ '.' + way.getChainId();
+							int pos = supplyCombinations.getCountry().searchProductByID(supplyCombinations.getProduct().getProductID());
+							if(pos != -1) {
+								double amountProduct = supplyCombinations.getCountry().getProducts().get(productPos).getPrice() * variant.getQuantity();
+								double amountTransport = way.getCostPerTon() * variant.getQuantity();
+								double totalAmount = amountProduct + amountTransport;
+								if((MinTotalAmount > totalAmount) || (MinVersion.equals(""))) {
+									MinTotalAmount = totalAmount;
+									MinVersion = version;
+								}
+								newRouteLine = new RouteLine(version, 
+										way.getSender().getCountry(), 
+										way.getSender(),
+										way.getReceiver().getCountry(),
+										way.getReceiver(), 
+										supplyCombinations.getProduct(),
+										way.getTransport(),
+										variant.getQuantity(),
+										request,
+										amountProduct, 
+										amountTransport, 
+										totalAmount,
+										way.getDurationInDays() ,
+										receiver.isCovered());
+								logisticsRoutes.add(newRouteLine);
+							}	
+						}
+					}
+				
+				}
+				int versionPos = searchRouteLine(MinVersion);
+				if(versionPos != -1) {
+					logisticsRoutes.get(versionPos).setOptimalChain(true);
+				}
+			}
+		}
+	}
+	/**
+	 * searchRouteLine
+	 * @param version
+	 * @return  RouteLine position or -1
+	 */
+	public int searchRouteLine(String version) {
+		int i = 0;
+		while (i < logisticsRoutes.size() && !logisticsRoutes.get(i).getVersion().equalsIgnoreCase(version)) {
+			i++;
+		}
+		if (i != logisticsRoutes.size()) {
+			return i;
+		}
+		return -1;
+	}
+	  
+ 	/**
 	 * createCombination
 	 * @param source
 	 * @param comb
