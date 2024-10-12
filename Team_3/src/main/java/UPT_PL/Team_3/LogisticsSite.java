@@ -122,7 +122,7 @@ public class LogisticsSite {
 	 * @param name        The name of the transport.
 	 * @param pricePerTon The price per ton of the transport service.
 	 */
-	public void addSuppliedTransport(int id, String name, double pricePerTon) {
+	public void addSuppliedTransport(String id, String name, double pricePerTon) {
 		Transport transport = new Transport(id, name, pricePerTon);
 		suppliedTransports.add(transport);
 	}
