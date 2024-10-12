@@ -1,17 +1,21 @@
 package UPT_PL.Team_3;
 
 import java.util.ArrayList;
-
+import java.util.UUID;
+import java.io.Serializable;
 /**
  * The ProductRequestProcessor class manages supply requests by processing data for products
  * and countries, storing product requests by country and country requests by product.
  * It also calculates supply requests based on given countries and products.
  */
-public class ProductRequestProcessor {
+public class ProductRequestProcessor implements Serializable {
+
 	//	Instance variable
     private ArrayList<SupplyReceiveProductByCountry> productRequestByCountry;  // List of product requests by country
     private ArrayList<SupplyReceiveCountryByProduct> countryRequestByProducts;  // List of country requests by product
-    private Integer curCalculationId;  // ID for the current calculation
+    private UUID curCalculationId;  // ID for the current calculation
+    
+
 
     /**
      * 
@@ -19,7 +23,7 @@ public class ProductRequestProcessor {
     public ProductRequestProcessor() {
         this.productRequestByCountry = new ArrayList<>();  // Initialize product requests by country
         this.countryRequestByProducts = new ArrayList<>();  // Initialize country requests by product
-        this.curCalculationId = 0;  // Initialize current calculation ID to 0
+        this.curCalculationId = UUID.randomUUID();  // Initialize current calculation ID to 0
     }
   /**
    * SupplyReceive
@@ -142,7 +146,7 @@ public class ProductRequestProcessor {
      * 
      * @return The current calculation ID as an Integer.
      */
-    public Integer getCurCalculationId() {
+    public UUID getCurCalculationId() {
         return curCalculationId;
     }
 
@@ -151,7 +155,7 @@ public class ProductRequestProcessor {
      * 
      * @param curCalculationId The current calculation ID to set.
      */
-    public void setCurCalculationId(Integer curCalculationId) {
+    public void setCurCalculationId(UUID curCalculationId) {
         this.curCalculationId = curCalculationId;
     }
 }
