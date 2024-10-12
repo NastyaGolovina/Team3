@@ -152,4 +152,11 @@ public class Country {
         sites.add(logisticsite);
     }
 
+	@Override
+	public String toString() {
+		return "Country [countryId=" + countryId + ", name=" + name + ", population=" + population + ", products="
+				+ products + ", sites=" + sites + "]";
+	}
+
+    
 }

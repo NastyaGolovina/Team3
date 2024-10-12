@@ -148,4 +148,12 @@ public class LogisticsSupplyChain {
     public boolean isLogisticsSitesValid() {
         return sender != null && receiver != null;
     }
+
+	@Override
+	public String toString() {
+		return "LogisticsSupplyChain [chainId=" + chainId + ", sender=" + sender + ", receiver=" + receiver
+				+ ", transport=" + transport + ", costPerTon=" + costPerTon + ", durationInDays=" + durationInDays
+				+ "]";
+	}
+    
 }
