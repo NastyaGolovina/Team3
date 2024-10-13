@@ -60,4 +60,32 @@ public class ProjectHelper {
         }
         return line;
     }
+    /**
+     * printTypes
+     */
+    public static void printTypes() {
+    	System.out.println("(1) - All countries");
+    	System.out.println("(2) - Country");
+    	System.out.println("(3) - Product");
+    }
+
+    
+    /**
+     * printTypes
+     */
+    public static void showMenuInfo() {
+    	System.out.println("\n******************************");
+    	System.out.println("(0) - Exsit");
+    	System.out.println("(1) - Add product");
+    	System.out.println("(2) - Add country");
+    	System.out.println("(3) - Add transport");
+    	System.out.println("(4) - Add logistics site to country");
+    	System.out.println("(5) - Add product to country");
+    	System.out.println("(6) - Add logistics supply chain");
+    	System.out.println("(7) - Calculate supply request");
+    	System.out.println("(8) - Calculate logistics route");
+    	System.out.println("(9) - Print RouteLines");
+    	System.out.println("\n******************************");
+    }
+	
 }
