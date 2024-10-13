@@ -1,10 +1,9 @@
 
 package UPT_PL.Team_3;
 
-import java.io.Serializable;
 import java.util.UUID;
 
-public class RouteLine implements Serializable {
+public class RouteLine {
 	//	Instance variable
 	private UUID  routeLineID;
 	private String version;

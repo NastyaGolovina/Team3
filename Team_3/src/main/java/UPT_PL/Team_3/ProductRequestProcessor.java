@@ -1,14 +1,14 @@
 package UPT_PL.Team_3;
 
 import java.util.ArrayList;
+
 import java.util.UUID;
-import java.io.Serializable;
 /**
  * The ProductRequestProcessor class manages supply requests by processing data for products
  * and countries, storing product requests by country and country requests by product.
  * It also calculates supply requests based on given countries and products.
  */
-public class ProductRequestProcessor implements Serializable {
+public class ProductRequestProcessor {
 
 	//	Instance variable
     private ArrayList<SupplyReceiveProductByCountry> productRequestByCountry;  // List of product requests by country

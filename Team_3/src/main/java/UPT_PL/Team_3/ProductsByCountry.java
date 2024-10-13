@@ -1,8 +1,8 @@
 package UPT_PL.Team_3;
-import java.io.Serializable;
+
 import java.util.UUID;
 
-public class ProductsByCountry implements Serializable {
+public class ProductsByCountry {
 private UUID productByCountryId;
 private Product product; //Associated with Product Class
 private double production;

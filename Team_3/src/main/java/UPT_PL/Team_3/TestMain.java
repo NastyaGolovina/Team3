@@ -143,7 +143,7 @@ public class TestMain {
 		LogisticsProcessor logisticsProcessor = new LogisticsProcessor();
 		logisticsProcessor.calcLogisticsRoute(productRequestProcessor, thisChains, LogisticsProcessor.CalcType.AllCountry, "");
 		logisticsProcessor.printLogisticsProcessorCSV();
-		thisProducts.displayProducts();
+//		thisProducts.displayProducts();
 	}
 
 }
