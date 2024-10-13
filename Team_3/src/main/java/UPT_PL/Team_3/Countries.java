@@ -22,7 +22,7 @@ public class Countries {
 
 	
 	// Method to search for a country by ID
-    private int searchCountry(String countryId) {
+    public int searchCountry(String countryId) {
         for (int i = 0; i < countries.size(); i++) {
             if (countries.get(i).getCountryId().equalsIgnoreCase(countryId)) {
                 return i; 

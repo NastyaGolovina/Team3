@@ -37,7 +37,7 @@ public class ProductRequestProcessor implements Serializable {
      * @param products
      * @param countries
      */
-    public void calcSuppyRequest(Products products,Countries countries) {
+    public void calcSupplyRequest(Products products,Countries countries) {
     	for (Country country : countries.getCountries()) {
     		SupplyReceiveCountryByProduct supplyReceiveCountryByProduct = new SupplyReceiveCountryByProduct(country);
     		for(ProductsByCountry productByCountry : country.getProducts()) {

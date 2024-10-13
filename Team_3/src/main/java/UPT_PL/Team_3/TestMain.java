@@ -138,7 +138,7 @@ public class TestMain {
 		
 		
 		ProductRequestProcessor productRequestProcessor = new ProductRequestProcessor();
-		productRequestProcessor.calcSuppyRequest(thisProducts, thisCountries);
+		productRequestProcessor.calcSupplyRequest(thisProducts, thisCountries);
 		
 		LogisticsProcessor logisticsProcessor = new LogisticsProcessor();
 		logisticsProcessor.calcLogisticsRoute(productRequestProcessor, thisChains, LogisticsProcessor.CalcType.AllCountry, "");
