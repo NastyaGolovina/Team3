@@ -11,7 +11,7 @@ package UPT_PL.Team_3;
 //import jakarta.persistence.GenerationType;
 //import jakarta.persistence.Id;
 //import jakarta.persistence.Table;
-
+//add annotation 
 public class Product {
 private String productID;
 private String name;
