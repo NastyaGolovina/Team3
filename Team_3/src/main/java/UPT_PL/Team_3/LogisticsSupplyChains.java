@@ -127,6 +127,21 @@ public class LogisticsSupplyChains {
 	public void setSupplyChains(ArrayList<LogisticsSupplyChain> supplyChains) {
 		this.supplyChains = supplyChains;
 	}
+	
+	 /**
+     * Displays all logistics supply chains.
+     * If the list of supply chains is empty, it will display a message indicating
+     * no supply chains are available.
+     */
+    public void displayAll() {
+        if (supplyChains.isEmpty()) {
+            System.out.println("No supply chains available.");
+        } else {
+            for (LogisticsSupplyChain chain : supplyChains) {
+                System.out.println(chain);
+            }
+        }
+    }
 
   
 }
