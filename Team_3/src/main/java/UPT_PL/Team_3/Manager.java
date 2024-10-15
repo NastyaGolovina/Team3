@@ -113,4 +113,8 @@ public class Manager {
 	public void printRouteLines() {
 		logisticsProcessor.printLogisticsProcessor();
 	}
+	
+	
+	// print Product
+	// print LSC
 }
