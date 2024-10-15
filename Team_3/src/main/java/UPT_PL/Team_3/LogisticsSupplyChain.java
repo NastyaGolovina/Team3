@@ -29,6 +29,12 @@ public class LogisticsSupplyChain {
         this.costPerTon = costPerTon;
         this.durationInDays = durationInDays;
     }
+    
+    public LogisticsSupplyChain() {
+    	
+    }
+    
+    
 
     /**
      * Gets the unique identifier of the supply chain.

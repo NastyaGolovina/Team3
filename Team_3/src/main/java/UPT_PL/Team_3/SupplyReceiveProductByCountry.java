@@ -19,6 +19,10 @@ public class SupplyReceiveProductByCountry {
 //        this.supplyByCountry = new ArrayList<>();
 //        this.receiveByCountry = new ArrayList<>();
 //    }
+    
+    public SupplyReceiveProductByCountry() {
+    	
+    }
 
    
 

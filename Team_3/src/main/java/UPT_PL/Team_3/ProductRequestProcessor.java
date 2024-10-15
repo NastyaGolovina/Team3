@@ -25,6 +25,9 @@ public class ProductRequestProcessor {
         this.countryRequestByProducts = new ArrayList<>();  // Initialize country requests by product
         this.curCalculationId = UUID.randomUUID();  // Initialize current calculation ID to 0
     }
+    
+  
+
   /**
    * SupplyReceive
    */
