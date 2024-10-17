@@ -114,7 +114,17 @@ public class Manager {
 		logisticsProcessor.printLogisticsProcessor();
 	}
 	
+	/**
+	 * printProducts
+	 */
+	public void printProducts() {
+		products.displayProducts();
+	}
+	/**
+	 * printLogisticsSupplyChain
+	 */
+	public void printLogisticsSupplyChain() {
+		logisticsSupplyChains.displayAll();
+	}
 	
-	// print Product
-	// print LSC
 }

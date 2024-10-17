@@ -53,6 +53,14 @@ public class Main {
             	/** Print RouteLines **/
             	manager.printRouteLines();
                 break;
+            case 10:
+            	/** Print Products **/
+            	manager.printProducts();
+                break;
+            case 11:
+            	/**Print Logistics Supply Chains **/
+            	manager.printLogisticsSupplyChain();
+                break;
             default:
                 System.out.println("Invalid request");
             } 
