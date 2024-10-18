@@ -175,7 +175,7 @@ public class Country {
         System.out.println("Name: " + name);
         System.out.println("Population: " + population);
         
-        // Display products
+        // Display products.
         if (products.isEmpty()) {
             System.out.println("No products available.");
         } else {

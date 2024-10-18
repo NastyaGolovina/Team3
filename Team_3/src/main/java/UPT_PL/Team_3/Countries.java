@@ -64,7 +64,7 @@ public class Countries {
             String name = ProjectHelper.inputStr("Input Country Name: ");
             int population = ProjectHelper.inputInt("Input Population (must be greater than 0): ");
 
-            // Validate population
+            // Validate Population
             while (population <= 0) {
                 System.out.println("Population must be greater than 0. Please try again.");
                 population = ProjectHelper.inputInt("Input Population: ");
