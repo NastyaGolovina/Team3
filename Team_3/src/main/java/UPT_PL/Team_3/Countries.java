@@ -6,23 +6,20 @@ import java.util.ArrayList;
  * The Countries class represents a collection of Country objects. It provides
  * methods to manage and add new countries to the list.
  */
-
 public class Countries {
-	// List to hold all Country objects
-	private ArrayList<Country> countries;
+    // List to hold all Country objects
+    private ArrayList<Country> countries;
 
-	/**
-	 * Constructor to initialize the Countries object with an empty list of
-	 * countries.
-	 */
+    /**
+     * Constructor to initialize the Countries object with an empty list of
+     * countries.
+     */
+    public Countries() {
+        countries = new ArrayList<>();
+    }
 
-	public Countries() {
-		countries = new ArrayList<Country>();
-	}
-
-	
-	// Method to search for a country by ID
-    public int searchCountry(String countryId) {
+    // Method to search for a country by ID
+    int searchCountry(String countryId) {
         for (int i = 0; i < countries.size(); i++) {
             if (countries.get(i).getCountryId().equalsIgnoreCase(countryId)) {
                 return i; 
@@ -30,35 +27,28 @@ public class Countries {
         }
         return -1; 
     }
-    
+
     /**
-	 * @return the countries
-	 */
-	public ArrayList<Country> getCountries() {
-		return countries;
-	}
+     * @return the list of countries
+     */
+    public ArrayList<Country> getCountries() {
+        return countries;
+    }
 
+    /**
+     * @param countries the list of countries to set
+     */
+    public void setCountries(ArrayList<Country> countries) {
+        this.countries = countries;
+    }
 
-	/**
-	 * @param countries the countries to set
-	 */
-	public void setCountries(ArrayList<Country> countries) {
-		this.countries = countries;
-	}
-
-
-	/**
-	 * Method to add a new country to the list of countries.
-	 * 
-	 * @param id         
-	 * @param name       
-	 * @param population 
-	 */
-    
-	public void addCountry() {
+    /**
+     * Method to add a new country to the list of countries.
+     */
+    public void addCountry() {
         String countryId = ProjectHelper.inputStr("Input Country ID: ");
 
-        if (countryId.isEmpty()) {
+        if (countryId.isEmpty()) {  
             System.out.println("The ID cannot be empty.");
             return;  
         } else if (countryId.length() > 20) {
@@ -87,9 +77,8 @@ public class Countries {
         }
     }
 
-	@Override
-	public String toString() {
-		return "Countries [countries=" + countries + "]";
-	}
-
+    @Override
+    public String toString() {
+        return "Countries [countries=" + countries + "]";
+    }
 }
