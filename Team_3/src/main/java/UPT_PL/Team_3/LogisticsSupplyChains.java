@@ -11,13 +11,13 @@ public class LogisticsSupplyChains {
     /**
      * Constructor that initializes an empty list of supply chains and accepts logistics sites and transports.
      */
-    //public LogisticsSupplyChains() {
-      //  this.supplyChains = new ArrayList<>(); // Create a new empty list for supply chains
-    //}
-    
     public LogisticsSupplyChains() {
-       
+        this.supplyChains = new ArrayList<>(); // Create a new empty list for supply chains
     }
+    
+//    public LogisticsSupplyChains() {
+//       
+//    }
     
     /**
      * addNewSupplyChain overloading

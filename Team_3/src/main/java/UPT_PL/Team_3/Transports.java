@@ -18,6 +18,20 @@ public class Transports {
     }
 
     /**
+	 * @return the transports
+	 */
+	public ArrayList<Transport> getTransports() {
+		return transports;
+	}
+
+	/**
+	 * @param transports the transports to set
+	 */
+	public void setTransports(ArrayList<Transport> transports) {
+		this.transports = transports;
+	}
+
+	/**
      * Searches for a transport by its ID.
      * 
      * @param transportId The ID of the transport to search for.
@@ -31,7 +45,8 @@ public class Transports {
         }
         return -1; // Return -1 if not found
     }
-
+    
+  
     /**
      * Method to add a new Transport object to the list of transports.
      */
@@ -102,4 +117,12 @@ public class Transports {
     public ArrayList<Transport> getTransportList() {
         return transports;
     }
+
+	@Override
+	public String toString() {
+		return "Transports [transports=" + transports + "]";
+	}
+    
+    
 }
+

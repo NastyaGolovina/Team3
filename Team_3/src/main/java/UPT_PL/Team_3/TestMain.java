@@ -21,7 +21,7 @@ public class TestMain {
 		thisTransportList.add(transportAIR);
 		Transport transportSEA = new Transport("SEA", "Sea transport", 45.55);
 		thisTransportList.add(transportSEA);
-		thisTransports.setTransportsList(thisTransportList);
+		thisTransports.setTransports(thisTransportList);
 		
 		Countries thisCountries = new Countries();
 		
