@@ -11,10 +11,6 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 public class DatabaseHelper {
 	protected SessionFactory sessionFactory;
 	
-	
-	/**
-	 * 
-	 */
 	public DatabaseHelper() {
 	}
 
