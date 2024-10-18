@@ -18,6 +18,20 @@ public class Transports {
     }
 
     /**
+	 * @return the transports
+	 */
+	public ArrayList<Transport> getTransports() {
+		return transports;
+	}
+
+	/**
+	 * @param transports the transports to set
+	 */
+	public void setTransports(ArrayList<Transport> transports) {
+		this.transports = transports;
+	}
+
+	/**
      * Searches for a transport by its ID.
      * 
      * @param transportId The ID of the transport to search for.
