@@ -65,7 +65,7 @@ public class LogisticsSite {
     /**
      * Adds a new transport to the list of supplied transports for the logistics site.
      *
-     * @param transports The list of available transports to choose from.
+     * @param transports The list of available transports to choose 
      */
     public void addSuppliedTransport(Transports transports) {
        ArrayList<Transport> allTransports = transports.getTransportList();  // Updated to fetch the list, not display
