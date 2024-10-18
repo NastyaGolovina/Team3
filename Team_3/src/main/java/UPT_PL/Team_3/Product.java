@@ -5,18 +5,32 @@ package UPT_PL.Team_3;
  * unique productID,name, expirationInDays and recommenedRate
  */
 
-//import jakarta.persistence.Column;
-//import jakarta.persistence.Entity;
-//import jakarta.persistence.GeneratedValue;
-//import jakarta.persistence.GenerationType;
-//import jakarta.persistence.Id;
-//import jakarta.persistence.Table;
-//add annotation 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+// Use the @Entity and @Table annotations before the class to map it to the table:
+@Entity
+@Table (name = "Product")
+
 public class Product {
 private String productID;
 private String name;
 private Integer expirationInDays;
 private double recommendedRate; 
+
+
+/**
+ *  no arguments constructor
+ */
+
+public Product() {
+	
+}
+
 
 /**
  * Constructor to initialize the Product object with the provided variables
@@ -32,6 +46,11 @@ public Product(String productID, String name, Integer expirationInDays, double r
 	this.expirationInDays = expirationInDays;
 	this.recommendedRate = recommendedRate;
 }
+
+@Id                                                    //The @Id annotation tells Hibernate that this is the ID column of the table
+@Column(name = "Product_ID")                             // @Column annotation maps the field to a column in database table
+@GeneratedValue(strategy = GenerationType.IDENTITY)  // @GeneratedValue annotation tells Hibernates that this ID column is auto-increment
+
 
 /** Get the unique ID of the product
  * 
@@ -102,6 +121,6 @@ public String toString() {
 	return "Product [ProductID=" + productID + ", Name=" + name + ", Expiration In Days=" + expirationInDays
 			+ ", Recommended Rate=" + recommendedRate + "]";
 }
-
+ 
 }
 
