@@ -45,7 +45,8 @@ public class Transports {
         }
         return -1; // Return -1 if not found
     }
-
+    
+  
     /**
      * Method to add a new Transport object to the list of transports.
      */
@@ -116,4 +117,12 @@ public class Transports {
     public ArrayList<Transport> getTransportList() {
         return transports;
     }
+
+	@Override
+	public String toString() {
+		return "Transports [transports=" + transports + "]";
+	}
+    
+    
 }
+
