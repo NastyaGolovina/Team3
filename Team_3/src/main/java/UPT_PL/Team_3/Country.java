@@ -107,17 +107,12 @@ public class Country {
                 System.out.println("Invalid choice. Please choose a valid product number or 0 to exit.");
             } else {
             	Product product = allProducts.get(intputUser - 1);
-            	
-            	if (this.products.contains(product)) {
-                    System.out.println("Transport is already supplied by this logistics site.");
-                } else {
-                	double production = ProjectHelper.inputDouble("Enter the production quantity: ");
-                    double price = ProjectHelper.inputDouble("Enter the price of the product: ");
-                    // Create a new ProductsByCountry object
-                    ProductsByCountry newProductByCountry = new ProductsByCountry(product, production, price);
-                    this.products.add(newProductByCountry);
-                    System.out.println("Product " + product.getName() + " added successfully.");
-                } 
+            	double production = ProjectHelper.inputDouble("Enter the production quantity: ");
+                double price = ProjectHelper.inputDouble("Enter the price of the product: ");
+                // Create a new ProductsByCountry object
+                ProductsByCountry newProductByCountry = new ProductsByCountry(product, production, price);
+                this.products.add(newProductByCountry);
+                System.out.println("Product " + product.getName() + " added successfully.");
             }
 
             // Allow user to exit by checking for zero at this point
