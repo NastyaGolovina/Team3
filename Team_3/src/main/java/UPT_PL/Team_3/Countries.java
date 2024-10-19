@@ -81,4 +81,18 @@ public class Countries {
     public String toString() {
         return "Countries [countries=" + countries + "]";
     }
+    
+    /**
+	 *  Method to display the countries
+	 */
+    public void displayCountries() {
+        if (countries.isEmpty()) {
+            System.out.println("The countries list is empty.");
+        } else {
+            System.out.println("List of countries:");
+            for (Country country : countries) {
+                System.out.println(country);
+            }
+        }
+    }
 }
