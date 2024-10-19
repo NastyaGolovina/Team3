@@ -50,7 +50,7 @@ public class Manager {
 			CountryPos = countries.searchCountry(ProjectHelper.inputStr("Input country id :"));
 		}
 		
-		//countries.getCountries().get(CountryPos).addLogisticSite();
+		countries.getCountries().get(CountryPos).addLogisticsSite(transports, countries.getCountries());
 	}
 	
 	public void addProductsToCountry() {
@@ -61,7 +61,7 @@ public class Manager {
 			CountryPos = countries.searchCountry(ProjectHelper.inputStr("Input country id :"));
 		}
 		
-		//countries.getCountries().get(CountryPos).addProductByCountry();
+		countries.getCountries().get(CountryPos).addProductByCountry(products);;
 	}
 	/**
 	 * addLogisticsSupplyChain
@@ -126,5 +126,16 @@ public class Manager {
 	public void printLogisticsSupplyChain() {
 		logisticsSupplyChains.displayAll();
 	}
-	
+	/**
+	 * printCountries
+	 */
+	public void printCountries() {
+		countries.displayCountries();
+	}
+	/**
+	 * printTransports
+	 */
+	public void printTransports() {
+		transports.displayTransports();
+	}
 }

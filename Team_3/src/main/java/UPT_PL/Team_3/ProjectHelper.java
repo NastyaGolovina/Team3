@@ -87,6 +87,8 @@ public class ProjectHelper {
     	System.out.println("(9) - Print RouteLines");
     	System.out.println("(10) - Print Products");
     	System.out.println("(11) - Print Logistics Supply Chains");
+    	System.out.println("(12) - Print Countries");
+    	System.out.println("(13) - Print Transports");
     	System.out.println("\n******************************");
     }
 	

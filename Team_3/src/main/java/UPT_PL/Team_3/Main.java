@@ -61,6 +61,14 @@ public class Main {
             	/**Print Logistics Supply Chains **/
             	manager.printLogisticsSupplyChain();
                 break;
+            case 12:
+            	/**Print Countries **/
+            	manager.printCountries();
+                break;
+            case 13:
+            	/**Print Transports **/
+            	manager.printTransports();
+                break;
             default:
                 System.out.println("Invalid request");
             } 
