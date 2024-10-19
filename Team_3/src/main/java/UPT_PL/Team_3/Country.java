@@ -103,18 +103,21 @@ public class Country {
         int intputUser = ProjectHelper.inputInt("Select the product number to add (or choose 0 to exit): ");
 
         while (intputUser != 0) {
-            if (intputUser < 1 || intputUser >= allProducts.size()) {
+            if (intputUser < 1 || intputUser > allProducts.size()) {
                 System.out.println("Invalid choice. Please choose a valid product number or 0 to exit.");
             } else {
-                Product product = allProducts.get(intputUser - 1);
-                double production = ProjectHelper.inputDouble("Enter the production quantity: ");
-                double price = ProjectHelper.inputDouble("Enter the price of the product: ");
-
-                // Create a new ProductsByCountry object
-                ProductsByCountry newProductByCountry = new ProductsByCountry(product, production, price);
-                this.products.add(newProductByCountry);
-
-                System.out.println("Product " + product.getName() + " added successfully.");
+            	Product product = allProducts.get(intputUser - 1);
+            	
+            	if (this.products.contains(product)) {
+                    System.out.println("Transport is already supplied by this logistics site.");
+                } else {
+                	double production = ProjectHelper.inputDouble("Enter the production quantity: ");
+                    double price = ProjectHelper.inputDouble("Enter the price of the product: ");
+                    // Create a new ProductsByCountry object
+                    ProductsByCountry newProductByCountry = new ProductsByCountry(product, production, price);
+                    this.products.add(newProductByCountry);
+                    System.out.println("Product " + product.getName() + " added successfully.");
+                } 
             }
 
             // Allow user to exit by checking for zero at this point
@@ -197,8 +200,22 @@ public class Country {
             for (LogisticsSite site : sites) {
                 System.out.println(" - Site ID: " + site.getSiteId() 
                     + ", Name: " + site.getName());
+                if (site.getSuppliedTransports().isEmpty()) {
+                    System.out.println("No supplied transports available.");
+                } else {
+                    System.out.println("Supplied Transports:");
+                    for (Transport transport : site.getSuppliedTransports()) {
+                        System.out.println(transport);
+                    }
+                }
             }
         }
     }
+
+	@Override
+	public String toString() {
+		return "Country [countryId=" + countryId + ", name=" + name + ", population=" + population + "]";
+	}
+    
     
 }

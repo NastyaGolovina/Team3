@@ -91,7 +91,7 @@ public class Countries {
         } else {
             System.out.println("List of countries:");
             for (Country country : countries) {
-                System.out.println(country);
+                country.displayCountryDetails();
             }
         }
     }

@@ -78,7 +78,7 @@ public class LogisticsSite {
         int userChoice = ProjectHelper.inputInt("Select the transport number to add (or choose 0 to exit): ");
 
         while (userChoice != 0) {
-            if (userChoice < 1 || userChoice >= allTransports.size()) {
+            if (userChoice < 1 || userChoice > allTransports.size()) {
                 System.out.println("Invalid choice. Please choose a valid transport number or 0 to exit.");
             } else {
                 Transport selectedTransport = allTransports.get(userChoice - 1);
