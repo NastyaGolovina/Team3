@@ -21,7 +21,6 @@ private double price;
 	this.production = production;
 	this.price = price;
 }
-
 	@Id                                                    //The @Id annotation tells Hibernate that this is the ID column of the table
 	@Column(name = "ProductsByCountry_ID")                             // @Column annotation maps the field to a column in database table
 	@GeneratedValue(strategy = GenerationType.IDENTITY)  // @GeneratedValue annotation tells Hibernates that this ID column is auto-increment
