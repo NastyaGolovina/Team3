@@ -1,13 +1,10 @@
 package UPT_PL.Team_3;
 
 import java.util.ArrayList;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.OneToMany;
+import java.util.List;
+
+import org.hibernate.Session;
+
 
 /**
  * The Products class represents a collection/list of Product objects. It
@@ -16,33 +13,9 @@ import jakarta.persistence.OneToMany;
  */
 
 public class Products {
-// variable
+	// variable
 	private ArrayList<Product> ProductList; // list name ProductList to store all of the products from Product class
-	protected SessionFactory sessionFactory;
 
-	/**
-	 * to load Hibernate SessionFactory with settings loaded from hibernate.cfg.xml
-	 */
-	protected void setup() {
-		// code to load Hibernate Session factory
-		final StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure() // configures settings
-																									// from
-																									// hibernate.cfg.xml
-				.build();
-		try {
-			sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
-		} catch (Exception ex) {
-			StandardServiceRegistryBuilder.destroy(registry);
-		}
-
-	}
-
-	protected void exit() {
-// code to close Hibernate Session factory
-		if (sessionFactory != null) {
-			sessionFactory.close();
-		}
-	}
 
 	/**
 	 * Constructor to initialize the Products object with an empty list of products
@@ -51,10 +24,6 @@ public class Products {
 	public Products() {
 		ProductList = new ArrayList<Product>();
 	}
-
-	// ONE-TO-MANY relationship with ProductsByCountry
-
-	@OneToMany(mappedBy = "products", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 
 	/**
 	 * Get the list of the product
@@ -162,6 +131,16 @@ public class Products {
 				// put to array list
 				Product product = new Product(productId, name, expirationInDays, recommenedRate);
 				ProductList.add(product);
+				DatabaseHelper DatabaseHelper = new DatabaseHelper();
+			    DatabaseHelper.setup();
+			    Session session = DatabaseHelper.getSessionFactory().openSession();
+			    session.beginTransaction();
+				
+				session.persist(product);
+				
+				session.getTransaction().commit();
+				session.close();
+				DatabaseHelper.exit();
 				System.out.println("ProductID: " + productId + ",Name:" + name + ",Expiration date" + expirationInDays
 						+ "Recommened rate " + recommenedRate + " is successfully added!");
 			}
@@ -185,6 +164,7 @@ public class Products {
 
 	}
 
+	
 	/**
 	 * Method to display the ProductList
 	 * 
@@ -199,4 +179,20 @@ public class Products {
 			}
 		}
 	}
+	/*
+	 * Read all products with Jplq and put in ProductList
+	 */
+	protected void readAllProductsWithJplq() {
+    	DatabaseHelper DatabaseHelper = new DatabaseHelper();
+	    DatabaseHelper.setup();
+	    Session session = DatabaseHelper.getSessionFactory().openSession();	
+		
+	    
+	    List<Product> products = session.createQuery("SELECT p FROM Product p",Product.class).getResultList();
+    	
+    	ProductList = (ArrayList<Product>)products;
+	    
+		session.close();
+		DatabaseHelper.exit();
+    }
 }

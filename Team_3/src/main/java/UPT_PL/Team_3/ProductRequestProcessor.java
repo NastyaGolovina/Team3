@@ -46,7 +46,7 @@ public class ProductRequestProcessor {
     		for(ProductsByCountry productByCountry : country.getProducts()) {
     			int population = country.getPopulation();
     			double production = productByCountry.getProduction();
-    			double recommenedRate = productByCountry.getProduct().getRecommenedRate(); 
+    			double recommenedRate = productByCountry.getProduct().getRecommendedRate(); 
     			double totalRecommenedRate = recommenedRate * population;
     			double Qty = 0;
     			if((production/population) > recommenedRate ) {

@@ -8,7 +8,7 @@ public class Main {
 		
 		/** Create Manager **/
 		Manager manager = new Manager();
-				
+		manager.readFromDB();		
 		/** Input command **/
 		int command = ProjectHelper.inputInt("Input command : ");
 		

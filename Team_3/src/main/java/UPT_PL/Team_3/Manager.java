@@ -2,12 +2,12 @@ package UPT_PL.Team_3;
 
 public class Manager {
 	//	Instance variable
-	Products products;
-	Countries countries;
-	Transports transports;
-	LogisticsSupplyChains logisticsSupplyChains;
-	ProductRequestProcessor productRequestProcessor;
-	LogisticsProcessor logisticsProcessor;
+	private Products products;
+	private Countries countries;
+	private Transports transports;
+	private LogisticsSupplyChains logisticsSupplyChains;
+	private ProductRequestProcessor productRequestProcessor;
+	private LogisticsProcessor logisticsProcessor;
 	
 	/**
 	 * Constructor
@@ -19,6 +19,97 @@ public class Manager {
 		this.logisticsSupplyChains = new LogisticsSupplyChains();
 		this.productRequestProcessor = new ProductRequestProcessor();
 		this.logisticsProcessor = new LogisticsProcessor();
+	}
+
+	/**
+	 * @return the products
+	 */
+	public Products getProducts() {
+		return products;
+	}
+
+	/**
+	 * @param products the products to set
+	 */
+	public void setProducts(Products products) {
+		this.products = products;
+	}
+
+	/**
+	 * @return the countries
+	 */
+	public Countries getCountries() {
+		return countries;
+	}
+
+	/**
+	 * @param countries the countries to set
+	 */
+	public void setCountries(Countries countries) {
+		this.countries = countries;
+	}
+
+	/**
+	 * @return the transports
+	 */
+	public Transports getTransports() {
+		return transports;
+	}
+
+	/**
+	 * @param transports the transports to set
+	 */
+	public void setTransports(Transports transports) {
+		this.transports = transports;
+	}
+
+	/**
+	 * @return the logisticsSupplyChains
+	 */
+	public LogisticsSupplyChains getLogisticsSupplyChains() {
+		return logisticsSupplyChains;
+	}
+
+	/**
+	 * @param logisticsSupplyChains the logisticsSupplyChains to set
+	 */
+	public void setLogisticsSupplyChains(LogisticsSupplyChains logisticsSupplyChains) {
+		this.logisticsSupplyChains = logisticsSupplyChains;
+	}
+
+	/**
+	 * @return the productRequestProcessor
+	 */
+	public ProductRequestProcessor getProductRequestProcessor() {
+		return productRequestProcessor;
+	}
+
+	/**
+	 * @param productRequestProcessor the productRequestProcessor to set
+	 */
+	public void setProductRequestProcessor(ProductRequestProcessor productRequestProcessor) {
+		this.productRequestProcessor = productRequestProcessor;
+	}
+
+	/**
+	 * @return the logisticsProcessor
+	 */
+	public LogisticsProcessor getLogisticsProcessor() {
+		return logisticsProcessor;
+	}
+
+	/**
+	 * @param logisticsProcessor the logisticsProcessor to set
+	 */
+	public void setLogisticsProcessor(LogisticsProcessor logisticsProcessor) {
+		this.logisticsProcessor = logisticsProcessor;
+	}
+	
+	/**
+	 * read all date from DB
+	 */
+	public void readFromDB() {
+		products.readAllProductsWithJplq();;
 	}
 	
 	/**
