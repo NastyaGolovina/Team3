@@ -20,7 +20,7 @@
 		<!--        <property name="hibernate.hbm2ddl.auto">update</property>-->
         
         <!-- Automatically create DB -->
-        <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
         
         <!-- Set the annotated classes (inform the complete namespace) -->
         <mapping class="UPT_PL.Team_3.Country" />
