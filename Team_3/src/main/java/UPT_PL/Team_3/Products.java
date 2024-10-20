@@ -1,7 +1,6 @@
 package UPT_PL.Team_3;
 
 import java.util.ArrayList;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;

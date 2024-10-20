@@ -31,7 +31,6 @@ public Product() {
 	
 }
 
-
 /**
  * Constructor to initialize the Product object with the provided variables
  * @param productID            The unique ID of the product
