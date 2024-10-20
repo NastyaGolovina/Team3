@@ -23,8 +23,8 @@ private Integer expirationInDays;
 private double recommendedRate; 
 
 
-/**
- *  no arguments constructor
+/** 
+ *  no arguments constructor,so that hibernate can build the object from the database table 
  */
 
 public Product() {

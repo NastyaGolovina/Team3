@@ -1,22 +1,60 @@
 package UPT_PL.Team_3;
 
 import java.util.ArrayList;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
 
 /**
  * The Products class represents a collection/list of Product objects. It
  * provides methods to add new product to the list , to search and manage the collection.
  */
+
  
 public class Products {
 // variable
 private ArrayList<Product> ProductList; // list name ProductList to store all of the products from Product class
+protected SessionFactory sessionFactory;
+
+/**
+ * to load Hibernate SessionFactory with settings loaded from hibernate.cfg.xml
+ */
+protected void setup() {
+	 // code to load Hibernate Session factory
+	 final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+			 .configure() // configures settings from hibernate.cfg.xml
+			 .build();
+			 try {
+			 sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+			 } catch (Exception ex) {
+			 StandardServiceRegistryBuilder.destroy(registry);
+			}
+			 
+}
+protected void exit() {
+// code to close Hibernate Session factory
+	 if (sessionFactory != null) {
+	        sessionFactory.close();
+	    }
+}
 
 /** Constructor to initialize the Products object with an empty list of products
  * 
- */
+ */ 
 	public Products () {
 		ProductList = new ArrayList<Product>();
 		}
+	
+	
+	// ONE-TO-MANY relationship  with ProductsByCountry 
+
+	@OneToMany(mappedBy = "products", cascade = CascadeType.ALL, fetch = FetchType.LAZY )
+	
 	
 /** Get the list of the product
 * 
@@ -105,6 +143,23 @@ private ArrayList<Product> ProductList; // list name ProductList to store all of
          }
 	
 	}
+	
+	/** This method builds a string that represents all the Product objects in the ProductList
+	 * call the toString method in Products class
+	 */
+	
+@Override
+public String toString() {
+	   String st = "Product List: \n";
+	   for (Product product: ProductList) {
+		   st += "" + product + "\n";
+		   
+	   }
+	   return st; //Return the complete string after the loop
+		 
+	 }
+	
+		
 	
 	/** Method to display the ProductList
 	 * 
