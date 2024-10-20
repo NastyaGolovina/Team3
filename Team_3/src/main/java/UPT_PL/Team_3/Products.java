@@ -93,6 +93,23 @@ protected void exit() {
 		return -1; // return -1 if it is not found
 	}
 	
+	 /**
+	  *  Method to check if a Product ID already exists (case-insensitive)
+	  *  using boolean type equalsIgnoreCase method 
+	  *  checks if two strings are equal, ignoring whether the characters are uppercase or lowercase.
+	  * @param productID
+	  * @return
+	  */
+	
+    public boolean isProductIDUnique(String productID) {
+        for (Product product : ProductList) {
+            if (product.getProductID().equalsIgnoreCase(productID)) {
+                return false; // ID is not unique
+            }
+        }
+        return true; // ID is unique
+    }
+	
 	/** Method to add new product to the ProductList
 	 * 
 	 * @param idPoroduct
