@@ -18,7 +18,7 @@ public class DatabaseCreator {
              Statement statement = connection.createStatement()) {
 
             
-            statement.executeUpdate("CREATE DATABASE Team_3");
+            statement.executeUpdate("CREATE DATABASE IF NOT EXISTS Team_3");
             System.out.println("Database created!");
 
         } catch (SQLException e) {
