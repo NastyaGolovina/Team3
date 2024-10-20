@@ -100,25 +100,39 @@ public class Country {
             System.out.println("(" + (i + 1) + ") " + allProducts.get(i).toString());
         }
 
-        int intputUser = ProjectHelper.inputInt("Select the product number to add (or choose 0 to exit): ");
+        int inputUser = ProjectHelper.inputInt("Select the product number to add (or choose 0 to exit): ");
 
-        while (intputUser != 0) {
-            if (intputUser < 1 || intputUser > allProducts.size()) {
+        while (inputUser != 0) {
+            if (inputUser < 1 || inputUser > allProducts.size()) {
                 System.out.println("Invalid choice. Please choose a valid product number or 0 to exit.");
             } else {
-            	Product product = allProducts.get(intputUser - 1);
-            	double production = ProjectHelper.inputDouble("Enter the production quantity: ");
+                Product product = allProducts.get(inputUser - 1);
+                double production = ProjectHelper.inputDouble("Enter the production quantity: ");
                 double price = ProjectHelper.inputDouble("Enter the price of the product: ");
+
                 // Create a new ProductsByCountry object
                 ProductsByCountry newProductByCountry = new ProductsByCountry(product, production, price);
-                this.products.add(newProductByCountry);
-                System.out.println("Product " + product.getName() + " added successfully.");
+
+                // Check if a product with the same name already exists in ProductsByCountry
+                boolean exists = false;
+                for (ProductsByCountry existingProduct : this.products) {
+                    if (existingProduct.getProduct().getName().equals(product.getName())) {
+                        exists = true;
+                        break;
+                    }
+                }
+
+                if (exists) {
+                    System.out.println("The product '" + product.getName() + "' already exists in the country.");
+                } else {
+                    this.products.add(newProductByCountry);
+                    System.out.println("Product " + product.getName() + " added successfully.");
+                }
             }
 
-            // Allow user to exit by checking for zero at this point
-            intputUser = ProjectHelper.inputInt("Select the product number to add (or choose 0 to exit): ");
+            inputUser = ProjectHelper.inputInt("Select the product number to add (or choose 0 to exit): ");
         }
-        System.out.println("Product adding process finished.");
+        System.out.println("Product Addition Process Completed.");
     }
 
 
