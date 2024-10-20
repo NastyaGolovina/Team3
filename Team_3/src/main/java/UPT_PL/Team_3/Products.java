@@ -14,7 +14,6 @@ import jakarta.persistence.OneToMany;
  * provides methods to add new product to the list , to search and manage the collection.
  */
 
- 
 public class Products {
 // variable
 private ArrayList<Product> ProductList; // list name ProductList to store all of the products from Product class
