@@ -15,10 +15,10 @@ public class SupplyReceiveProductByCountry {
     /**
      * Default constructor that initializes the supply and receive lists as empty.
      */
-    public SupplyReceiveProductByCountry() {
-        this.supplyByCountry = new ArrayList<>();
-        this.receiveByCountry = new ArrayList<>();
-    }
+//    public SupplyReceiveProductByCountry() {
+//        this.supplyByCountry = new ArrayList<>();
+//        this.receiveByCountry = new ArrayList<>();
+//    }
     
   
 
