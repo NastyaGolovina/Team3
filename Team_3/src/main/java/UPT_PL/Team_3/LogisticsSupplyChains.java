@@ -37,7 +37,7 @@ public class LogisticsSupplyChains {
      
         // Check for ID uniqueness
         for (LogisticsSupplyChain chain : supplyChains) {
-            if (chain.getChainId().equals(chainId)) {
+            if (chain.getChainId().equalsIgnoreCase(chainId)) {
                 System.out.println("Error: A Supply Chain with this ID already exists.");
                 return; // Exit the method if the ID already exists
             }
