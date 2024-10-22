@@ -136,7 +136,7 @@ public class Country {
                 double price = ProjectHelper.inputDouble("Enter the price of the product: ");
 
                 // Create a new ProductsByCountry object
-                ProductsByCountry newProductByCountry = new ProductsByCountry(product, production, price);
+                ProductsByCountry newProductByCountry = new ProductsByCountry(product, production, price, this);
 
                 // Check if a product with the same name already exists in ProductsByCountry
                 boolean exists = false;

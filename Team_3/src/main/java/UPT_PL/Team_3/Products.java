@@ -127,6 +127,7 @@ public class Products {
 				System.out.println("The recommended rate can't be negative, please insert a valid number!  ");
 				return;
 			} else {
+				
 				// after validation, then add the new product to the list,// create object and
 				// put to array list
 				Product product = new Product(productId, name, expirationInDays, recommenedRate);

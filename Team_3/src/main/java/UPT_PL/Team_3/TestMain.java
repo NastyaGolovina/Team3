@@ -70,6 +70,7 @@ public class TestMain {
 		countryPT.setProducts(productsByCountryPTList);
 		thisCountryList.add(countryPT);
 		
+		
 		// Algeria
 		Country countryDZ = new Country("DZ", "Algeria", 44000000);
 		// country sites
