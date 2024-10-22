@@ -1,14 +1,32 @@
 package UPT_PL.Team_3;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+
 /**
  * The Transport class represents a transport service.
  * Each transport has an ID, name, and price per ton for its service.
  */
+@Entity
+@Table(name = "Transports")
 public class Transport {
+    @Id
+    @Column(name = "Transport_Id", length = 20, nullable = false)
     private String transportId;
+    @Column(name = "name", length = 20, nullable = false)
     private String name;
+    @Column(name = "Price_Per_Ton", nullable = false)
     private double pricePerTon;
 
+    /**
+     * Default constructor required by JPA.
+     */
+    public Transport() {
+    }
+    
     /**
      * Constructor to initialize the Transport object with the provided parameters.
      * 

@@ -1,6 +1,9 @@
 package UPT_PL.Team_3;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.Session;
 
 /**
  * The Transports class represents a collection of Transport objects. It
@@ -74,6 +77,18 @@ public class Transports {
             } else {
                 Transport transport = new Transport(transportId, name, pricePerTon);
                 transports.add(transport);
+                
+                DatabaseHelper DatabaseHelper = new DatabaseHelper();
+                DatabaseHelper.setup();
+                Session session = DatabaseHelper.getSessionFactory().openSession();
+                session.beginTransaction();
+                
+                session.persist(transport);
+                
+                session.getTransaction().commit();
+                session.close();
+                DatabaseHelper.exit();
+                
                 System.out.println("Transport ID: " + transportId + ", Name: " + name + ", PricePerTon: " + pricePerTon
                         + " added to the list successfully.");
             }
@@ -122,7 +137,20 @@ public class Transports {
 	public String toString() {
 		return "Transports [transports=" + transports + "]";
 	}
-    
+    /**
+     * readAllTransportsWithJplq
+     */
+	protected void readAllTransportsWithJplq() {
+    	DatabaseHelper DatabaseHelper = new DatabaseHelper();
+    	DatabaseHelper.setup();
+    	Session session = DatabaseHelper.getSessionFactory().openSession();
+    	
+    	List<Transport> transports = session.createQuery("SELECT t FROM Transport t",Transport.class).getResultList();
+    	this.transports = (ArrayList<Transport>)transports;
+    	
+    	session.close();
+    	DatabaseHelper.exit();
+    }
     
 }
 

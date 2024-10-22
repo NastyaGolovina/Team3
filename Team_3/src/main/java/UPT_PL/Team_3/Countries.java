@@ -1,6 +1,9 @@
 package UPT_PL.Team_3;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.Session;
 
 /**
  * The Countries class represents a collection of Country objects. It provides
@@ -73,6 +76,18 @@ public class Countries {
             // Create and add new Country object
             Country newCountry = new Country(countryId, name, population);
             countries.add(newCountry);
+            
+            DatabaseHelper DatabaseHelper = new DatabaseHelper();
+			DatabaseHelper.setup();
+			Session session = DatabaseHelper.getSessionFactory().openSession();
+			session.beginTransaction();
+
+			session.persist(newCountry);
+
+			session.getTransaction().commit();
+			session.close();
+			DatabaseHelper.exit();
+			
             System.out.println("Country added successfully: " + newCountry);
         }
     }
@@ -94,5 +109,18 @@ public class Countries {
                 country.displayCountryDetails();
             }
         }
+    }
+    
+    protected void readAllCountriesWithJplq() {
+    	DatabaseHelper DatabaseHelper = new DatabaseHelper();
+    	DatabaseHelper.setup();
+    	Session session = DatabaseHelper.getSessionFactory().openSession();
+    	
+    	List<Country> countries = session.createQuery("SELECT c FROM Country c",Country.class).getResultList();
+    	
+    	this.countries = (ArrayList<Country>)countries;
+    	
+    	session.close();
+    	DatabaseHelper.exit();
     }
 }

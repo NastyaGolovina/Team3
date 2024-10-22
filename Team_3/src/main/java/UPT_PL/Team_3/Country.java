@@ -2,16 +2,37 @@ package UPT_PL.Team_3;
 
 import java.util.ArrayList;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+
 /**
  * The Country class represents a country with a countryId, name, population, products, and logistics sites.
  * It provides methods to manage products and logistics sites within the country.
  */
+@Entity
+@Table(name = "Countries")
 public class Country {
+    @Id
+    @Column(name = "Country_Id", length = 20, nullable = false)
     private String countryId;
+    @Column(name = "name", length = 20, nullable = false)
     private String name;
+    @Column(name = "population", nullable = false)
     private int population;
+    
+    @Transient
     private ArrayList<ProductsByCountry> products; 
-    private ArrayList<LogisticsSite> sites; 
+    @Transient
+    private ArrayList<LogisticsSite> sites;  
+    
+    /**
+     * Default constructor required by JPA.
+     */
+    public Country() {
+    }
     
     /**
      * Constructor to initialize a Country object with the provided countryId, name, and population.
