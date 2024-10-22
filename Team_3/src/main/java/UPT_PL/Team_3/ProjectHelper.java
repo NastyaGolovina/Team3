@@ -75,7 +75,7 @@ public class ProjectHelper {
      */
     public static void showMenuInfo() {
     	System.out.println("\n******************************");
-    	System.out.println("(0) - Exsit");
+    	System.out.println("(0) - Exit");
     	System.out.println("(1) - Add product");
     	System.out.println("(2) - Add country");
     	System.out.println("(3) - Add transport");
