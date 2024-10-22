@@ -41,7 +41,7 @@ public class TestMain {
 		countryUKR.setSites(sitesUKR);
 		//country products
 		ArrayList<ProductsByCountry> productsByCountryUKRList = new ArrayList<ProductsByCountry>();
-		ProductsByCountry productByCountryUKR = new ProductsByCountry(productGrain, 500000000.00, 218.00);
+		ProductsByCountry productByCountryUKR = new ProductsByCountry(productGrain, 500000000.00, 218.00,countryUKR);
 		productsByCountryUKRList.add(productByCountryUKR);
 		countryUKR.setProducts(productsByCountryUKRList);
 		thisCountryList.add(countryUKR);
@@ -63,9 +63,9 @@ public class TestMain {
 		countryPT.setSites(sitesPT);
 		//country products
 		ArrayList<ProductsByCountry> productsByCountryPTList = new ArrayList<ProductsByCountry>();
-		ProductsByCountry productByCountryPT = new ProductsByCountry(productGrain, 10000000, 5.00);
+		ProductsByCountry productByCountryPT = new ProductsByCountry(productGrain, 10000000, 5.00,countryPT);
 		productsByCountryPTList.add(productByCountryPT);
-		productByCountryPT = new ProductsByCountry(productMeat, 2000000, 5000);
+		productByCountryPT = new ProductsByCountry(productMeat, 2000000, 5000,countryPT);
 		productsByCountryPTList.add(productByCountryPT);
 		countryPT.setProducts(productsByCountryPTList);
 		thisCountryList.add(countryPT);
@@ -86,9 +86,9 @@ public class TestMain {
 		countryDZ.setSites(sitesDZ);
 		// country products
 		ArrayList<ProductsByCountry> productsByCountryDZList = new ArrayList<ProductsByCountry>();
-		ProductsByCountry productByCountryDZ = new ProductsByCountry(productGrain, 10000000, 200);
+		ProductsByCountry productByCountryDZ = new ProductsByCountry(productGrain, 10000000, 200,countryDZ);
 		productsByCountryDZList.add(productByCountryDZ);
-		productByCountryDZ = new ProductsByCountry(productMeat, 500000, 3700);
+		productByCountryDZ = new ProductsByCountry(productMeat, 500000, 3700,countryDZ);
 		productsByCountryDZList.add(productByCountryDZ);
 		countryDZ.setProducts(productsByCountryDZList);
 		thisCountryList.add(countryDZ);
@@ -108,9 +108,9 @@ public class TestMain {
 		countryVN.setSites(sitesVN);
 		// country products
 		ArrayList<ProductsByCountry> productsByCountryVNList = new ArrayList<ProductsByCountry>();
-		ProductsByCountry productByCountryVN = new ProductsByCountry(productGrain, 120000000, 280.00);
+		ProductsByCountry productByCountryVN = new ProductsByCountry(productGrain, 120000000, 280.00,countryVN);
 		productsByCountryVNList.add(productByCountryVN);
-		productByCountryVN = new ProductsByCountry(productMeat, 10000000, 4500);
+		productByCountryVN = new ProductsByCountry(productMeat, 10000000, 4500,countryVN);
 		productsByCountryVNList.add(productByCountryVN);
 		countryVN.setProducts(productsByCountryVNList);
 		thisCountryList.add(countryVN);
