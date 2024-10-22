@@ -252,9 +252,9 @@ public class Country {
                 if (site.getSuppliedTransports().isEmpty()) {
                     System.out.println("No supplied transports available.");
                 } else {
-                    System.out.println("Supplied Transports:");
+                    System.out.println("  - Supplied Transports:");
                     for (Transport transport : site.getSuppliedTransports()) {
-                        System.out.println(transport);
+                        System.out.println("   >" + transport);
                     }
                 }
             }
