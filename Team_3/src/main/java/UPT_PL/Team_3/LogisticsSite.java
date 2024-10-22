@@ -1,17 +1,46 @@
 package UPT_PL.Team_3;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 /**
  * The LogisticsSite class represents a logistics site in a specific country,
  * which manages and supplies various types of transport.
  */
+@Entity
+@Table(name = "LogisticsSites")
 public class LogisticsSite {
+	@Id                                                    
+	@Column(name = "Site_Id",length = 20, nullable = false)
     private String siteId;
+	@Column(name = "Name",length = 20, nullable = false)
     private String name;
+	@ManyToOne
+	@JoinColumn(name = "Country_Id")
     private Country country;
-    private ArrayList<Transport>suppliedTransports; 
-
+	@ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(
+        name = "SuppliedTransport",
+        joinColumns = @JoinColumn(name = "Site_Id"), 
+        inverseJoinColumns = @JoinColumn(name = "Transport_Id") 
+    )
+    private List<Transport>suppliedTransports; 
+	
+	
+	
+    public LogisticsSite() {
+    	suppliedTransports = new ArrayList<Transport>();
+	}
     /**
      * Constructor to initialize the LogisticsSite object with the provided
      * parameters.
@@ -41,8 +70,8 @@ public class LogisticsSite {
         return country;
     }
 
-    public ArrayList<Transport> getSuppliedTransports() {
-        return suppliedTransports;
+    public List<Transport> getSuppliedTransports() {
+        return new ArrayList<>(suppliedTransports);
     }
 
     // Setters

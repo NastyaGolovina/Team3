@@ -112,6 +112,7 @@ public class Manager {
 		products.readAllProductsWithJplq();
 		countries.readAllCountriesWithJplq();
 		transports.readAllTransportsWithJplq();
+		countries.readAllLogisticsSitesWithJplq();
 	}
 	
 	/**

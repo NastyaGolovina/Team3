@@ -3,6 +3,7 @@ package UPT_PL.Team_3;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 
 /**
@@ -111,6 +112,10 @@ public class Countries {
         }
     }
     
+    /**
+     * Method to read all countries from the database and update the countries list.
+     * @return A list of Country objects read from the database.
+     */
     protected void readAllCountriesWithJplq() {
     	DatabaseHelper DatabaseHelper = new DatabaseHelper();
     	DatabaseHelper.setup();
@@ -119,6 +124,32 @@ public class Countries {
     	List<Country> countries = session.createQuery("SELECT c FROM Country c",Country.class).getResultList();
     	
     	this.countries = (ArrayList<Country>)countries;
+    	
+    	session.close();
+    	DatabaseHelper.exit();
+    }
+    /**
+     * readAllLogisticsSitesWithJplq
+     */
+    protected void readAllLogisticsSitesWithJplq() {
+    	DatabaseHelper DatabaseHelper = new DatabaseHelper();
+    	DatabaseHelper.setup();
+    	Session session = DatabaseHelper.getSessionFactory().openSession();
+    	
+    	List<LogisticsSite> sites = session.createQuery("SELECT l FROM LogisticsSite l",LogisticsSite.class).getResultList();
+    	
+
+        for (LogisticsSite l : sites) {
+            Hibernate.initialize(l.getSuppliedTransports());
+        }
+    	
+		for(Country c : this.countries) {
+			for(LogisticsSite l : sites) {
+				if(l.getCountry().getCountryId().equalsIgnoreCase(c.getCountryId())) {
+					c.addLogisticsSite(l);
+				}
+			}
+    	}
     	
     	session.close();
     	DatabaseHelper.exit();

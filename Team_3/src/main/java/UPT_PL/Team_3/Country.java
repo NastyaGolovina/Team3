@@ -2,6 +2,8 @@ package UPT_PL.Team_3;
 
 import java.util.ArrayList;
 
+import org.hibernate.Session;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -157,8 +159,12 @@ public class Country {
         }
         System.out.println("Product Addition Process Completed.");
     }
-
-
+    /*
+     * addLogisticsSite
+     */
+    public void addLogisticsSite(LogisticsSite newLogisticsSite) { 
+        sites.add(newLogisticsSite);
+    }
     /**
      * Adds a logistics site to the country.
      *
@@ -180,6 +186,17 @@ public class Country {
         this.sites.add(newLogisticsSite);
 
         newLogisticsSite.addSuppliedTransport(transports);
+        
+        DatabaseHelper DatabaseHelper = new DatabaseHelper();
+		DatabaseHelper.setup();
+		Session session = DatabaseHelper.getSessionFactory().openSession();
+		session.beginTransaction();
+
+		session.persist(newLogisticsSite);
+
+		session.getTransaction().commit();
+		session.close();
+		DatabaseHelper.exit();
 
         System.out.println("Logistics site '" + name + "' added successfully.");
     }
