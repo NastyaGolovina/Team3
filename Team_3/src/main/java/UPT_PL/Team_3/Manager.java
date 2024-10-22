@@ -109,7 +109,9 @@ public class Manager {
 	 * read all date from DB
 	 */
 	public void readFromDB() {
-		products.readAllProductsWithJplq();;
+		products.readAllProductsWithJplq();
+		countries.readAllCountriesWithJplq();
+		transports.readAllTransportsWithJplq();
 	}
 	
 	/**

@@ -32,6 +32,8 @@ public class Country {
      * Default constructor required by JPA.
      */
     public Country() {
+    	products = new ArrayList<ProductsByCountry>();
+    	sites =  new ArrayList<LogisticsSite>();
     }
     
     /**
