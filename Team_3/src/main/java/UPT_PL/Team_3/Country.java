@@ -151,6 +151,20 @@ public class Country {
                     System.out.println("The product '" + product.getName() + "' already exists in the country.");
                 } else {
                     this.products.add(newProductByCountry);
+                   
+                    
+                    DatabaseHelper DatabaseHelper = new DatabaseHelper();
+            		DatabaseHelper.setup();
+            		Session session = DatabaseHelper.getSessionFactory().openSession();
+            		session.beginTransaction();
+
+            		session.persist(newProductByCountry);
+
+            		session.getTransaction().commit();
+            		session.close();
+            		DatabaseHelper.exit();
+
+          
                     System.out.println("Product " + product.getName() + " added successfully.");
                 }
             }
@@ -159,7 +173,17 @@ public class Country {
         }
         System.out.println("Product Addition Process Completed.");
     }
-    /*
+    
+    
+    /**
+     * addProductsByCountry
+     */
+    
+    public void addProductsByCountry(ProductsByCountry newProductByCountry) {
+    	products.add(newProductByCountry);
+    }
+    
+    /**
      * addLogisticsSite
      */
     public void addLogisticsSite(LogisticsSite newLogisticsSite) { 

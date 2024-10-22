@@ -75,6 +75,24 @@ public class ProductsByCountry {
 	public void setPrice(double price) {
 		this.price = price;
 	}
+	
+	
+
+	/**
+	 * @return the country
+	 */
+	public Country getCountry() {
+		return country;
+	}
+
+
+	/**
+	 * @param country the country to set
+	 */
+	public void setCountry(Country country) {
+		this.country = country;
+	}
+
 
 	@Override
 	public String toString() {
