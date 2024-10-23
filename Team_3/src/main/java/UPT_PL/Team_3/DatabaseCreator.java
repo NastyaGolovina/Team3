@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-//Note
-//Run only once when you create a DB, after running in the xml file
-//(<property name="hibernate.hbm2ddl.auto">create</property>) change create to update
+/*
+ * Create new Database
+ */
 public class DatabaseCreator {
     public static void main(String[] args) {
         String url = "jdbc:mysql://localhost:3306/";

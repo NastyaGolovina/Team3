@@ -36,12 +36,7 @@ public class DatabaseHelper {
 		return sessionFactory;
 	}
 
-//    import org.hibernate.Session;
-//    
-//    Example of using DatabaseHelper in your classes
-//    DatabaseHelper DatabaseHelper = new DatabaseHelper();
-//    Session session = DatabaseHelper.getSessionFactory().openSession();
-//	...
+
 
 	
 }
