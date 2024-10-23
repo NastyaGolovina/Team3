@@ -9,7 +9,7 @@ import org.hibernate.Session;
 /**
  * The Products class represents a collection/list of Product objects. It
  * provides methods to add new product to the list , to search and manage the
- * collection.
+ * collection and also a method to read all the object in database by using Hibernate 
  */
 
 public class Products {
@@ -115,8 +115,7 @@ public class Products {
 				System.out.println("The product name can not be empty, please insert the name! ");
 				return;
 			}
-			Integer expirationInDays = ProjectHelper
-					.inputInt("Input the number of days before expiration date (positive number): ");
+			Integer expirationInDays = ProjectHelper.inputInt("Input the number of days before expiration date (positive number): ");
 			if (expirationInDays <= 0) {
 				System.out.println(
 						"The number of days before expiration date can't be negative, please insert a valid number!  ");
@@ -129,9 +128,11 @@ public class Products {
 			} else {
 				
 				// after validation, then add the new product to the list,// create object and
-				// put to array list
+				// put to array list  
 				Product product = new Product(productId, name, expirationInDays, recommenedRate);
 				ProductList.add(product);
+				
+				// then start to create a table in database
 				DatabaseHelper DatabaseHelper = new DatabaseHelper();
 			    DatabaseHelper.setup();
 			    Session session = DatabaseHelper.getSessionFactory().openSession();
@@ -142,6 +143,7 @@ public class Products {
 				session.getTransaction().commit();
 				session.close();
 				DatabaseHelper.exit();
+				
 				System.out.println("ProductID: " + productId + ",Name:" + name + ",Expiration date" + expirationInDays
 						+ "Recommened rate " + recommenedRate + " is successfully added!");
 			}
@@ -182,6 +184,7 @@ public class Products {
 	}
 	/*
 	 * Read all products with Jplq and put in ProductList
+	 * The method's purpose is to read all products from the database by using Hibernate and store them in a ProductList.
 	 */
 	protected void readAllProductsWithJplq() {
     	DatabaseHelper DatabaseHelper = new DatabaseHelper();

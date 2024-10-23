@@ -1,13 +1,13 @@
 package UPT_PL.Team_3;
 import java.util.ArrayList;
 
-/** The SupplyReceiveCountryByProduct class manages the list of product which is supplied and 
+/** The SupplyReceiveCountryByProduct class managing and tracking the supply and receipt of products in specific countries
  * 
  */
 public class SupplyReceiveCountryByProduct {
-private Country country;
-private ArrayList<SupplyReceiveByProduct> supplyByProduct;
-private ArrayList<SupplyReceiveByProduct> receiveByProduct;
+private Country country; //associates to Country class with a specific country where the supply or receipt of products is happening.
+private ArrayList<SupplyReceiveByProduct> supplyByProduct; //An array that holds multiple objects representing the supply of products by the country.
+private ArrayList<SupplyReceiveByProduct> receiveByProduct; //An array that holds multiple objects representing the receipt of products by the country.
 
 
 	/**

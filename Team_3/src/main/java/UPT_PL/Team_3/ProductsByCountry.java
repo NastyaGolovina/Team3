@@ -3,23 +3,30 @@ package UPT_PL.Team_3;
 import jakarta.persistence.*;
 import java.util.UUID;
 
+/**
+ * The ProductsByCountry class represents a mapping between products, countries, 
+ * and the production and pricing data for those products in each country. 
+ * In essence, it captures the relationship between a product, 
+ * the country where it is produced, the quantity of that production, and its price
+ */
+
 //Use the @Entity and @Table annotations before the class to map it to the table:
 @Entity
 @Table (name = "Products by Country")
 public class ProductsByCountry {
 	@Id
 	@Column(name = "productByCountry_Id", length = 40, nullable = false )
-	private UUID productByCountryId;
+	private UUID productByCountryId; //to ensure global uniqueness. 
 	@ManyToOne
 	@JoinColumn(name ="Product_ID")
-	private Product product; //Associated with Product Class
+	private Product product; //Associated with Product Class,represents the product being produced.
 	@Column(name = "production", nullable = false )
 	private double production;
 	@Column(name = "price", nullable = false )
 	private double price;
 	@ManyToOne
 	@JoinColumn(name ="Country_Id")
-	private Country country;
+	private Country country; //Represents the country in which the product is produced
 	
 	
 	public ProductsByCountry() {
@@ -36,7 +43,7 @@ public class ProductsByCountry {
 	 */
 	public ProductsByCountry(Product product, double production, double price,
 			Country country) {
-		this.productByCountryId = UUID.randomUUID();
+		this.productByCountryId = UUID.randomUUID(); //// Generates a new unique identifier
 		this.product = product;
 		this.production = production;
 		this.price = price;
