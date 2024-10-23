@@ -138,25 +138,29 @@ public class Manager {
 	 * addLogisticsSiteToCountry
 	 */
 	public void addLogisticsSitesToCountry() {
-		int CountryPos = countries.searchCountry(ProjectHelper.inputStr("Input country id :"));
-		
-		while(CountryPos == -1) {
-			System.out.println("Country doesn't exist");
-			CountryPos = countries.searchCountry(ProjectHelper.inputStr("Input country id :"));
-		}
-		
-		countries.getCountries().get(CountryPos).addLogisticsSite(transports, countries.getCountries());
+		if(!countries.getCountries().isEmpty()) {
+			int CountryPos = countries.searchCountry(ProjectHelper.inputStr("Input country id :"));
+			
+			while(CountryPos == -1) {
+				System.out.println("Country doesn't exist");
+				CountryPos = countries.searchCountry(ProjectHelper.inputStr("Input country id :"));
+			}
+			
+			countries.getCountries().get(CountryPos).addLogisticsSite(transports, countries.getCountries());
+		}	
 	}
 	
 	public void addProductsToCountry() {
-		int CountryPos = countries.searchCountry(ProjectHelper.inputStr("Input country id :"));
-		
-		while(CountryPos == -1) {
-			System.out.println("Country doesn't exist");
-			CountryPos = countries.searchCountry(ProjectHelper.inputStr("Input country id :"));
+		if(!countries.getCountries().isEmpty()) {
+			int CountryPos = countries.searchCountry(ProjectHelper.inputStr("Input country id :"));
+			
+			while(CountryPos == -1) {
+				System.out.println("Country doesn't exist");
+				CountryPos = countries.searchCountry(ProjectHelper.inputStr("Input country id :"));
+			}
+			
+			countries.getCountries().get(CountryPos).addProductByCountry(products);
 		}
-		
-		countries.getCountries().get(CountryPos).addProductByCountry(products);;
 	}
 	/**
 	 * addLogisticsSupplyChain
