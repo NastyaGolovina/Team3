@@ -147,7 +147,9 @@ public class Manager {
 			}
 			
 			countries.getCountries().get(CountryPos).addLogisticsSite(transports, countries.getCountries());
-		}	
+		} else {
+			System.out.println("The countries list is empty.");
+		}
 	}
 	
 	public void addProductsToCountry() {
@@ -160,6 +162,8 @@ public class Manager {
 			}
 			
 			countries.getCountries().get(CountryPos).addProductByCountry(products);
+		} else {
+			System.out.println("The countries list is empty.");
 		}
 	}
 	/**
