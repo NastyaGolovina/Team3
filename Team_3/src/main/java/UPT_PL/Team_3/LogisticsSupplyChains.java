@@ -1,6 +1,13 @@
 package UPT_PL.Team_3;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+import com.mysql.cj.jdbc.Driver;
 
 /**
  * The LogisticsSupplyChains class manages a collection of LogisticsSupplyChain objects.
@@ -146,6 +153,81 @@ public class LogisticsSupplyChains {
                 System.out.println(chain);
             }
         }
+    }
+    
+    //METHODS FOR DB!!!!!!!!!!!!!!!!!!!!!!!!!
+    
+    /**
+     * Method to add a new supply chain to the database and update the local list.
+     * 
+     * @param logisticsSupplyChain The LogisticsSupplyChain object to be added.
+     */
+    public void addNewSupplyChainToDB(LogisticsSupplyChain logisticsSupplyChain) {
+        DatabaseHelper databaseHelper = new DatabaseHelper();
+        Session session = null; // Session for Hibernate operations
+
+        try {
+            databaseHelper.setup();
+            session = databaseHelper.getSessionFactory().openSession();
+            session.beginTransaction();
+
+            // Check if the supply chain ID is unique before proceeding
+            if (isChainIdUnique(logisticsSupplyChain.getChainId(), session)) {
+                session.persist(logisticsSupplyChain); // Save the supply chain object to the database
+                session.getTransaction().commit();
+                supplyChains.add(logisticsSupplyChain); // Add the new supply chain to the local list
+                System.out.println("New Supply Chain successfully added: " + logisticsSupplyChain);
+            } else {
+                System.out.println("Error: A Supply Chain with this ID already exists.");
+            }
+        } catch (Exception e) {
+            if (session != null && session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
+            System.out.println("Error occurred while adding supply chain: " + e.getMessage());
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+            databaseHelper.exit();
+        }
+    }
+
+    /**
+     * Method to read all supply chains from the database and update the local supplyChains list.
+     */
+    public void readAllSupplyChains() {
+        DatabaseHelper databaseHelper = new DatabaseHelper();
+        Session session = null;
+
+        try {
+            databaseHelper.setup();
+            session = databaseHelper.getSessionFactory().openSession();
+            List<LogisticsSupplyChain> chainsFromDb = session.createQuery("FROM LogisticsSupplyChain", LogisticsSupplyChain.class).getResultList();
+            this.supplyChains = new ArrayList<>(chainsFromDb); // Update the local supplyChains list
+            System.out.println("Supply Chains loaded successfully.");
+        } catch (Exception e) {
+            System.out.println("Error occurred while reading supply chains: " + e.getMessage());
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+            databaseHelper.exit();
+        }
+    }
+
+    /**
+     * Checks if the given chain ID is unique in the database.
+     * 
+     * @param chainId The ID of the supply chain to check.
+     * @param session The current Hibernate session used for the database query.
+     * @return true if the chain ID is unique, false otherwise.
+     */
+    private boolean isChainIdUnique(String chainId, Session session) {
+        Long count = (Long) session.createQuery("SELECT COUNT(c) FROM LogisticsSupplyChain c WHERE c.chainId = :chainId")
+            .setParameter("chainId", chainId)
+            .uniqueResult(); // Execute the query and get the single result
+        return count == 0; // Return true if the count is zero (ID is unique)
     }
 
   
