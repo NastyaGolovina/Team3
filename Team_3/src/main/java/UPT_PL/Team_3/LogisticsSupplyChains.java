@@ -98,7 +98,7 @@ public class LogisticsSupplyChains {
         
       //ADD TO DB!!!!!!(Temp in test by daria hukallo)
         addNewSupplyChainToDB(newChain);
-        //!!!!!!!!!!!!!!!
+        //!!!!!!!!!!!!!!!!
     }
      
     // Helper method to find a logistics site by its ID
