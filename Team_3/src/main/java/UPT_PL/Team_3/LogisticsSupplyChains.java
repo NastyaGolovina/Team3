@@ -91,9 +91,14 @@ public class LogisticsSupplyChains {
         // 7. Create a new LogisticsSupplyChain object and add it to the supplyChains list
         LogisticsSupplyChain newChain = new LogisticsSupplyChain(chainId, sender, receiver, selectedTransport, costPerTon, durationInDays);
         supplyChains.add(newChain);
-     
+        
         // Output the newly created object
         System.out.println("New Supply Chain successfully created: " + newChain);
+        
+        
+      //ADD TO DB!!!!!!(Temp in test by daria hukallo)
+        addNewSupplyChainToDB(newChain);
+        //!!!!!!!!!!!!!!!
     }
      
     // Helper method to find a logistics site by its ID
