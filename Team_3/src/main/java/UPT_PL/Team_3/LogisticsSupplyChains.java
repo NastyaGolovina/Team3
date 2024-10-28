@@ -205,31 +205,38 @@ public class LogisticsSupplyChains {
      * Method to read all supply chains from the database and update the local supplyChains list.
      */
     public void readAllSupplyChains() {
-        DatabaseHelper databaseHelper = new DatabaseHelper();
-        Session session = null;
+        DatabaseHelper databaseHelper = new DatabaseHelper(); // Create an instance of the database helper
+        Session session = null; // Initialize session to null
+        Transaction transaction = null; // Initialize transaction to null
 
         try {
             databaseHelper.setup(); // Set up the database connection
             session = databaseHelper.getSessionFactory().openSession(); // Open a new session
-            
-            // Use JOIN FETCH to eagerly load related collections
+            transaction = session.beginTransaction(); // Begin a new transaction
+
+            // Use JOIN FETCH to eagerly load related collections, preventing lazy initialization issues
             List<LogisticsSupplyChain> chainsFromDb = session.createQuery(
                 "SELECT c FROM LogisticsSupplyChain c JOIN FETCH c.logisticsSites JOIN FETCH c.transports", 
                 LogisticsSupplyChain.class
             ).getResultList(); // Execute the query and get the result list
 
-            this.supplyChains = new ArrayList<>(chainsFromDb); // Update the local supplyChains list
+            this.supplyChains = new ArrayList<>(chainsFromDb); // Update the local supplyChains list with the loaded data
             System.out.println("Supply Chains loaded successfully."); // Confirmation message
+
+            transaction.commit(); // Commit the transaction to save changes (if any)
         } catch (Exception e) {
-            System.out.println("Error occurred while reading supply chains: " + e.getMessage()); // Error handling
+            if (transaction != null) {
+                transaction.rollback(); // Rollback the transaction in case of an error
+            }
+            System.out.println("Error occurred while reading supply chains: " + e.getMessage()); // Log the error message
+            e.printStackTrace(); // Print stack trace for debugging
         } finally {
             if (session != null) {
                 session.close(); // Close the session to free resources
             }
-            databaseHelper.exit(); // Exit the database helper
+            databaseHelper.exit(); // Exit the database helper to clean up
         }
     }
-
     /**
      * Checks if the given chain ID is unique in the database.
      * 
