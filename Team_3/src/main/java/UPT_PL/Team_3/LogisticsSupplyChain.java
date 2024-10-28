@@ -2,6 +2,7 @@ package UPT_PL.Team_3;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -17,15 +18,15 @@ public class LogisticsSupplyChain {
     @Column(name = "chain_id", length = 40, nullable = false)
     private String chainId;
 
-    @ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "sender_site_id", nullable = false)
     private LogisticsSite sender;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "receiver", nullable = false)
     private LogisticsSite receiver;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "Transport_Id", nullable = false)
     private Transport transport;
 
