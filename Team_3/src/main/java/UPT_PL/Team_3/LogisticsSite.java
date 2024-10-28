@@ -128,7 +128,6 @@ public class LogisticsSite {
 
     @Override
     public String toString() {
-        return "LogisticsSite [siteId=" + siteId + ", name=" + name + ", country=" + country.getName() +
-               ", suppliedTransports=" + suppliedTransports + "]";
+        return "LogisticsSite [siteId=" + siteId + ", name=" + name + ", country=" + country.getName() + "]";
     }
 }
