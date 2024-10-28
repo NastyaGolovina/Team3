@@ -201,23 +201,32 @@ public class LogisticsSupplyChains {
     /**
      * Method to read all supply chains from the database and update the local supplyChains list.
      */
+    /**
+     * Method to read all supply chains from the database and update the local supplyChains list.
+     */
     public void readAllSupplyChains() {
         DatabaseHelper databaseHelper = new DatabaseHelper();
         Session session = null;
 
         try {
-            databaseHelper.setup();
-            session = databaseHelper.getSessionFactory().openSession();
-            List<LogisticsSupplyChain> chainsFromDb = session.createQuery("FROM LogisticsSupplyChain", LogisticsSupplyChain.class).getResultList();
+            databaseHelper.setup(); // Set up the database connection
+            session = databaseHelper.getSessionFactory().openSession(); // Open a new session
+            
+            // Use JOIN FETCH to eagerly load related collections
+            List<LogisticsSupplyChain> chainsFromDb = session.createQuery(
+                "SELECT c FROM LogisticsSupplyChain c JOIN FETCH c.logisticsSites JOIN FETCH c.transports", 
+                LogisticsSupplyChain.class
+            ).getResultList(); // Execute the query and get the result list
+
             this.supplyChains = new ArrayList<>(chainsFromDb); // Update the local supplyChains list
-            System.out.println("Supply Chains loaded successfully.");
+            System.out.println("Supply Chains loaded successfully."); // Confirmation message
         } catch (Exception e) {
-            System.out.println("Error occurred while reading supply chains: " + e.getMessage());
+            System.out.println("Error occurred while reading supply chains: " + e.getMessage()); // Error handling
         } finally {
             if (session != null) {
-                session.close();
+                session.close(); // Close the session to free resources
             }
-            databaseHelper.exit();
+            databaseHelper.exit(); // Exit the database helper
         }
     }
 
