@@ -204,37 +204,42 @@ public class LogisticsSupplyChains {
     /**
      * Method to read all supply chains from the database and update the local supplyChains list.
      */
-    public void readAllSupplyChains() {
-        DatabaseHelper databaseHelper = new DatabaseHelper(); // Create an instance of the database helper
-        Session session = null; // Initialize session to null
-        Transaction transaction = null; // Initialize transaction to null
+    public void readAllSupplyChainsFromDB() {
+        // Create an instance of DatabaseHelper for managing database connections
+        DatabaseHelper databaseHelper = new DatabaseHelper();
+        Session session = null; // Declare a session for Hibernate operations
 
         try {
-            databaseHelper.setup(); // Set up the database connection
-            session = databaseHelper.getSessionFactory().openSession(); // Open a new session
-            transaction = session.beginTransaction(); // Begin a new transaction
+            // Set up the database connection
+            databaseHelper.setup();
+            // Open a new session from the session factory
+            session = databaseHelper.getSessionFactory().openSession();
+            // Begin a new transaction
+            session.beginTransaction();
 
-            // Use JOIN FETCH to eagerly load related collections, preventing lazy initialization issues
-            List<LogisticsSupplyChain> chainsFromDb = session.createQuery(
-                "SELECT c FROM LogisticsSupplyChain c JOIN FETCH c.logisticsSites JOIN FETCH c.transports", 
-                LogisticsSupplyChain.class
-            ).getResultList(); // Execute the query and get the result list
-
-            this.supplyChains = new ArrayList<>(chainsFromDb); // Update the local supplyChains list with the loaded data
-            System.out.println("Supply Chains loaded successfully."); // Confirmation message
-
-            transaction.commit(); // Commit the transaction to save changes (if any)
+            // Execute a query to read all supply chains from the database
+            List<LogisticsSupplyChain> chainsFromDb = session.createQuery("FROM LogisticsSupplyChain", LogisticsSupplyChain.class).getResultList();
+            
+            // Update the local list of supply chains with the result from the database
+            this.supplyChains = new ArrayList<>(chainsFromDb); 
+            System.out.println("Supply Chains loaded successfully.");
+            
+            // Commit the transaction to save changes (not necessary here as it's a read operation, but good practice)
+            session.getTransaction().commit();
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback(); // Rollback the transaction in case of an error
+            // Roll back the transaction if an error occurs and it is active
+            if (session != null && session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
             }
-            System.out.println("Error occurred while reading supply chains: " + e.getMessage()); // Log the error message
-            e.printStackTrace(); // Print stack trace for debugging
+            // Print an error message to the console
+            System.out.println("Error occurred while reading supply chains: " + e.getMessage());
         } finally {
+            // Close the session to release database resources
             if (session != null) {
-                session.close(); // Close the session to free resources
+                session.close();
             }
-            databaseHelper.exit(); // Exit the database helper to clean up
+            // Exit from the database helper, cleaning up resources
+            databaseHelper.exit();
         }
     }
     /**
