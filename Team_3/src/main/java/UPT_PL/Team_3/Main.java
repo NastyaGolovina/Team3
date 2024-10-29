@@ -42,16 +42,16 @@ public class Main {
             	manager.addLogisticsSupplyChain();
                 break;
             case 7:
-            	/** Calculate supply request **/
-            	manager.calculateSupplyRequest();
-                break;
-            case 8:
-            	/** Calculate logistics route **/
+            	/** New calculation for logistics route **/
             	manager.calculateLogisticsRoute();
                 break;
+            case 8:
+            	/**  Save logistics routes in DB **/
+            	manager.writeLogisticsProcessorInDB();
+                break;
             case 9:
-            	/** Print RouteLines **/
-            	manager.printRouteLines();
+            	/** Print Products **/
+            	manager.printRouteLines();;
                 break;
             case 10:
             	/** Print Products **/
