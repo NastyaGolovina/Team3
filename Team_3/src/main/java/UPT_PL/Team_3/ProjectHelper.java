@@ -82,9 +82,9 @@ public class ProjectHelper {
     	System.out.println("(4) - Add logistics site to country");
     	System.out.println("(5) - Add product to country");
     	System.out.println("(6) - Add logistics supply chain");
-    	System.out.println("(7) - Calculate supply request");
-    	System.out.println("(8) - Calculate logistics route");
-    	System.out.println("(9) - Print RouteLines");
+    	System.out.println("(7) - New calculation for logistics route");
+    	System.out.println("(8) - Save logistics routes in DB");
+    	System.out.println("(9) - Print logistics processor");
     	System.out.println("(10) - Print Products");
     	System.out.println("(11) - Print Logistics Supply Chains");
     	System.out.println("(12) - Print Countries");
