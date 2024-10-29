@@ -16,7 +16,7 @@ import java.util.UUID;
 public class ProductsByCountry {
 	@Id
 	@Column(name = "productByCountry_Id", length = 40, nullable = false )
-	private UUID productByCountryId; //to ensure global uniqueness. 
+	private String productByCountryId; //to ensure global uniqueness. 
 	@ManyToOne
 	@JoinColumn(name ="Product_ID")
 	private Product product; //Associated with Product Class,represents the product being produced.
@@ -43,18 +43,18 @@ public class ProductsByCountry {
 	 */
 	public ProductsByCountry(Product product, double production, double price,
 			Country country) {
-		this.productByCountryId = UUID.randomUUID(); //// Generates a new unique identifier
+		this.productByCountryId = UUID.randomUUID().toString(); //// Generates a new unique identifier
 		this.product = product;
 		this.production = production;
 		this.price = price;
 		this.country = country;
 	}
 	
-	public UUID getProductByCountryId() {
+	public String getProductByCountryId() {
 		return productByCountryId;
 	}
 
-	public void setProductByCountryId(UUID productByCountryId) {
+	public void setProductByCountryId(String productByCountryId) {
 		this.productByCountryId = productByCountryId;
 	}
 

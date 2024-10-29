@@ -13,7 +13,7 @@ public class ProductRequestProcessor {
 	//	Instance variable
     private ArrayList<SupplyReceiveProductByCountry> productRequestByCountry;  // List of product requests by country
     private ArrayList<SupplyReceiveCountryByProduct> countryRequestByProducts;  // List of country requests by product
-    private UUID curCalculationId;  // ID for the current calculation
+    private String curCalculationId;  // ID for the current calculation
     
 
 
@@ -23,7 +23,7 @@ public class ProductRequestProcessor {
     public ProductRequestProcessor() {
         this.productRequestByCountry = new ArrayList<>();  // Initialize product requests by country
         this.countryRequestByProducts = new ArrayList<>();  // Initialize country requests by product
-        this.curCalculationId = UUID.randomUUID();  // Initialize current calculation ID to 0
+        this.curCalculationId = UUID.randomUUID().toString();  // Initialize current calculation ID to 0
     }
     
   
@@ -150,7 +150,7 @@ public class ProductRequestProcessor {
      * 
      * @return The current calculation ID as an Integer.
      */
-    public UUID getCurCalculationId() {
+    public String getCurCalculationId() {
         return curCalculationId;
     }
 
@@ -159,7 +159,7 @@ public class ProductRequestProcessor {
      * 
      * @param curCalculationId The current calculation ID to set.
      */
-    public void setCurCalculationId(UUID curCalculationId) {
+    public void setCurCalculationId(String curCalculationId) {
         this.curCalculationId = curCalculationId;
     }
 }
