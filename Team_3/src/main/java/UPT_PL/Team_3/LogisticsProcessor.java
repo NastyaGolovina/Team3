@@ -5,9 +5,12 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.hibernate.Session;
+
 public class LogisticsProcessor {
 	//	Instance variable
 	private ArrayList<RouteLine> logisticsRoutes;
+	private Calculation currentСalculation;
 	
 	public LogisticsProcessor() {
 		logisticsRoutes = new ArrayList<RouteLine>();
@@ -19,6 +22,27 @@ public class LogisticsProcessor {
 		AllCountry,Country,Product;
 	}
 	
+
+	/**
+	 * @return the currentСalculation
+	 */
+	public boolean isCurrentСalculationEmpty() {
+		return (currentСalculation == null);
+	}
+	
+	/**
+	 * @return the currentСalculation
+	 */
+	public Calculation getCurrentСalculation() {
+		return currentСalculation;
+	}
+
+	/**
+	 * @param currentСalculation the currentСalculation to set
+	 */
+	public void setCurrentСalculation(Calculation currentСalculation) {
+		this.currentСalculation = currentСalculation;
+	}
 
 	/**
 	 * @return the logisticsRoutes
@@ -69,6 +93,7 @@ public class LogisticsProcessor {
 	 * @param name
 	 */
 	public void calcLogisticsRoute(ProductRequestProcessor myProductRequestProcessor,LogisticsSupplyChains logisticsSupplyChains, CalcType calcType, String name) {
+		currentСalculation.setSortBy(name);
 		int k = 0;
 		for(SupplyReceiveCountryByProduct supplyReceiveCountryByProduct : myProductRequestProcessor.getCountryRequestByProducts()) {
 			if(calcTypeValidationCountry(calcType, name, supplyReceiveCountryByProduct)) {
@@ -217,7 +242,8 @@ public class LogisticsProcessor {
 										amountTransport, 
 										totalAmount,
 										way.getDurationInDays() ,
-										receiver.isCovered());
+										receiver.isCovered(),
+										this.currentСalculation);
 								logisticsRoutes.add(newRouteLine);
 							}	
 						}
@@ -272,5 +298,27 @@ public class LogisticsProcessor {
 	        }
 	        return result;
 	    }
+	 
+	 
+	 
+	 /**
+	  * writeCurrentCalculationInDB
+	  */
+	  protected void writeCurrentCalculationInDB() {
+		  	DatabaseHelper DatabaseHelper = new DatabaseHelper();
+			DatabaseHelper.setup();
+			Session session = DatabaseHelper.getSessionFactory().openSession();
+			session.beginTransaction();
+			
+			session.persist(currentСalculation);
+			
+			for(RouteLine r : logisticsRoutes) {
+				session.persist(r);
+			}
+
+			session.getTransaction().commit();
+			session.close();
+			DatabaseHelper.exit();
+	  }
 }
 
