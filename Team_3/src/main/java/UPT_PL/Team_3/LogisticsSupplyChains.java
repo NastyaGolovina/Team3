@@ -255,6 +255,57 @@ public class LogisticsSupplyChains {
             .uniqueResult(); // Execute the query and get the single result
         return count == 0; // Return true if the count is zero (ID is unique)
     }
+    
+    /**
+     * Deletes a supply chain by ID from both the array list and the database.
+     *
+     * @param chainId The ID of the supply chain to delete.
+     */
+    public void deleteSupplyChainById(String chainId) {
+        DatabaseHelper databaseHelper = new DatabaseHelper();
+        Session session = null;
+
+        try {
+            // Initialize the database connection using the helper
+            databaseHelper.setup();
+            session = databaseHelper.getSessionFactory().openSession();
+            session.beginTransaction();
+
+            // Query the database for the supply chain with the specified ID
+            LogisticsSupplyChain chainToDelete = session.createQuery(
+                    "FROM LogisticsSupplyChain WHERE chainId = :chainId", LogisticsSupplyChain.class)
+                    .setParameter("chainId", chainId)
+                    .uniqueResult(); // Retrieve the single result matching the chain ID
+
+            // Check if the supply chain exists in the database
+            if (chainToDelete != null) {
+                // Remove the supply chain from the database
+                session.remove(chainToDelete);
+                session.getTransaction().commit(); // Commit the transaction to confirm deletion
+
+                // Remove the supply chain from the local ArrayList
+                supplyChains.removeIf(chain -> chain.getChainId().equals(chainId));
+
+                System.out.println("Supply chain with ID " + chainId + " successfully deleted.");
+            } else {
+                System.out.println("Supply chain with ID " + chainId + " not found.");
+            }
+        } catch (Exception e) {
+            // If an error occurs, roll back the transaction to avoid data inconsistencies
+            if (session != null && session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
+            System.out.println("Error occurred while deleting supply chain: " + e.getMessage());
+        } finally {
+            // Close the session to release database resources
+            if (session != null) {
+                session.close();
+            }
+            // Clean up database resources through the helper
+            databaseHelper.exit();
+        }
+    }
+
 
   
 }
