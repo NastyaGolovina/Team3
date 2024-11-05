@@ -72,6 +72,7 @@ public class Main {
             case 14:
             	/**Print Transports **/
             	manager.deleteCalculation();
+//            	manager.getLogisticsSupplyChains().deleteSupplyChainById("ch1");
                 break;
             default:
                 System.out.println("Invalid request");
