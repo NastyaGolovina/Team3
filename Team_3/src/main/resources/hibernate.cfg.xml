@@ -28,8 +28,9 @@
         <mapping class="UPT_PL.Team_3.LogisticsSupplyChain" />
         <mapping class="UPT_PL.Team_3.Product" />
         <mapping class="UPT_PL.Team_3.ProductsByCountry" />
-        <mapping class="UPT_PL.Team_3.RouteLine" />
         <mapping class="UPT_PL.Team_3.Transport" />
+        <mapping class="UPT_PL.Team_3.RouteLine" />
+     	<mapping class="UPT_PL.Team_3.Calculation" />	
 		<!--   SupplyReceiveProductsCountries     -->
 		<!--    SuppliedTransport    -->
     </session-factory>

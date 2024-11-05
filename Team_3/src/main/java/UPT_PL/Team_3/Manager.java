@@ -1,5 +1,11 @@
 package UPT_PL.Team_3;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.query.Query;
+
 public class Manager {
 	//	Instance variable
 	private Products products;
@@ -115,6 +121,7 @@ public class Manager {
 		countries.readAllLogisticsSitesWithJplq();
 		countries.readAllProductsByCountrysWithJplq();
 		logisticsSupplyChains.readAllSupplyChainsFromDB();
+		readAllСalculationWithJplq();
 	}
 	
 	/**
@@ -183,31 +190,49 @@ public class Manager {
 	 * calculateLogisticsRoute
 	 */
 	public void calculateLogisticsRoute() {
-		ProjectHelper.printTypes();
-		String name;
-		int calcType = ProjectHelper.inputInt("Input calculated type : ");
-		while (calcType < 1 || calcType > 3) {
-			System.out.println("Wrong type");
-			calcType = ProjectHelper.inputInt("Input calculated type : ");
+		int isContinue = 1;
+		if(!logisticsProcessor.isCurrentСalculationEmpty()) {
+			isContinue = ProjectHelper.inputInt("The previous calculation will be deleted before adding to"
+					+ " the database do you want to continue (yes-(1), no-(0)) :");
+			while(isContinue != 0 && isContinue != 1) {
+				isContinue = ProjectHelper.inputInt("The previous calculation will be deleted before adding to"
+						+ " the database do you want to continue (yes-(1), no-(0)) :");
+			}
 		}
-		
-		switch (calcType) {
-		case 1: {
-			name = "";
-			logisticsProcessor.calcLogisticsRoute(productRequestProcessor, logisticsSupplyChains, LogisticsProcessor.CalcType.AllCountry, name);
-			break;
-		}
-		case 2: {
-			name = ProjectHelper.inputStr("Input country name : ");
+		if(isContinue == 1) {
+			productRequestProcessor = new ProductRequestProcessor();
+			logisticsProcessor = new LogisticsProcessor();
+			logisticsProcessor.setCurrentСalculation(new Calculation(ProjectHelper.inputStr("Input current calculation description :"))); 
+			calculateSupplyRequest();
 			
-			logisticsProcessor.calcLogisticsRoute(productRequestProcessor, logisticsSupplyChains, LogisticsProcessor.CalcType.Country, name);
-			break;
+			ProjectHelper.printTypes();
+			String name;
+			int calcType = ProjectHelper.inputInt("Input calculated type : ");
+			while (calcType < 1 || calcType > 3) {
+				System.out.println("Wrong type");
+				calcType = ProjectHelper.inputInt("Input calculated type : ");
 			}
-		case 3: {
-			name = ProjectHelper.inputStr("Input country product : ");
-			logisticsProcessor.calcLogisticsRoute(productRequestProcessor, logisticsSupplyChains, LogisticsProcessor.CalcType.Product, name);
-			break;
+			
+			switch (calcType) {
+			case 1: {
+				name = "";
+				logisticsProcessor.calcLogisticsRoute(productRequestProcessor, logisticsSupplyChains, LogisticsProcessor.CalcType.AllCountry, name);
+				break;
 			}
+			case 2: {
+				name = ProjectHelper.inputStr("Input country name : ");
+				
+				logisticsProcessor.calcLogisticsRoute(productRequestProcessor, logisticsSupplyChains, LogisticsProcessor.CalcType.Country, name);
+				break;
+				}
+			case 3: {
+				name = ProjectHelper.inputStr("Input country product : ");
+				logisticsProcessor.calcLogisticsRoute(productRequestProcessor, logisticsSupplyChains, LogisticsProcessor.CalcType.Product, name);
+				break;
+				}
+			}
+			
+			printRouteLines();
 		}
 	}	
 	
@@ -215,7 +240,124 @@ public class Manager {
 	 * printRouteLines
 	 */
 	public void printRouteLines() {
-		logisticsProcessor.printLogisticsProcessor();
+		if(!logisticsProcessor.getLogisticsRoutes().isEmpty()) {
+			logisticsProcessor.printLogisticsProcessor();
+		} else {
+			System.out.println("Logistics processor list is empty.");
+		}
+		
+	}
+	
+	/**
+	 * writeLogisticsProcessorInDB
+	 */
+	public void writeLogisticsProcessorInDB() {
+		if(!logisticsProcessor.isCurrentСalculationEmpty()) {
+			logisticsProcessor.writeCurrentCalculationInDB();
+			productRequestProcessor = new ProductRequestProcessor();
+			logisticsProcessor = new LogisticsProcessor();
+		} else {
+			System.out.println("Logistics processor empty.");
+		}
+		
+	}
+	/**
+	 * readAllСalculationWithJplq and read road lines
+	 */
+	protected void readAllСalculationWithJplq() {
+		DatabaseHelper DatabaseHelper = new DatabaseHelper();
+		DatabaseHelper.setup();
+		Session session = DatabaseHelper.getSessionFactory().openSession();
+
+		List<Calculation> calculations = session.createQuery("SELECT C FROM Calculation C", Calculation.class)
+				.getResultList();
+
+		int i = 1;
+		for (Calculation c : calculations) {
+			System.out.println("(" + i + ")" + c);
+			i++;
+		}
+		System.out.println("Select the account you want to download or 0 if you don't want to download");
+		int calculationNum = ProjectHelper.inputInt("Input:");
+		while (calculationNum < 0 || calculationNum > calculations.size()) {
+			calculationNum = ProjectHelper.inputInt("Input:");
+		}
+		if (calculationNum != 0) {
+			long calculationId = calculations.get(calculationNum - 1).getCalculationId();
+
+			Query<RouteLine> query = session
+					.createQuery("FROM RouteLine rl WHERE rl.currentCalculation.id = :calculationId", RouteLine.class);
+			query.setParameter("calculationId", calculationId);
+
+			List<RouteLine> routeLines = query.getResultList();
+			this.logisticsProcessor = new LogisticsProcessor();
+			logisticsProcessor.setLogisticsRoutes((ArrayList<RouteLine>) routeLines);
+			logisticsProcessor.setCurrentСalculation(calculations.get(calculationNum - 1));
+		}
+		session.close();
+		DatabaseHelper.exit();
+	}
+	/**
+	 * 
+	 */
+	protected void deleteCalculation() {
+		DatabaseHelper DatabaseHelper = new DatabaseHelper();
+		DatabaseHelper.setup();
+		Session session = DatabaseHelper.getSessionFactory().openSession();
+		session.beginTransaction();
+
+		List<Calculation> calculations = session.createQuery("SELECT C FROM Calculation C", Calculation.class)
+				.getResultList();
+
+		int i = 1;
+		for (Calculation c : calculations) {
+			System.out.println("(" + i + ")" + c);
+			i++;
+		}
+		System.out.println("Select the account you want to download or 0 if you don't want to download");
+		int calculationNum = ProjectHelper.inputInt("Input:");
+		while (calculationNum < 0 || calculationNum > calculations.size()) {
+			calculationNum = ProjectHelper.inputInt("Input:");
+		}
+		if (calculationNum != 0) {
+			long calculationId = calculations.get(calculationNum - 1).getCalculationId();
+
+//			Query<RouteLine> deleteItemsQuery = session
+//					.createQuery("DELETE FROM RouteLine rl WHERE rl.currentСalculation.id = :calculationId", RouteLine.class);
+//			deleteItemsQuery.setParameter("calculationId", calculationId);
+//		    deleteItemsQuery.executeUpdate();
+//		    
+//			Query<RouteLine> deletedRouteLines = session.createQuery("DELETE FROM RouteLine rl WHERE rl.currentСalculation.id = :calculationId",RouteLine.class);
+//			
+//			deletedRouteLines.setParameter("calculationId", calculationId)
+//            				 .executeUpdate();
+//		    
+			int deletedRouteLines = session.createQuery("DELETE FROM RouteLine rl WHERE rl.currentCalculation.id = :calculationId")
+									.setParameter("calculationId", calculationId)
+									.executeUpdate();
+			
+//		    Calculation calculation = new Calculation();
+//		    calculation.setCalculationId(calculationId);
+//		    session.beginTransaction();
+//		    session.remove(calculation);
+//			session.getTransaction().commit();
+//		   
+		    Calculation calculation = session.get(Calculation.class, calculationId);
+            if (calculation != null) {
+                session.remove(calculation);
+                System.out.println("Deleted Calculation object with ID:" + calculationId);
+            }
+		    
+            
+            if((!logisticsProcessor.isCurrentСalculationEmpty()) && (logisticsProcessor.getCurrentСalculation().getCalculationId() == calculationId)) {
+            	productRequestProcessor = new ProductRequestProcessor();
+    			logisticsProcessor = new LogisticsProcessor();
+            }
+			
+		}
+		session.getTransaction().commit();
+		session.close();
+		DatabaseHelper.exit();
 	}
 	
 	/**

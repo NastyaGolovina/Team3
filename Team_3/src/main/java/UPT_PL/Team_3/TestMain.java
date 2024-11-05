@@ -142,6 +142,7 @@ public class TestMain {
 		productRequestProcessor.calcSupplyRequest(thisProducts, thisCountries);
 		
 		LogisticsProcessor logisticsProcessor = new LogisticsProcessor();
+		logisticsProcessor.setCurrentСalculation(new Calculation(""));
 		logisticsProcessor.calcLogisticsRoute(productRequestProcessor, thisChains, LogisticsProcessor.CalcType.AllCountry, "");
 		logisticsProcessor.printLogisticsProcessorCSV();
 //		thisProducts.displayProducts();

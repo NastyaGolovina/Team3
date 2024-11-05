@@ -180,7 +180,7 @@ public class LogisticsSupplyChains {
             if (isChainIdUnique(logisticsSupplyChain.getChainId(), session)) {
                 session.persist(logisticsSupplyChain); // Save the supply chain object to the database
                 session.getTransaction().commit();
-                supplyChains.add(logisticsSupplyChain); // Add the new supply chain to the local list
+//                supplyChains.add(logisticsSupplyChain); // Add the new supply chain to the local list
                 System.out.println("New Supply Chain successfully added: " + logisticsSupplyChain);
             } else {
                 System.out.println("Error: A Supply Chain with this ID already exists.");

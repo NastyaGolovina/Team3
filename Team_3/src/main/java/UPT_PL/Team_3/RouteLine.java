@@ -3,26 +3,72 @@ package UPT_PL.Team_3;
 
 import java.util.UUID;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+//import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "RouteLine")
 public class RouteLine {
 	//	Instance variable
-	private UUID  routeLineID;
+	@Id                                                    
+	@Column(name = "RouteLineID",length = 40, nullable = false)
+	private String  routeLineID;
+	@Column(name = "version",length = 40, nullable = false)
 	private String version;
+	@ManyToOne
+	@JoinColumn(name = "calculationId")
+	private Calculation currentCalculation;
+	@ManyToOne
+	@JoinColumn(name = "Country_Sender_Id")
 	private Country countrySender;
+	@ManyToOne
+	@JoinColumn(name = "Logistics_Site_Sender_Id")
 	private LogisticsSite logisticsSiteSender;
+	@ManyToOne
+	@JoinColumn(name = "Country_Receiver_Id")
 	private Country countryReceiver;
+	@ManyToOne
+	@JoinColumn(name = "Logistics_Site_Receiver_Id")
 	private LogisticsSite logisticsSiteReceiver;
+	@ManyToOne
+	@JoinColumn(name = "Product_Id")
 	private Product product;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn
 	private Transport transport;
+	@Column(name = "quantity", nullable = false)
 	private double quantity;
+	@Column(name = "requestedQuantity", nullable = false)
 	private double requestedQuantity;
+	@Column(name = "amountProduct", nullable = false)
 	private double amountProduct;
+	@Column(name = "amountTransport", nullable = false)
 	private double amountTransport;
+	@Column(name = "totalAmount", nullable = false)
 	private double totalAmount;
+	@Column(name = "durationInDays", nullable = false)
 	private double durationInDays;
+	@Column(name = "covered", nullable = false)
 	private boolean covered;
+	@Column(name = "isOptimalChain", nullable = false)
 	private boolean isOptimalChain;
 	
 	
+	
+	
+	/**
+	 * Constructor
+	 */
+	public RouteLine() {
+	}
+
+
 	/**
 	 * Constructor
 	 * @param routeLineID
@@ -45,8 +91,8 @@ public class RouteLine {
 	public RouteLine(String version, Country countrySender, LogisticsSite logisticsSiteSender,
 			Country countryReceiver, LogisticsSite logisticsSiteReceiver, Product product, Transport transport,
 			double quantity, double requestedQuantity, double amountProduct, double amountTransport, double totalAmount,
-			double durationInDays, boolean covered) {
-		this.routeLineID = UUID.randomUUID();
+			double durationInDays, boolean covered, Calculation currentСalculation) {
+		this.routeLineID = UUID.randomUUID().toString();
 		this.version = version;
 		this.countrySender = countrySender;
 		this.logisticsSiteSender = logisticsSiteSender;
@@ -62,13 +108,14 @@ public class RouteLine {
 		this.durationInDays = durationInDays;
 		this.covered = covered;
 		this.isOptimalChain = false;
+		this.currentCalculation = currentСalculation;
 	}
 	
 		
 	/**
 	 * @return the routeLineID
 	 */
-	public UUID getRouteLineID() {
+	public String getRouteLineID() {
 		return routeLineID;
 	}
 
@@ -76,7 +123,7 @@ public class RouteLine {
 	/**
 	 * @param routeLineID the routeLineID to set
 	 */
-	public void setRouteLineID(UUID routeLineID) {
+	public void setRouteLineID(String routeLineID) {
 		this.routeLineID = routeLineID;
 	}
 
@@ -320,16 +367,31 @@ public class RouteLine {
 		this.isOptimalChain = isOptimalChain;
 	}
 
+	
+	/**
+	 * @return the currentСalculation
+	 */
+	public Calculation getCurrentСalculation() {
+		return currentCalculation;
+	}
+
+
+	/**
+	 * @param currentСalculation the currentСalculation to set
+	 */
+	public void setCurrentСalculation(Calculation currentСalculation) {
+		this.currentCalculation = currentСalculation;
+	}
 
 	@Override
 	public String toString() {
 		return "RouteLine [routeLineID=" + routeLineID + ", version=" + version + ", countrySender=" + countrySender
-				+ ", logisticsSiteSender=" + logisticsSiteSender + ", countryReceiver=" + countryReceiver
-				+ ", logisticsSiteReceiver=" + logisticsSiteReceiver + ", product=" + product + ", transport="
-				+ transport + ", quantity=" + quantity + ", requestedQuantity=" + requestedQuantity + ", amountProduct="
-				+ amountProduct + ", amountTransport=" + amountTransport + ", totalAmount=" + totalAmount
-				+ ", durationInDays=" + durationInDays + ", covered=" + covered + ", isOptimalChain=" + isOptimalChain
-				+ "]";
+				+ ", currentСalculation=" + currentCalculation + ", logisticsSiteSender=" + logisticsSiteSender
+				+ ", countryReceiver=" + countryReceiver + ", logisticsSiteReceiver=" + logisticsSiteReceiver
+				+ ", product=" + product + ", transport=" + transport + ", quantity=" + quantity
+				+ ", requestedQuantity=" + requestedQuantity + ", amountProduct=" + amountProduct + ", amountTransport="
+				+ amountTransport + ", totalAmount=" + totalAmount + ", durationInDays=" + durationInDays + ", covered="
+				+ covered + ", isOptimalChain=" + isOptimalChain + "]";
 	}
 
 
@@ -338,7 +400,7 @@ public class RouteLine {
 	 * @return CSV string
 	 */
 	public String toCSV() {
-		return   "\"" + routeLineID + "\",\"" + version + "\",\"" + countrySender + "\",\"" 
+		return   "\"" + routeLineID + "\",\"" + version +"\",\""+ currentCalculation +"\",\"" + countrySender + "\",\"" 
 	            + logisticsSiteSender + "\",\"" + countryReceiver + "\",\"" 
 	            + logisticsSiteReceiver + "\",\"" + product + "\",\"" 
 	            + transport + "\"," + quantity + "," + requestedQuantity + "," + amountProduct + "," 
@@ -350,7 +412,7 @@ public class RouteLine {
 	 * @return CSVHeder
 	 */
 	public static String CSVHeder() {
-		return "routeLineID,version,countrySender,logisticsSiteSender,countryReceiver,"
+		return "routeLineID,version,currentСalculation,countrySender,logisticsSiteSender,countryReceiver,"
 	            + "logisticsSiteReceiver,product,transport,quantity,requestedQuantity,amountProduct,"
 	            + "amountTransport,totalAmount,durationInDays,covered,isOptimalChain";
 	}
