@@ -23,7 +23,7 @@ public class RouteLine {
 	private String version;
 	@ManyToOne
 	@JoinColumn(name = "calculationId")
-	private Calculation currentСalculation;
+	private Calculation currentCalculation;
 	@ManyToOne
 	@JoinColumn(name = "Country_Sender_Id")
 	private Country countrySender;
@@ -63,7 +63,7 @@ public class RouteLine {
 	
 	
 	/**
-	 * 
+	 * Constructor
 	 */
 	public RouteLine() {
 	}
@@ -108,7 +108,7 @@ public class RouteLine {
 		this.durationInDays = durationInDays;
 		this.covered = covered;
 		this.isOptimalChain = false;
-		this.currentСalculation = currentСalculation;
+		this.currentCalculation = currentСalculation;
 	}
 	
 		
@@ -372,7 +372,7 @@ public class RouteLine {
 	 * @return the currentСalculation
 	 */
 	public Calculation getCurrentСalculation() {
-		return currentСalculation;
+		return currentCalculation;
 	}
 
 
@@ -380,13 +380,13 @@ public class RouteLine {
 	 * @param currentСalculation the currentСalculation to set
 	 */
 	public void setCurrentСalculation(Calculation currentСalculation) {
-		this.currentСalculation = currentСalculation;
+		this.currentCalculation = currentСalculation;
 	}
 
 	@Override
 	public String toString() {
 		return "RouteLine [routeLineID=" + routeLineID + ", version=" + version + ", countrySender=" + countrySender
-				+ ", currentСalculation=" + currentСalculation + ", logisticsSiteSender=" + logisticsSiteSender
+				+ ", currentСalculation=" + currentCalculation + ", logisticsSiteSender=" + logisticsSiteSender
 				+ ", countryReceiver=" + countryReceiver + ", logisticsSiteReceiver=" + logisticsSiteReceiver
 				+ ", product=" + product + ", transport=" + transport + ", quantity=" + quantity
 				+ ", requestedQuantity=" + requestedQuantity + ", amountProduct=" + amountProduct + ", amountTransport="
@@ -400,7 +400,7 @@ public class RouteLine {
 	 * @return CSV string
 	 */
 	public String toCSV() {
-		return   "\"" + routeLineID + "\",\"" + version +"\",\""+ currentСalculation +"\",\"" + countrySender + "\",\"" 
+		return   "\"" + routeLineID + "\",\"" + version +"\",\""+ currentCalculation +"\",\"" + countrySender + "\",\"" 
 	            + logisticsSiteSender + "\",\"" + countryReceiver + "\",\"" 
 	            + logisticsSiteReceiver + "\",\"" + product + "\",\"" 
 	            + transport + "\"," + quantity + "," + requestedQuantity + "," + amountProduct + "," 

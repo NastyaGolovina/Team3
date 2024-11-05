@@ -104,7 +104,7 @@ public class Calculation {
 	@Override
 	public String toString() {
 		return "Сalculation [calculationId=" + calculationId + ", calculationDate=" + calculationDate
-				+ ", calculationDescription=" + calculationDescription + "]";
+				+ ", calculationDescription=" + calculationDescription + ", sortBy=" + sortBy + "]";
 	}
 	
 	
