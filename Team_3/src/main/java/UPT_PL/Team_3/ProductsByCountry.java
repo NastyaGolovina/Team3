@@ -57,7 +57,7 @@ public class ProductsByCountry {
 	public void setProductByCountryId(UUID productByCountryId) {
 		this.productByCountryId = productByCountryId;
 	}
-
+S
 	public Product getProduct() {
 		return product;
 	}
