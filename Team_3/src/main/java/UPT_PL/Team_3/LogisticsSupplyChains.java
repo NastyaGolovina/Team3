@@ -261,6 +261,7 @@ public class LogisticsSupplyChains {
      *
      * @param chainId The ID of the supply chain to delete.
      */
+    //TEST
     public void deleteSupplyChainById(String chainId) {
         DatabaseHelper databaseHelper = new DatabaseHelper();
         Session session = null;
