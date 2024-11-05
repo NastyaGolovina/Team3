@@ -254,6 +254,7 @@ public class Manager {
 	public void writeLogisticsProcessorInDB() {
 		if(!logisticsProcessor.isCurrentСalculationEmpty()) {
 			logisticsProcessor.writeCurrentCalculationInDB();
+			productRequestProcessor = new ProductRequestProcessor();
 			logisticsProcessor = new LogisticsProcessor();
 		} else {
 			System.out.println("Logistics processor empty.");
@@ -285,7 +286,7 @@ public class Manager {
 			long calculationId = calculations.get(calculationNum - 1).getCalculationId();
 
 			Query<RouteLine> query = session
-					.createQuery("FROM RouteLine rl WHERE rl.currentСalculation.id = :calculationId", RouteLine.class);
+					.createQuery("FROM RouteLine rl WHERE rl.currentCalculation.id = :calculationId", RouteLine.class);
 			query.setParameter("calculationId", calculationId);
 
 			List<RouteLine> routeLines = query.getResultList();
@@ -293,6 +294,68 @@ public class Manager {
 			logisticsProcessor.setLogisticsRoutes((ArrayList<RouteLine>) routeLines);
 			logisticsProcessor.setCurrentСalculation(calculations.get(calculationNum - 1));
 		}
+		session.close();
+		DatabaseHelper.exit();
+	}
+	/**
+	 * 
+	 */
+	protected void deleteCalculation() {
+		DatabaseHelper DatabaseHelper = new DatabaseHelper();
+		DatabaseHelper.setup();
+		Session session = DatabaseHelper.getSessionFactory().openSession();
+		session.beginTransaction();
+
+		List<Calculation> calculations = session.createQuery("SELECT C FROM Calculation C", Calculation.class)
+				.getResultList();
+
+		int i = 1;
+		for (Calculation c : calculations) {
+			System.out.println("(" + i + ")" + c);
+			i++;
+		}
+		System.out.println("Select the account you want to download or 0 if you don't want to download");
+		int calculationNum = ProjectHelper.inputInt("Input:");
+		while (calculationNum < 0 || calculationNum > calculations.size()) {
+			calculationNum = ProjectHelper.inputInt("Input:");
+		}
+		if (calculationNum != 0) {
+			long calculationId = calculations.get(calculationNum - 1).getCalculationId();
+
+//			Query<RouteLine> deleteItemsQuery = session
+//					.createQuery("DELETE FROM RouteLine rl WHERE rl.currentСalculation.id = :calculationId", RouteLine.class);
+//			deleteItemsQuery.setParameter("calculationId", calculationId);
+//		    deleteItemsQuery.executeUpdate();
+//		    
+//			Query<RouteLine> deletedRouteLines = session.createQuery("DELETE FROM RouteLine rl WHERE rl.currentСalculation.id = :calculationId",RouteLine.class);
+//			
+//			deletedRouteLines.setParameter("calculationId", calculationId)
+//            				 .executeUpdate();
+//		    
+			int deletedRouteLines = session.createQuery("DELETE FROM RouteLine rl WHERE rl.currentCalculation.id = :calculationId")
+									.setParameter("calculationId", calculationId)
+									.executeUpdate();
+			
+//		    Calculation calculation = new Calculation();
+//		    calculation.setCalculationId(calculationId);
+//		    session.beginTransaction();
+//		    session.remove(calculation);
+//			session.getTransaction().commit();
+//		   
+		    Calculation calculation = session.get(Calculation.class, calculationId);
+            if (calculation != null) {
+                session.remove(calculation);
+                System.out.println("Deleted Calculation object with ID:" + calculationId);
+            }
+		    
+            
+            if((!logisticsProcessor.isCurrentСalculationEmpty()) && (logisticsProcessor.getCurrentСalculation().getCalculationId() == calculationId)) {
+            	productRequestProcessor = new ProductRequestProcessor();
+    			logisticsProcessor = new LogisticsProcessor();
+            }
+			
+		}
+		session.getTransaction().commit();
 		session.close();
 		DatabaseHelper.exit();
 	}

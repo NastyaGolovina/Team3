@@ -69,6 +69,10 @@ public class Main {
             	/**Print Transports **/
             	manager.printTransports();
                 break;
+            case 14:
+            	/**Print Transports **/
+            	manager.deleteCalculation();
+                break;
             default:
                 System.out.println("Invalid request");
             } 
