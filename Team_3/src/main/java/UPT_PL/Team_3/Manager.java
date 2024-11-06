@@ -359,6 +359,12 @@ public class Manager {
 		session.close();
 		DatabaseHelper.exit();
 	}
+	/**
+	 * 
+	 */
+	public void deleteLogisticsSupplyChain() {
+		logisticsSupplyChains.deleteSupplyChainById(ProjectHelper.inputStr("Inpit Logistics Supply Chain ID :"));
+	}
 	
 	/**
 	 * printProducts

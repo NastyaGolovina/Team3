@@ -71,7 +71,7 @@ public class ProjectHelper {
 
     
     /**
-     * printTypes
+     * showMenuInfo
      */
     public static void showMenuInfo() {
     	System.out.println("\n******************************");
@@ -93,4 +93,14 @@ public class ProjectHelper {
     	System.out.println("\n******************************");
     }
 	
+    
+    /**
+     * showDeleteMenuInfo
+     */
+    public static void showDeleteMenuInfo() {
+    	System.out.println("\n******************************");
+    	System.out.println("(1) - Delete calculation");
+    	System.out.println("(2) - Delete logistics supply chain");
+    	System.out.println("\n******************************");
+    }
 }

@@ -70,9 +70,21 @@ public class Main {
             	manager.printTransports();
                 break;
             case 14:
-            	/**Print Transports **/
-            	manager.deleteCalculation();
-//            	manager.getLogisticsSupplyChains().deleteSupplyChainById("ch1");
+            	/**Delete **/
+            	ProjectHelper.showDeleteMenuInfo();
+            	int deleteCommand = ProjectHelper.inputInt("Input delete option");
+            	switch (deleteCommand) {
+				case 1: {
+					manager.deleteCalculation();
+					break;
+				}
+				case 2: {
+					manager.deleteLogisticsSupplyChain();
+					break;
+				}
+				default:
+					System.out.println("Invalid request");
+				}
                 break;
             default:
                 System.out.println("Invalid request");
