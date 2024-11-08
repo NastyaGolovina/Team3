@@ -59,6 +59,11 @@ public class Transports {
         if (transportId.isEmpty()) {
             System.out.println("The ID cannot be empty.");
             return;
+            
+        } else if (!transportId.matches("^[a-zA-Z0-9].*")) {
+                System.out.println("The ID cannot begin with special characters.");
+                return;
+                
         } else if (transportId.length() > 20) {
             System.out.println("The ID cannot exceed more than 20 characters.");
             return;

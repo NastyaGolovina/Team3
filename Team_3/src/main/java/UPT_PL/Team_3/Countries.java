@@ -55,6 +55,11 @@ public class Countries {
         if (countryId.isEmpty()) {  
             System.out.println("The ID cannot be empty.");
             return;  
+            
+          }  else if (!countryId.matches("^[a-zA-Z0-9].*")) {
+                System.out.println("The ID cannot begin with special characters.");
+                return;
+                
         } else if (countryId.length() > 20) {
             System.out.println("The ID cannot exceed more than 20 characters.");
             return; 
