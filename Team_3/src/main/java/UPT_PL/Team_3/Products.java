@@ -237,7 +237,7 @@ public class Products {
                 .getResultList();
 
         if (!productsByCountryList.isEmpty()) {
-            System.out.println("Cannot delete country. It is linked to ProductsByCountry.");
+            System.out.println("Cannot delete product. It is linked to ProductsByCountry.");
             session.close();
             databaseHelper.exit();
             return ;
@@ -251,7 +251,7 @@ public class Products {
                 .getResultList();
 
         if (!SupplyReceiveByProductList.isEmpty()) {
-            System.out.println("Cannot delete country. It is linked to SupplyReceiveCountryByProduct.");
+            System.out.println("Cannot delete product. It is linked to SupplyReceiveCountryByProduct.");
             session.close();
             databaseHelper.exit();
             return ;
@@ -265,7 +265,7 @@ public class Products {
                 .getResultList();
 
         if (!SupplyReceiveByCountryList.isEmpty()) {
-            System.out.println("Cannot delete country. It is linked to SupplyReceiveProductByCountry.");
+            System.out.println("Cannot delete product. It is linked to SupplyReceiveProductByCountry.");
             session.close();
             databaseHelper.exit();
             return ;
@@ -280,7 +280,7 @@ public class Products {
                 .getResultList();
 
         if (!routeLines.isEmpty()) {
-            System.out.println("Cannot delete country. It is linked to RouteLine.");
+            System.out.println("Cannot delete product. It is linked to RouteLine.");
             session.close();
             databaseHelper.exit();
             return ;
