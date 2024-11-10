@@ -75,11 +75,33 @@ public class Main {
             	int deleteCommand = ProjectHelper.inputInt("Input delete option");
             	switch (deleteCommand) {
 				case 1: {
+					/** Delete calculation **/
 					manager.deleteCalculation();
 					break;
 				}
 				case 2: {
+					/** Delete logistics supply chain **/
 					manager.deleteLogisticsSupplyChain();
+					break;
+				}
+				case 3: {
+					/** Delete product **/
+					
+					break;
+				}
+				case 4: {
+					/** Delete products by country **/
+					
+					break;
+				}
+				case 5: {
+					/** Delete logistics site **/
+					
+					break;
+				}
+				case 6: {
+					/** Delete transport **/
+					
 					break;
 				}
 				default:
