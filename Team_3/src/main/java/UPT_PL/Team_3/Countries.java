@@ -323,5 +323,93 @@ public class Countries {
 
         // Inform the user of successful deletion
         System.out.println("Logistics site successfully deleted.");
+        
     }
-}
+    
+    // Delete product by country
+    
+    public void deleteProductsByCountry(String productByCountryId) {
+    	
+    	 // Prompt for the country ID to delete
+        String countryId = ProjectHelper.inputStr("Enter the country ID to delete: ");
+        int countryPos = searchCountry(countryId);
+        
+        // Check if the country exists
+        if (countryPos == -1) {
+            System.out.println("Country with the specified ID not found.");
+            return;
+        }
+
+        // Set up database session for dependency checks
+        DatabaseHelper databaseHelper = new DatabaseHelper();
+        databaseHelper.setup();
+        Session session = databaseHelper.getSessionFactory().openSession();
+
+        // Retrieve all Products associated with the Country via ProductsByCountry
+        List<ProductsByCountry> productsByCountryList = session.createQuery(
+                "FROM ProductsByCountry pbc WHERE pbc.country.id = :countryId", ProductsByCountry.class)
+                .setParameter("countryId", countryId)
+                .getResultList();
+        
+        // If there are no products associated with this country, exit
+         if (!productsByCountryList.isEmpty()) {
+            System.out.println("No products associated with country ID " + countryId);
+            session.close();
+            databaseHelper.exit();
+            return;
+        }
+
+     // Check if any of the products are linked to SupplyReceiveCountryByProduct
+        for (ProductsByCountry pbc : productsByCountryList) { //is used to check dependencies for each product associated with a specific country.
+
+
+            List<SupplyReceiveCountryByProduct> SupplyReceiveCountryByProductList = session.createQuery(
+                    "FROM SupplyReceiveCountryByProduct srcbp WHERE srcbp.product.productId = :productId", SupplyReceiveCountryByProduct.class)
+                    .setParameter("productId", pbc.getProduct().getProductID())
+                    .getResultList();
+
+            if (!SupplyReceiveCountryByProductList.isEmpty()) {
+                System.out.println("Cannot delete products. Some products are linked to SupplyReceiveCountryByProduct.");
+                session.close();
+                databaseHelper.exit();
+                return;
+            }
+            
+            // Check if the product is linked to SupplyReceiveProductByCountry
+            List<SupplyReceiveProductByCountry> supplyReceiveProductByCountryList = session.createQuery(
+                    "FROM SupplyReceiveProductByCountry srpbc WHERE srpbc.product.productId = :productId", SupplyReceiveProductByCountry.class)
+                    .setParameter("productId", pbc.getProduct().getProductID())
+                    .getResultList();
+
+            if (!supplyReceiveProductByCountryList.isEmpty()) {
+                System.out.println("Cannot delete products. Some products are linked to SupplyReceiveProductByCountry.");
+                session.close();
+                databaseHelper.exit();
+                return;
+            }
+        }
+
+
+     // Proceed to delete each product from the database
+        session.beginTransaction();
+        for (ProductsByCountry pbc : productsByCountryList) {
+            Product product = pbc.getProduct();
+
+            // Delete the product from the database
+            session.remove(product);
+        }
+        session.getTransaction().commit();
+
+        // Clean up resources
+        session.close();
+        databaseHelper.exit();
+
+        System.out.println("Products associated with country ID " + countryId + " successfully deleted.");
+    }
+    }
+
+
+    
+
+
+
