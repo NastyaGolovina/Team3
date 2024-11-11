@@ -682,9 +682,6 @@ public class Countries {
         System.out.println("Logistics site successfully deleted.");
     }
     
-    
-    
-    
     }
 
     
