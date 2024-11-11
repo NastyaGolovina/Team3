@@ -326,21 +326,9 @@ public class Countries {
         
     }
     
-    //TEST22!!!!!!!!!!!!!!!!!!!!!!
+    //TEST2!!!!!!!!!!!!!!!!!!!!!!
     
-    /*
-     * 
- этот метод выполняет техническое задание. Он проверяет наличие зависимостей логистического сайта в следующих объектах перед удалением:
-
-Проверка в RouteLine: Метод выполняет запрос к таблице RouteLine, чтобы определить, связан ли логистический сайт как отправитель (originSite) или получатель (destinationSite). Так как в RouteLine присутствуют два внешних ключа (FK), оба они проверяются в одном запросе на наличие ссылок на выбранный сайт.
-
-Проверка в LogisticsSupplyChains: Метод проверяет, является ли логистический сайт частью цепочки поставок (LogisticsSupplyChains) через chain (предполагаемый массив или коллекцию объектов LogisticsSite). Если сайт находится в любом LogisticsSupplyChains, метод выявит это, и удаление не произойдёт.
-
-Если логистический сайт связан с какими-либо маршрутами (RouteLine) или цепочками поставок (LogisticsSupplyChains), выводится сообщение об ошибке, и удаление прерывается. Если зависимости отсутствуют, метод удаляет сайт как из списка sites страны, так и из базы данных.
-
-Таким образом, метод теперь полностью соответствует требованиям технического задания.
-*/
-    public void deleteLogisticsSite2() {
+      public void deleteLogisticsSite2() {
         // Prompt the user to enter the country ID
         String countryId = ProjectHelper.inputStr("Enter the country ID: ");
         int countryIndex = searchCountry(countryId);
@@ -417,20 +405,8 @@ public class Countries {
     }
     
     //TEST3!!!!!!!!!!!!!!!!
-    /*
-     * Метод deleteLogisticsSite3 выполняет следующие действия:
-
-Запрашивает у пользователя ID страны и проверяет, существует ли такая страна.
-Проверяет, есть ли логистические узлы в выбранной стране. Если их нет, выводит сообщение и завершает выполнение.
-Выводит список логистических узлов страны и запрашивает у пользователя выбор узла для удаления.
-Проверяет, связан ли узел с маршрутами в базе данных (через запрос к таблице RouteLine).
-Планируется добавление проверки на наличие узла в цепочке (эта часть закомментирована, но в будущем будет проверять, есть ли узел в массиве chain).
-Если узел связан с маршрутами или цепочками, выводит сообщение об ошибке и завершает выполнение.
-Если узел не связан с маршрутами или цепочками, удаляет его из списка страны и из базы данных.
-Выводит сообщение об успешном удалении логистического узла.
-Метод удаляет логистический узел, если он не связан с маршрутами или цепочками.
-     * */
-    public void deleteLogisticsSite3() {
+       
+      public void deleteLogisticsSite3() {
         // Prompt the user to enter the country ID
         String countryId = ProjectHelper.inputStr("Enter the country ID: ");
         int countryIndex = searchCountry(countryId);
@@ -585,9 +561,6 @@ public class Countries {
         System.out.println("Products associated with country ID " + countryId + " successfully deleted.");
     }
     
-<<<<<<< HEAD
-=======
-    
     
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!
     public void deleteLogisticsSite33(LogisticsSupplyChains chains) {
@@ -684,8 +657,3 @@ public class Countries {
         System.out.println("Logistics site successfully deleted.");
     }
 }
-
-    
-
-
-
