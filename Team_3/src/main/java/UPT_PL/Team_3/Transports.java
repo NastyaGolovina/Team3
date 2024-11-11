@@ -156,6 +156,58 @@ public class Transports {
     	session.close();
     	DatabaseHelper.exit();
     }
-    
-}
+	
+	// DELETE Transport by Id
+    public void deleteTransport(String transportId) {
+        DatabaseHelper databaseHelper = new DatabaseHelper();
+        databaseHelper.setup();
+        Session session = databaseHelper.getSessionFactory().openSession();
+        
+        // Fetch the transport by its ID
+        Transport transport = session.get(Transport.class, transportId);
+        
+        if (transport == null) {
+            System.out.println("Transport with ID " + transportId + " does not exist.");
+            return;
+        }
 
+        // Check if the transport is used in any LogisticsSite
+        List<LogisticsSite> logisticsSites = session.createQuery("SELECT l FROM LogisticsSite l JOIN l.suppliedTransports t WHERE t = :transport", LogisticsSite.class)
+                                                   .setParameter("transport", transport)
+                                                   .getResultList();
+
+        if (!logisticsSites.isEmpty()) {
+            System.out.println("Cannot delete transport with ID " + transportId + " because it is supplied by one or more logistics sites.");
+            return;
+        }
+
+        // Check if the transport is linked to any RouteLine
+        List<RouteLine> routeLines = session.createQuery("FROM RouteLine r WHERE r.transport = :transport", RouteLine.class)
+                                            .setParameter("transport", transport)
+                                            .getResultList();
+
+        if (!routeLines.isEmpty()) {
+            System.out.println("Cannot delete transport with ID " + transportId + " because it is used in one or more route lines.");
+            return;
+        }
+
+        // Check if the transport is used in any LogisticsSupplyChain
+        List<LogisticsSupplyChain> supplyChains = session.createQuery("FROM LogisticsSupplyChain ls WHERE ls.transport = :transport", LogisticsSupplyChain.class)
+                                                         .setParameter("transport", transport)
+                                                         .getResultList();
+
+        if (!supplyChains.isEmpty()) {
+            System.out.println("Cannot delete transport with ID " + transportId + " because it is used in one or more logistics supply chains.");
+            return;
+        }
+
+        // If no dependencies exist, delete the transport
+        session.beginTransaction();
+        session.delete(transport);
+        session.getTransaction().commit();
+        System.out.println("Transport with ID " + transportId + " has been deleted successfully.");
+
+        session.close();
+        databaseHelper.exit();
+    }
+}
