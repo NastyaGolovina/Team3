@@ -326,6 +326,178 @@ public class Countries {
         
     }
     
+    //TEST22!!!!!!!!!!!!!!!!!!!!!!
+    
+    /*
+     * 
+Метод deleteLogisticsSite2 выполняет следующие действия:
+
+Запрашивает у пользователя ID страны и проверяет, существует ли такая страна.
+Проверяет, есть ли логистические узлы в выбранной стране. Если нет, выводит сообщение и завершает выполнение.
+Выводит список логистических узлов страны и запрашивает у пользователя выбор узла для удаления.
+Проверяет, связан ли узел с маршрутами в базе данных (проверка через запрос к таблице RouteLine). Если связан, выводит сообщение об ошибке и завершает выполнение.
+Удаляет узел из списка страны и из базы данных, если он не связан с маршрутами.
+Выводит сообщение об успешном удалении логистического узла.
+Метод удаляет логистический узел, только если он не связан с маршрутами или другими цепями.
+*/
+    public void deleteLogisticsSite2() {
+        // Prompt the user to enter the country ID
+        String countryId = ProjectHelper.inputStr("Enter the country ID: ");
+        int countryIndex = searchCountry(countryId);
+
+        // Check if the country exists in the list
+        if (countryIndex == -1) {
+            System.out.println("Country with the specified ID not found.");
+            return;
+        }
+
+        // Retrieve the selected country object
+        Country country = countries.get(countryIndex);
+
+        // Check if the country has any logistics sites
+        if (country.getSites().isEmpty()) {
+            System.out.println("There are no logistics sites in this country.");
+            return;
+        }
+
+        // Display the list of logistics sites within the selected country
+        System.out.println("List of logistics sites:");
+        for (int i = 0; i < country.getSites().size(); i++) {
+            System.out.println("(" + (i + 1) + ") " + country.getSites().get(i).getName());
+        }
+
+        // Prompt the user to select a logistics site by index
+        int siteIndex = ProjectHelper.inputInt("Select the logistics site number to delete: ") - 1;
+
+        // Validate the user's choice to ensure it is within the valid range
+        if (siteIndex < 0 || siteIndex >= country.getSites().size()) {
+            System.out.println("Invalid selection. Operation canceled.");
+            return;
+        }
+
+        // Get the selected logistics site
+        LogisticsSite selectedSite = country.getSites().get(siteIndex);
+
+        // Set up the database connection
+        DatabaseHelper databaseHelper = new DatabaseHelper();
+        databaseHelper.setup();
+        Session session = databaseHelper.getSessionFactory().openSession();
+
+        // Check if the logistics site is linked to any route lines
+        List<RouteLine> routeLines = session.createQuery(
+                "FROM RouteLine rl WHERE rl.originSite.id = :siteId OR rl.destinationSite.id = :siteId", RouteLine.class)
+                .setParameter("siteId", selectedSite.getSiteId())
+                .getResultList();
+
+        if (!routeLines.isEmpty()) {
+            System.out.println("Cannot delete logistics site. It is linked to existing route lines.");
+            session.close();
+            databaseHelper.exit();
+            return;
+        }
+
+        // If the site has no linked route lines, proceed to delete it
+        // Remove the logistics site from the country's list of sites
+        country.getSites().remove(siteIndex);
+
+        session.beginTransaction();
+        session.remove(selectedSite); // Delete the logistics site from the database
+        session.getTransaction().commit();
+
+        session.close();
+        databaseHelper.exit();
+
+        System.out.println("Logistics site successfully deleted.");
+    }
+    
+    //TEST3!!!!!!!!!!!!!!!!
+    /*
+     * Метод deleteLogisticsSite3 выполняет следующие действия:
+
+Запрашивает у пользователя ID страны и проверяет, существует ли такая страна.
+Проверяет, есть ли логистические узлы в выбранной стране. Если их нет, выводит сообщение и завершает выполнение.
+Выводит список логистических узлов страны и запрашивает у пользователя выбор узла для удаления.
+Проверяет, связан ли узел с маршрутами в базе данных (через запрос к таблице RouteLine).
+Планируется добавление проверки на наличие узла в цепочке (эта часть закомментирована, но в будущем будет проверять, есть ли узел в массиве chain).
+Если узел связан с маршрутами или цепочками, выводит сообщение об ошибке и завершает выполнение.
+Если узел не связан с маршрутами или цепочками, удаляет его из списка страны и из базы данных.
+Выводит сообщение об успешном удалении логистического узла.
+Метод удаляет логистический узел, если он не связан с маршрутами или цепочками.
+     * */
+    public void deleteLogisticsSite3() {
+        // Prompt the user to enter the country ID
+        String countryId = ProjectHelper.inputStr("Enter the country ID: ");
+        int countryIndex = searchCountry(countryId);
+
+        // Check if the country exists in the list
+        if (countryIndex == -1) {
+            System.out.println("Country with the specified ID not found.");
+            return;
+        }
+
+        // Retrieve the selected country object
+        Country country = countries.get(countryIndex);
+
+        // Check if the country has any logistics sites
+        if (country.getSites().isEmpty()) {
+            System.out.println("There are no logistics sites in this country.");
+            return;
+        }
+
+        // Display the list of logistics sites within the selected country
+        System.out.println("List of logistics sites:");
+        for (int i = 0; i < country.getSites().size(); i++) {
+            System.out.println("(" + (i + 1) + ") " + country.getSites().get(i).getName());
+        }
+
+        // Prompt the user to select a logistics site by index
+        int siteIndex = ProjectHelper.inputInt("Select the logistics site number to delete: ") - 1;
+
+        // Validate the user's choice to ensure it is within the valid range
+        if (siteIndex < 0 || siteIndex >= country.getSites().size()) {
+            System.out.println("Invalid selection. Operation canceled.");
+            return;
+        }
+
+        // Get the selected logistics site
+        LogisticsSite selectedSite = country.getSites().get(siteIndex);
+
+        // Set up the database connection
+        DatabaseHelper databaseHelper = new DatabaseHelper();
+        databaseHelper.setup();
+        Session session = databaseHelper.getSessionFactory().openSession();
+
+        // Check if the logistics site is linked to any route lines in the database
+        List<RouteLine> routeLines = session.createQuery(
+                "FROM RouteLine rl WHERE rl.originSite.id = :siteId OR rl.destinationSite.id = :siteId", RouteLine.class)
+                .setParameter("siteId", selectedSite.getSiteId())
+                .getResultList();
+
+        // Check if the logistics site is part of any chain (array check)
+        //boolean isInChain = country.getChain().contains(selectedSite);
+
+        // If the site is linked to any route lines or chains, show an error message and stop
+        if (!routeLines.isEmpty()  /*|| isInChain */) {
+            System.out.println("Error. You need to delete all the route lines and logistic chains associated with this logistics site before deleting it.");
+            session.close();
+            databaseHelper.exit();
+            return;
+        }
+
+        // If the site has no linked route lines or chains, proceed to delete it
+        country.getSites().remove(siteIndex);
+
+        session.beginTransaction();
+        session.remove(selectedSite); // Delete the logistics site from the database
+        session.getTransaction().commit();
+
+        session.close();
+        databaseHelper.exit();
+
+        System.out.println("Logistics site successfully deleted.");
+    }
+
+    
     // Delete product by country
     
     public void deleteProductsByCountry(String productByCountryId) {
