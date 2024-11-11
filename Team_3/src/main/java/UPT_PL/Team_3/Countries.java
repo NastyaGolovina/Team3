@@ -330,15 +330,15 @@ public class Countries {
     
     /*
      * 
-Метод deleteLogisticsSite2 выполняет следующие действия:
+ этот метод выполняет техническое задание. Он проверяет наличие зависимостей логистического сайта в следующих объектах перед удалением:
 
-Запрашивает у пользователя ID страны и проверяет, существует ли такая страна.
-Проверяет, есть ли логистические узлы в выбранной стране. Если нет, выводит сообщение и завершает выполнение.
-Выводит список логистических узлов страны и запрашивает у пользователя выбор узла для удаления.
-Проверяет, связан ли узел с маршрутами в базе данных (проверка через запрос к таблице RouteLine). Если связан, выводит сообщение об ошибке и завершает выполнение.
-Удаляет узел из списка страны и из базы данных, если он не связан с маршрутами.
-Выводит сообщение об успешном удалении логистического узла.
-Метод удаляет логистический узел, только если он не связан с маршрутами или другими цепями.
+Проверка в RouteLine: Метод выполняет запрос к таблице RouteLine, чтобы определить, связан ли логистический сайт как отправитель (originSite) или получатель (destinationSite). Так как в RouteLine присутствуют два внешних ключа (FK), оба они проверяются в одном запросе на наличие ссылок на выбранный сайт.
+
+Проверка в LogisticsSupplyChains: Метод проверяет, является ли логистический сайт частью цепочки поставок (LogisticsSupplyChains) через chain (предполагаемый массив или коллекцию объектов LogisticsSite). Если сайт находится в любом LogisticsSupplyChains, метод выявит это, и удаление не произойдёт.
+
+Если логистический сайт связан с какими-либо маршрутами (RouteLine) или цепочками поставок (LogisticsSupplyChains), выводится сообщение об ошибке, и удаление прерывается. Если зависимости отсутствуют, метод удаляет сайт как из списка sites страны, так и из базы данных.
+
+Таким образом, метод теперь полностью соответствует требованиям технического задания.
 */
     public void deleteLogisticsSite2() {
         // Prompt the user to enter the country ID
@@ -383,21 +383,27 @@ public class Countries {
         databaseHelper.setup();
         Session session = databaseHelper.getSessionFactory().openSession();
 
-        // Check if the logistics site is linked to any route lines
+        // Check if the logistics site is linked to any route lines in the database
         List<RouteLine> routeLines = session.createQuery(
                 "FROM RouteLine rl WHERE rl.originSite.id = :siteId OR rl.destinationSite.id = :siteId", RouteLine.class)
                 .setParameter("siteId", selectedSite.getSiteId())
                 .getResultList();
 
-        if (!routeLines.isEmpty()) {
-            System.out.println("Cannot delete logistics site. It is linked to existing route lines.");
+        // Check if the logistics site is part of any supply chains (LogisticsSupplyChains)
+        List<LogisticsSupplyChains> supplyChains = session.createQuery(
+                "FROM LogisticsSupplyChains lsc WHERE :site MEMBER OF lsc.chain", LogisticsSupplyChains.class)
+                .setParameter("site", selectedSite)
+                .getResultList();
+
+        // If the site is linked to any route lines or chains, show an error message and stop
+        if (!routeLines.isEmpty() || !supplyChains.isEmpty()) {
+            System.out.println("Error. You need to delete all the route lines and logistic chains associated with this logistics site before deleting it.");
             session.close();
             databaseHelper.exit();
             return;
         }
 
-        // If the site has no linked route lines, proceed to delete it
-        // Remove the logistics site from the country's list of sites
+        // If the site has no linked route lines or chains, proceed to delete it
         country.getSites().remove(siteIndex);
 
         session.beginTransaction();
