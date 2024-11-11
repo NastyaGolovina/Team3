@@ -587,6 +587,107 @@ public class Countries {
 
         System.out.println("Products associated with country ID " + countryId + " successfully deleted.");
     }
+    
+    
+    
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    public void deleteLogisticsSite33() {
+        // Prompt the user to enter the country ID
+        String countryId = ProjectHelper.inputStr("Enter the country ID: ");
+        int countryIndex = searchCountry(countryId);
+
+        // Check if the country exists in the list
+        if (countryIndex == -1) {
+            System.out.println("Country with the specified ID not found.");
+            return;
+        }
+
+        // Retrieve the selected country object
+        Country country = countries.get(countryIndex);
+
+        // Check if the country has any logistics sites
+        if (country.getSites().isEmpty()) {
+            System.out.println("There are no logistics sites in this country.");
+            return;
+        }
+
+        // Display the list of logistics sites within the selected country
+        System.out.println("List of logistics sites:");
+        for (int i = 0; i < country.getSites().size(); i++) {
+            System.out.println("(" + (i + 1) + ") " + country.getSites().get(i).getName());
+        }
+
+        // Prompt the user to select a logistics site by index
+        int siteIndex = ProjectHelper.inputInt("Select the logistics site number to delete: ") - 1;
+
+        // Validate the user's choice to ensure it is within the valid range
+        if (siteIndex < 0 || siteIndex >= country.getSites().size()) {
+            System.out.println("Invalid selection. Operation canceled.");
+            return;
+        }
+
+        // Get the selected logistics site
+        LogisticsSite selectedSite = country.getSites().get(siteIndex);
+
+        // Set up the database connection
+        DatabaseHelper databaseHelper = new DatabaseHelper();
+        databaseHelper.setup();
+        Session session = databaseHelper.getSessionFactory().openSession();
+
+        // Check if the logistics site is linked to any route lines in the database
+        List<RouteLine> routeLines = session.createQuery(
+                "FROM RouteLine rl WHERE rl.originSite.id = :siteId OR rl.destinationSite.id = :siteId", RouteLine.class)
+                .setParameter("siteId", selectedSite.getSiteId())
+                .getResultList();
+
+        // Check if the logistics site is part of any supply chains (LogisticsSupplyChains)
+        List<LogisticsSupplyChains> supplyChains = session.createQuery(
+                "FROM LogisticsSupplyChains lsc WHERE :site MEMBER OF lsc.chain", LogisticsSupplyChains.class)
+                .setParameter("site", selectedSite)
+                .getResultList();
+
+        // Now, check if the site is part of any supply chains on the class level (without changing the Country class)
+        boolean isPartOfChain = false;
+
+        // Iterate through all countries and check their supply chains\
+        /*
+        for (Country c : countries) {
+            for (LogisticsSupplyChains chain : c.getLogisticsSupplyChains()) {
+                if (chain.containsSite(selectedSite)) {
+                    isPartOfChain = true;
+                    break;
+                }
+            }
+            if (isPartOfChain) {
+                break;
+            }
+        }
+        */
+
+        // If the site is linked to any route lines or chains, show an error message and stop
+        if (!routeLines.isEmpty() || !supplyChains.isEmpty() || isPartOfChain) {
+            System.out.println("Error. You need to delete all the route lines and logistic chains associated with this logistics site before deleting it.");
+            session.close();
+            databaseHelper.exit();
+            return;
+        }
+
+        // If the site has no linked route lines or chains, proceed to delete it
+        country.getSites().remove(siteIndex);
+
+        session.beginTransaction();
+        session.remove(selectedSite); // Delete the logistics site from the database
+        session.getTransaction().commit();
+
+        session.close();
+        databaseHelper.exit();
+
+        System.out.println("Logistics site successfully deleted.");
+    }
+    
+    
+    
+    
     }
 
     
