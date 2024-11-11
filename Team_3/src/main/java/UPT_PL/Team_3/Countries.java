@@ -590,7 +590,7 @@ public class Countries {
     
     
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    public void deleteLogisticsSite33() {
+    public void deleteLogisticsSite33(LogisticsSupplyChains chains) {
         // Prompt the user to enter the country ID
         String countryId = ProjectHelper.inputStr("Enter the country ID: ");
         int countryIndex = searchCountry(countryId);
@@ -683,9 +683,7 @@ public class Countries {
 
         System.out.println("Logistics site successfully deleted.");
     }
-    
->>>>>>> branch 'master' of https://github.com/NastyaGolovina/Team3.git
-    }
+}
 
     
 
