@@ -416,6 +416,20 @@ public class Countries {
         System.out.println("Logistics site successfully deleted.");
     }
     
+    //TEST3!!!!!!!!!!!!!!!!
+    /*
+     * Метод deleteLogisticsSite3 выполняет следующие действия:
+
+Запрашивает у пользователя ID страны и проверяет, существует ли такая страна.
+Проверяет, есть ли логистические узлы в выбранной стране. Если их нет, выводит сообщение и завершает выполнение.
+Выводит список логистических узлов страны и запрашивает у пользователя выбор узла для удаления.
+Проверяет, связан ли узел с маршрутами в базе данных (через запрос к таблице RouteLine).
+Планируется добавление проверки на наличие узла в цепочке (эта часть закомментирована, но в будущем будет проверять, есть ли узел в массиве chain).
+Если узел связан с маршрутами или цепочками, выводит сообщение об ошибке и завершает выполнение.
+Если узел не связан с маршрутами или цепочками, удаляет его из списка страны и из базы данных.
+Выводит сообщение об успешном удалении логистического узла.
+Метод удаляет логистический узел, если он не связан с маршрутами или цепочками.
+     * */
     public void deleteLogisticsSite3() {
         // Prompt the user to enter the country ID
         String countryId = ProjectHelper.inputStr("Enter the country ID: ");
@@ -465,25 +479,11 @@ public class Countries {
                 .setParameter("siteId", selectedSite.getSiteId())
                 .getResultList();
 
-        // Check if the logistics site is part of any supply chains (LogisticsSupplyChains)
-        // Check supply chains in memory (not in the database)
-        //
-        
-        
-        boolean isPartOfSupplyChain = false;
-        //PROBLEM THAT WE DONT HAVE METHOD getSupplyChains and getChain!!!!!!!!!!
-        /*
-         *   
-        for (LogisticsSupplyChains supplyChain : country.getSupplyChains()) {
-            if (supplyChain.getChain().contains(selectedSite)) {
-                isPartOfSupplyChain = true;
-                break;
-            }
-        }*/
-      
+        // Check if the logistics site is part of any chain (array check)
+        //boolean isInChain = country.getChain().contains(selectedSite);
 
         // If the site is linked to any route lines or chains, show an error message and stop
-        if (!routeLines.isEmpty() || isPartOfSupplyChain) {
+        if (!routeLines.isEmpty()  /*|| isInChain */) {
             System.out.println("Error. You need to delete all the route lines and logistic chains associated with this logistics site before deleting it.");
             session.close();
             databaseHelper.exit();
@@ -502,9 +502,6 @@ public class Countries {
 
         System.out.println("Logistics site successfully deleted.");
     }
-
-    
-  
 
     
     // Delete product by country
