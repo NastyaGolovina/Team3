@@ -209,7 +209,7 @@ public class Products {
 	 * Remove the product with the same productID from the ArrayList named ProductList.
 	 */
 	
-	public void deleteProductById(String productID) {
+	public void deleteProduct(String productID) {
 		
 		 // Ask for the product ID to delete
         String productId = ProjectHelper.inputStr("Enter the product ID to delete: ");
@@ -222,57 +222,18 @@ public class Products {
 	        return;
 	        }
 	
-	    // Retrieve the selected country object
+	    // Retrieve the selected product object
         Product product = ProductList.get(productPos);
 
+     
+        
+        
      // Set up database session for dependency checks
         DatabaseHelper databaseHelper = new DatabaseHelper();
         databaseHelper.setup();
         Session session = databaseHelper.getSessionFactory().openSession();
 
-        //  Check if the product is linked to any ProductsByCountry
-        List<ProductsByCountry> productsByCountryList = session.createQuery(
-                "FROM ProductsByCountry pbc WHERE pbc.product.id = :productId", ProductsByCountry.class)
-                .setParameter("productId", productId)
-                .getResultList();
-
-        if (!productsByCountryList.isEmpty()) {
-            System.out.println("Cannot delete product. It is linked to ProductsByCountry.");
-            session.close();
-            databaseHelper.exit();
-            return ;
-        }
         
-	// Check if the product is linked to any SupplyReceiveCountryByProduct
-	
-        List<SupplyReceiveCountryByProduct> SupplyReceiveByProductList = session.createQuery(
-                "FROM SupplyReceiveCountryByProduct srcbp WHERE srcbp.product.id = :productId", SupplyReceiveCountryByProduct.class)
-                .setParameter("productId", productId)
-                .getResultList();
-
-        if (!SupplyReceiveByProductList.isEmpty()) {
-            System.out.println("Cannot delete product. It is linked to SupplyReceiveCountryByProduct.");
-            session.close();
-            databaseHelper.exit();
-            return ;
-        }
-	
-        
-        //SupplyReceiveProductByCountry
-        List<SupplyReceiveProductByCountry> SupplyReceiveByCountryList = session.createQuery(
-                "FROM SupplyReceiveProductByCountry srpbc WHERE srpbc.product.id = :productId", SupplyReceiveProductByCountry.class)
-                .setParameter("productId", productId)
-                .getResultList();
-
-        if (!SupplyReceiveByCountryList.isEmpty()) {
-            System.out.println("Cannot delete product. It is linked to SupplyReceiveProductByCountry.");
-            session.close();
-            databaseHelper.exit();
-            return ;
-        }
-        
-        
-
         //  Check if the country is linked to any RouteLine
         List<RouteLine> routeLines = session.createQuery(
         		"FROM RouteLine rl WHERE rl.product.id = :productId", RouteLine.class)
@@ -308,10 +269,7 @@ public class Products {
 	
 }
 
-	
-	
-	
-	
+
 	
 	
 	// delete products by database then delete in array list 
