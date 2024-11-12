@@ -258,7 +258,7 @@ public class Countries {
     }
 
     
-<<<<<<< HEAD
+
     //TEST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     public void deleteLogisticsSite() {
         // Prompt the user to enter the country ID
@@ -326,10 +326,7 @@ public class Countries {
         System.out.println("Logistics site successfully deleted.");
         
     }
-    
-=======
->>>>>>> branch 'master' of https://github.com/NastyaGolovina/Team3.git
-    // Delete product by country
+ 
     
     public void deleteProductsByCountry(String productByCountryId) {
     	
@@ -378,8 +375,6 @@ public class Countries {
 
         System.out.println("Products associated with country ID " + countryId + " successfully deleted.");
     }
-<<<<<<< HEAD
-=======
     
 
     /**
