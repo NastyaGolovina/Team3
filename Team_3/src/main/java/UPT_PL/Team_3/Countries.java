@@ -258,76 +258,6 @@ public class Countries {
     }
 
     
-    //TEST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    public void deleteLogisticsSite() {
-        // Prompt the user to enter the country ID
-        String countryId = ProjectHelper.inputStr("Enter the country ID: ");
-        int countryIndex = searchCountry(countryId);
-
-        // Check if the country exists in the list
-        if (countryIndex == -1) {
-            System.out.println("Country with the specified ID not found.");
-            return;
-        }
-
-        // Retrieve the selected country object
-        Country country = countries.get(countryIndex);
-
-        // Check if the country has any logistics sites
-        if (country.getSites().isEmpty()) {
-            System.out.println("There are no logistics sites in this country.");
-            return;
-        }
-
-        // Display the list of logistics sites within the selected country
-        System.out.println("List of logistics sites:");
-        for (int i = 0; i < country.getSites().size(); i++) {
-            System.out.println("(" + (i + 1) + ") " + country.getSites().get(i).getName());
-        }
-
-        // Prompt the user to select a logistics site by index
-        int siteIndex = ProjectHelper.inputInt("Select the logistics site number to delete: ") - 1;
-
-        // Validate the user's choice to ensure it is within the valid range
-        if (siteIndex < 0 || siteIndex >= country.getSites().size()) {
-            System.out.println("Invalid selection. Operation canceled.");
-            return;
-        }
-
-        // Get the selected logistics site
-        LogisticsSite selectedSite = country.getSites().get(siteIndex);
-
-        // Check if the logistics site is linked to any route lines or supply chains
-        if (!selectedSite.getSuppliedTransports().isEmpty()) {
-            System.out.println("Error. You need to delete all the route lines and supply chains associated with this logistics site before deleting it.");
-            return;
-        }
-
-        // If the site has no linked route lines or supply chains, proceed to delete it
-        // Remove the logistics site from the country's list of sites
-        country.getSites().remove(siteIndex);
-        
-        // Set up the database connection and open a session to delete the site from the database
-        DatabaseHelper DatabaseHelper = new DatabaseHelper();
-        DatabaseHelper.setup();
-        Session session = DatabaseHelper.getSessionFactory().openSession();
-        session.beginTransaction();
-
-        // Remove the logistics site from the database
-        session.remove(selectedSite);
-
-        // Commit the transaction and close the session
-        session.getTransaction().commit();
-        session.close();
-        DatabaseHelper.exit();
-
-        // Inform the user of successful deletion
-        System.out.println("Logistics site successfully deleted.");
-        
-    }
-    
- 
-    
     // Delete product by country
     
     public void deleteProductsByCountry(String productByCountryId) {
@@ -410,29 +340,6 @@ public class Countries {
     }
     
 
-    
-    
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    /*
-     * Метод отвечает за удаление логистического сайта, но перед удалением выполняет проверки на наличие зависимостей:
-
-Проверка зависимостей в таблицах RouteLines (через базу данных):
-
-Метод проверяет, связан ли выбранный логистический сайт с любыми маршрутами в базе данных (через внешний ключ). 
-Если зависимости найдены, удаление отменяется, и пользователю сообщается, что нужно удалить все связанные маршруты.
-Проверка зависимостей в цепочках поставок (классовый уровень):
-
-Метод проверяет, является ли сайт частью каких-либо цепочек поставок в классе LogisticsSupplyChains. 
-Если зависимости найдены, удаление отменяется, и сообщается, что нужно удалить все связанные цепочки поставок.
-Удаление:
-
-Если зависимости не найдены, сайт удаляется из списка в стране и базе данных. Удаление подтверждается сообщением.
-Как выполняет ТЗ:
-Проверка зависимостей в RouteLines: Выполняется через запросы к базе данных. Если есть зависимости, удаление невозможно.
-Проверка зависимостей в LogisticsSupplyChains: Выполняется через проверку классов в памяти (классовый уровень).
- Если зависимости есть, удаление невозможно.
-Предотвращение удаления при наличии зависимостей: Если сайт связан с маршрутами или цепочками поставок,
- удаление блокируется, что соответствует требованиям ТЗ.*/
     /**
      * Deletes a logistics site from the specified country if no dependencies are found.
      * This method checks for linked route lines in the database and ensures the logistics site
@@ -441,7 +348,7 @@ public class Countries {
      *
      * @param chains The LogisticsSupplyChains instance, used to access the list of supply chains and check for dependencies.
      */
-    public void deleteLogisticsSite33(LogisticsSupplyChains chains) {
+    public void deleteLogisticsSite(LogisticsSupplyChains chains) {
         // Request the country ID
         String countryId = ProjectHelper.inputStr("Enter the country ID: ");
         int countryIndex = searchCountry(countryId);
@@ -482,19 +389,27 @@ public class Countries {
         databaseHelper.setup();
         Session session = databaseHelper.getSessionFactory().openSession();
 
+        // Check if the selected site is part of any supply chain (sender or receiver)
+        boolean isPartOfChain = chains.getSupplyChains().stream()
+                .anyMatch(chain -> chain.getSender().equals(selectedSite) || chain.getReceiver().equals(selectedSite));
+
+        // If the site is part of a supply chain, prevent deletion
+        if (isPartOfChain) {
+            System.out.println("Error. The logistics site is part of an active supply chain. Deletion is not possible.");
+            session.close();
+            databaseHelper.exit();
+            return;
+        }
+
         // Query route lines that are linked to the selected site as either origin or destination
         List<RouteLine> routeLines = session.createQuery(
                 "FROM RouteLine rl WHERE rl.originSite.id = :siteId OR rl.destinationSite.id = :siteId", RouteLine.class)
                 .setParameter("siteId", selectedSite.getSiteId())
                 .getResultList();
 
-        // Check if the selected site is part of any supply chain (sender or receiver)
-        boolean isPartOfChain = chains.getSupplyChains().stream()
-                .anyMatch(chain -> chain.getSender().equals(selectedSite) || chain.getReceiver().equals(selectedSite));
-
-        // If there are route lines or the site is part of any supply chain, prevent deletion
-        if (!routeLines.isEmpty() || isPartOfChain) {
-            System.out.println("Error. You need to delete all the route lines and logistic chains associated with this logistics site before deleting it.");
+        // If there are route lines linked to the site, prevent deletion
+        if (!routeLines.isEmpty()) {
+            System.out.println("Error. You need to delete all the route lines associated with this logistics site before deleting it.");
             session.close();
             databaseHelper.exit();
             return;
