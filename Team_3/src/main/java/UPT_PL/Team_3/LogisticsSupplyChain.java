@@ -185,5 +185,9 @@ public class LogisticsSupplyChain {
 				+ ", transport=" + transport + ", costPerTon=" + costPerTon + ", durationInDays=" + durationInDays
 				+ "]";
 	}
+	
+	public void testS() {
+		
+	}
     
 }

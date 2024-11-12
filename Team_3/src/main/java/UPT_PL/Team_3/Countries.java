@@ -258,6 +258,7 @@ public class Countries {
     }
 
     
+<<<<<<< HEAD
     //TEST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     public void deleteLogisticsSite() {
         // Prompt the user to enter the country ID
@@ -326,6 +327,8 @@ public class Countries {
         
     }
     
+=======
+>>>>>>> branch 'master' of https://github.com/NastyaGolovina/Team3.git
     // Delete product by country
     
     public void deleteProductsByCountry(String productByCountryId) {
@@ -375,7 +378,105 @@ public class Countries {
 
         System.out.println("Products associated with country ID " + countryId + " successfully deleted.");
     }
+<<<<<<< HEAD
+=======
+    
+
+    /**
+     * Deletes a logistics site from the specified country if no dependencies are found.
+     * This method checks for linked route lines in the database and ensures the logistics site
+     * is not part of any logistics supply chain before deletion. If dependencies exist,
+     * the deletion is prevented, and an error message is displayed.
+     *
+     * @param chains The LogisticsSupplyChains instance, used to access the list of supply chains and check for dependencies.
+     */
+    public void deleteLogisticsSite(LogisticsSupplyChains chains) {
+        // Request the country ID
+        String countryId = ProjectHelper.inputStr("Enter the country ID: ");
+        int countryIndex = searchCountry(countryId);
+
+        // Verify if the country exists
+        if (countryIndex == -1) {
+            System.out.println("Country with the specified ID not found.");
+            return;
+        }
+
+        Country country = countries.get(countryIndex);
+
+        // Check if the country has any logistics sites
+        if (country.getSites().isEmpty()) {
+            System.out.println("There are no logistics sites in this country.");
+            return;
+        }
+
+        // Display the list of logistics sites in the country
+        System.out.println("List of logistics sites:");
+        for (int i = 0; i < country.getSites().size(); i++) {
+            System.out.println("(" + (i + 1) + ") " + country.getSites().get(i).getName());
+        }
+
+        // Request the logistics site number for deletion
+        int siteIndex = ProjectHelper.inputInt("Select the logistics site number to delete: ") - 1;
+
+        // Validate the selected index
+        if (siteIndex < 0 || siteIndex >= country.getSites().size()) {
+            System.out.println("Invalid selection. Operation canceled.");
+            return;
+        }
+
+        // Get the selected logistics site
+        LogisticsSite selectedSite = country.getSites().get(siteIndex);
+
+        DatabaseHelper databaseHelper = new DatabaseHelper();
+        databaseHelper.setup();
+        Session session = databaseHelper.getSessionFactory().openSession();
+
+        // Check if the selected site is part of any supply chain (sender or receiver)
+        boolean isPartOfChain = chains.getSupplyChains().stream()
+                .anyMatch(chain -> chain.getSender().equals(selectedSite) || chain.getReceiver().equals(selectedSite));
+
+        // If the site is part of a supply chain, prevent deletion
+        if (isPartOfChain) {
+            System.out.println("Error. The logistics site is part of an active supply chain. Deletion is not possible.");
+            session.close();
+            databaseHelper.exit();
+            return;
+        }
+
+        // Query route lines that are linked to the selected site as either origin or destination
+        List<RouteLine> routeLines = session.createQuery(
+                "FROM RouteLine rl WHERE rl.originSite.id = :siteId OR rl.destinationSite.id = :siteId", RouteLine.class)
+                .setParameter("siteId", selectedSite.getSiteId())
+                .getResultList();
+
+        // If there are route lines linked to the site, prevent deletion
+        if (!routeLines.isEmpty()) {
+            System.out.println("Error. You need to delete all the route lines associated with this logistics site before deleting it.");
+            session.close();
+            databaseHelper.exit();
+            return;
+        }
+
+        // Remove the logistics site from the country's list
+        country.getSites().remove(siteIndex);
+
+        // Begin a database transaction for deletion
+        session.beginTransaction();
+        session.remove(selectedSite); // Remove the site from the database
+        session.getTransaction().commit(); // Commit the transaction to confirm deletion
+
+        session.close();
+        databaseHelper.exit();
+
+        System.out.println("Logistics site successfully deleted.");
+>>>>>>> branch 'master' of https://github.com/NastyaGolovina/Team3.git
     }
+<<<<<<< HEAD
+=======
+
+
+}
+>>>>>>> branch 'master' of https://github.com/NastyaGolovina/Team3.git
 
     
 
