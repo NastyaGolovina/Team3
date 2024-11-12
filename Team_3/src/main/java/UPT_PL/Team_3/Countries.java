@@ -257,7 +257,9 @@ public class Countries {
         System.out.println("Country successfully deleted.");
     }
 
-    public void deleteProductsByCountry(String productByCountryId) {
+    // method to delete product by country, delete product from a certain country
+    
+    public void deleteProductsByCountry() {
     	
     	 // Prompt for the country ID to delete
         String countryId = ProjectHelper.inputStr("Enter the country ID to delete: ");
@@ -269,41 +271,39 @@ public class Countries {
             return;
         }
 
-        // Set up database session for dependency checks
-        DatabaseHelper databaseHelper = new DatabaseHelper();
-        databaseHelper.setup();
-        Session session = databaseHelper.getSessionFactory().openSession();
-
-        // Retrieve all Products associated with the Country via ProductsByCountry
-        List<ProductsByCountry> productsByCountryList = session.createQuery(
-                "FROM ProductsByCountry pbc WHERE pbc.country.id = :countryId", ProductsByCountry.class)
-                .setParameter("countryId", countryId)
-                .getResultList();
-        
-        // If there are no products associated with this country, exit
-         if (!productsByCountryList.isEmpty()) {
-            System.out.println("No products associated with country ID " + countryId);
-            session.close();
-            databaseHelper.exit();
-            return;
-        } 
-
-     // Proceed to delete each product from the database
-        session.beginTransaction();
-        for (ProductsByCountry pbc : productsByCountryList) {
-            Product product = pbc.getProduct();
-
-            // Delete the product from the database
-            session.remove(product);
-        }
-        session.getTransaction().commit();
-
-        // Clean up resources
-        session.close();
-        databaseHelper.exit();
-
-        System.out.println("Products associated with country ID " + countryId + " successfully deleted.");
-    }
+       Country country = countries.get(countryPos);
+       
+       // check if country has any products
+       if(country.getProducts().isEmpty()) {
+    	   System.out.println("There are no products list in this country.");
+          return;
+       }
+       // Display the list of products in the country
+       System.out.println("List of products :");
+       for (int i = 0; i < country.getProducts().size(); i++) {
+           System.out.println("(" + (i) + ") " + country.getProducts().get(i));
+       }
+       
+      // Ask for the index/position of the products in the previous list to delete
+       
+     int indexProducts = ProjectHelper.inputInt("Enter the index of the product to delete: ");
+       
+     // validation for the index of product
+     if(indexProducts < 0 || indexProducts >= country.getProducts().size()) {
+    	 System.out.println("Invalid index of Product, try again");
+    	 return;
+     }
+     
+     // remove the product by country from the ProductsByCountry list 
+     country.getProducts().remove(indexProducts);
+     System.out.println("Product removed successfully.");
+     
+     // Display remaining products
+     System.out.println("Updated list of products:");
+     for (int i = 0; i < country.getProducts().size(); i++) {
+         System.out.println("(" + i + ") " + country.getProducts().get(i));
+     }
+       }
     
 
     /**
