@@ -469,14 +469,9 @@ public class Countries {
         databaseHelper.exit();
 
         System.out.println("Logistics site successfully deleted.");
->>>>>>> branch 'master' of https://github.com/NastyaGolovina/Team3.git
     }
-<<<<<<< HEAD
-=======
-
-
 }
->>>>>>> branch 'master' of https://github.com/NastyaGolovina/Team3.git
+
 
     
 
