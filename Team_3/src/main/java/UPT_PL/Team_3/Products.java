@@ -229,7 +229,7 @@ public class Products {
         
         for(Country country : countries) {  // Process each country to delete the product with the specified productId, go thru each country in countries list
         	for(int i = 0; i < products.size(); i++) { // Iterate through the ProductByCountry list (products) to check if the product is being used
-        		if(products.get(i).getProductByCountryId() == productId) {
+        		if(products.get(i).getProduct().getProductID() == productId) { 
         			isProductUsed = true;
         			break;
         		}
@@ -237,7 +237,7 @@ public class Products {
         	// If the product is not in use, we can remove it
         	if(!isProductUsed) {
         		for(int i = 0; i < products.size(); i++) {
-        			if(products.get(i).getProductByCountryId() == productId) {
+        			if(products.get(i).getProduct().getProductID() == productId) {
         				products.remove(i);
         				System.out.println("The product with ID " + productId + "is deleted");
         				break; //exit the loop once finishing delete the product
@@ -285,88 +285,6 @@ public class Products {
         System.out.println("Product successfully deleted.");
 	}
 
-// Another version of delete method 
-	/** Delete Product by productId in both array list and database 
-	 * Delete a product by productID from the database using Hibernate.
-	 * Remove the product with the same productID from the ArrayList named ProductList.
-	 */
-	
-	public void deleteProduct2(String productID,List<Country> countries, ArrayList<ProductsByCountry> products,String productByCountryId) {
-		
-		 // Ask for the product ID to delete
-        String productId = ProjectHelper.inputStr("Enter the product ID to delete: ");
-        
-	    // Check if product exists in the database or ProductList before proceeding
-	    int productPos = searchProduct(productID);
-	    if (productPos == -1) {
-	        System.out.println("Error: Product with ID " + productID + " does not exist. No product to delete.");
-	        
-	        return;
-	        }
-	
-	    // Retrieve the selected product object
-        Product product = ProductList.get(productPos);
-
-        boolean isProductUsed = false;  // Initially assume the product is not in use in ProductByCountry 
-        
-        for(Country country : countries) {  // Process each country to delete the product with the specified productId, go thru each country in countries list
-        	for (ProductsByCountry productsbyCountry : country.getProducts()) { //country.getProducts() that returns a list of ProductsByCountry objects for that country
-        		    if (productsbyCountry.getProductByCountryId().equals(productId)) {
-        		    	isProductUsed = true;
-            			break;
-        		    }
-        		}
-
-        	}
-        	// If the product is not in use, we can remove it
-        	if(!isProductUsed) {
-        		for(int i = 0; i < products.size(); i++) {
-        			if(products.get(i).getProductByCountryId() == productId) {
-        				products.remove(i);
-        				System.out.println("The product with ID " + productId + "is deleted");
-        				break; //exit the loop once finishing delete the product
-        			}
-        		} 
-        	}
-        	else {
-    			System.out.println("The product with ID " + productId + "can not be deleted because it is being used ");
-    		}
-        
-      
-    // Set up database session for dependency checks
-       DatabaseHelper databaseHelper = new DatabaseHelper();
-       databaseHelper.setup();
-       Session session = databaseHelper.getSessionFactory().openSession();
-
-       
-       //  Check if the country is linked to any RouteLine
-       List<RouteLine> routeLines = session.createQuery(
-       		"FROM RouteLine rl WHERE rl.product.id = :productId", RouteLine.class)
-               .setParameter("productId", productId)
-               .getResultList();
-
-       if (!routeLines.isEmpty()) {
-           System.out.println("Cannot delete product. It is linked to RouteLine.");
-           session.close();
-           databaseHelper.exit();
-           return ;
-       }
-	
-    // Proceed to delete the country from the list and the database
-       
-       // Delete from the list
-       ProductList.remove(productPos);
-
-       // Delete the country from the database
-       session.beginTransaction();
-       session.remove(product); // Delete the country from the database
-       session.getTransaction().commit();
-
-       session.close();
-       databaseHelper.exit();
-
-       System.out.println("Product successfully deleted.");
-	}
 }
 
 
