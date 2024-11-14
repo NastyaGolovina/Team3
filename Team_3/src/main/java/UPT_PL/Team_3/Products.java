@@ -221,32 +221,23 @@ public class Products {
 	        
 	        return;
 	        }
-	
-	    // Retrieve the selected product object
-        Product product = ProductList.get(productPos);
-
+	    
+	// Check if the product is being used in ProductsByCountry 
         boolean isProductUsed = false;  // Initially assume the product is not in use in ProductByCountry 
         
         for(Country country : countries) {  // Process each country to delete the product with the specified productId, go thru each country in countries list
         	for(int i = 0; i < products.size(); i++) { // Iterate through the ProductByCountry list (products) to check if the product is being used
-        		if(products.get(i).getProduct().getProductID().equalsIgnoreCase(productId)) { 
+        		if(products.get(i).getProduct().getProductID() == productId) { 
         			isProductUsed = true;
         			break;
         		}
-        	}
-        	// If the product is not in use, we can remove it
-        	if(!isProductUsed) {
-        		for(int i = 0; i < products.size(); i++) {
-        			if(products.get(i).getProduct().getProductID() == productId) {
-        				products.remove(i);
-        				System.out.println("The product with ID " + productId + "is deleted");
-        				break; //exit the loop once finishing delete the product
-        			}
-        		} 
-        	}
-        	else {
-    			System.out.println("The product with ID " + productId + "can not be deleted because it is being used ");
-    		}
+        		}
+        	// If the product was found to be in use, exit the outer loop
+            if (isProductUsed) {
+                System.out.println("The product with ID " + productId + " cannot be deleted because it is being used.");
+                break;  //Exit the outer loop as well, since we've confirmed product is being used
+            }
+      
         }
         
     
@@ -268,7 +259,11 @@ public class Products {
             databaseHelper.exit();
             return ;
         }
-	
+
+        
+     // Retrieve the selected product object
+        Product product = ProductList.get(productPos);
+        
      // Proceed to delete the country from the list and the database
         
         // Delete from the list
